@@ -108,6 +108,8 @@
 			}
 
 			#tabs-2 {
+				
+
 				/* Background */
 				background: #ebebeb; /* Old browsers */
 				background: -moz-linear-gradient(left, #ebebeb 0%, #eaeaea 93%, #d9d9d9 100%); /* FF3.6+ */
@@ -163,9 +165,8 @@
 				$('#uname').text(Cookies.get('name'));
 				$('#logintext').html(', Not you? <a href="../../signin/signin.php?mode=out" target="_new">Sign Out</a>');
 				$('#settings').attr('class', '');
-				$('#settings').attr('onclick', '');
 			} else {
-				$('#settings').attr('class', 'disabled');
+				$('#settings').attr('class', 'disable');
 			}
 		});
 
@@ -173,7 +174,7 @@
 		Onload for other
 		*/
 		$(document).ready(function() {
-			if(getParameterByName("lang") != "") {
+			if(getParameterByName("lang") != null) {
 				var lang = getParameterByName("lang");
 				language = lang;
 				Cookies.set("lang", language, {expiry: new Date(2030, 0, 1)});
@@ -239,7 +240,6 @@
 		</script>
 	</head>
 	<body>
-	<a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
 		<div id="top" style="vertical-align: middle;">
 			<div id="topLeft" style="float: left;">
 				Welcome Back, <strong id="uname">Anonymous</strong><span id="logintext">, please <a href="../../signin/signin.php" target="_new">Sign In</a></span>
@@ -315,7 +315,11 @@
 				}
 			});
 
-			
+			//text()
+			function text() {
+				$("#pusher_chat_widget").attr('style', 'display: inherit;');
+				$("#vidchat").attr('style', 'display: none;');
+			}
 
 			//video()
 			function video() {
@@ -324,12 +328,6 @@
 
 				a = new TBStart("44776242", "vidchat");
 				a.startVideo();
-			}
-
-			//text()
-			function text() {
-				$("#pusher_chat_widget").attr('style', 'display: inherit;');
-				$("#vidchat").attr('style', 'display: none;');
 			}
 			</script>
 		</div>

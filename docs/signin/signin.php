@@ -44,8 +44,9 @@
     function loginFinishedCallback(authResult) {
       if (getParameterByName('mode') == "out") {
             document.getElementById('logout').innerHTML = '<iframe id="logoutframe" src="https://accounts.google.com/logout" style="display: none;"></iframe>';
-            Cookies.clear('email');
-            Cookies.clear('name');
+            Cookies.clear('email',{path   : '/'});
+            Cookies.clear('name',{path   : '/'});
+            alert("You have been successfully signed out.");
       } else {
         if (authResult) {
           if (authResult['error'] == undefined){
@@ -96,11 +97,13 @@
       //document.getElementById('pic').innerHTML = '<img src="' + profile['image']['url'] + '" />';
       alert(email);*/
 
+      alert('Welcome ' + profile['displayName'] + ", you have succesfully signed in.");
       Cookies.set('name', profile['displayName'], {path : '/'});
       Cookies.set('email', email , {path: '/'});
-      if (getParameterByName('mode') != "out") {
+      //if (getParameterByName('mode') != "out") {
         window.history.back();
-      }
+        window.close();
+      //}
     }
 
     function getParameterByName(name) {
@@ -109,12 +112,6 @@
         results = regex.exec(location.search);
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-
-    /*function checkMode() {
-      if (getParameterByName('mode') == "out") {
-        
-      }
-    }*/
     </script>
 </head>
 <body style="background-color: lightgray; font-family: Helvetica, Arial, sans-serif;">

@@ -18,6 +18,7 @@
 	    <!-- CODEMIRROR -->
 	    <link rel="stylesheet" href="../../tools/CodeMirror/codemirror-4.0/lib/codemirror.css" />
 	    <link rel="stylesheet" href="../../tools/CodeMirror/codemirror-4.0/lib/codemirror.css" />
+
 	    <script src="../../tools/CodeMirror/codemirror-4.0/lib/codemirror.js"></script>
 
 	    <!-- Firepad -->
@@ -36,7 +37,7 @@
 		<script src="../../tools/pusher-realtime-chat-widget/src/js/PusherChatWidget.js"></script>
 		<link href="../../tools/pusher-realtime-chat-widget/src/pusher-chat-widget.css" rel="stylesheet" type="text/css" />
 
-		<!-- CoOkies Tool -->
+		<!-- Cokkies Tool -->
 		<script src="../../tools/Cookies.js"></script>
 
 		<!-- ToxBox Video -->
@@ -108,6 +109,8 @@
 			}
 
 			#tabs-2 {
+				
+
 				/* Background */
 				background: #ebebeb; /* Old browsers */
 				background: -moz-linear-gradient(left, #ebebeb 0%, #eaeaea 93%, #d9d9d9 100%); /* FF3.6+ */
@@ -135,11 +138,6 @@
 				background-color: gray;
 				cursor: default;
 			}
-
-			.pusher-chat-widget-footer {
-				font-size: 13px;
-				font-family: Helvetica,Arial,sans-serif;
-			}
 		</style>
 		<script>
 		var language;
@@ -156,16 +154,12 @@
 			}
 
 		/**
-		Checking if the user signed in, topbar stuff
+		Checking if the user signed in
 		*/
 		$(document).ready(function() {
 			if (Cookies.get('name') != undefined) {
 				$('#uname').text(Cookies.get('name'));
-				$('#logintext').html(', Not you? <a href="../../signin/signin.php?mode=out" target="_new">Sign Out</a>');
-				$('#settings').attr('class', '');
-				$('#settings').attr('onclick', '');
-			} else {
-				$('#settings').attr('class', 'disabled');
+				$('#logintext').html(', Not you? <a href="../../signin/signin.php?mode=out">Sign Out</a>');
 			}
 		});
 
@@ -173,7 +167,7 @@
 		Onload for other
 		*/
 		$(document).ready(function() {
-			if(getParameterByName("lang") != "") {
+			if(getParameterByName("lang") != null) {
 				var lang = getParameterByName("lang");
 				language = lang;
 				Cookies.set("lang", language, {expiry: new Date(2030, 0, 1)});
@@ -239,7 +233,6 @@
 		</script>
 	</head>
 	<body>
-	<a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
 		<div id="top" style="vertical-align: middle;">
 			<div id="topLeft" style="float: left;">
 				Welcome Back, <strong id="uname">Anonymous</strong><span id="logintext">, please <a href="../../signin/signin.php" target="_new">Sign In</a></span>
@@ -254,9 +247,9 @@
 				<option>Hide Line Numbers</option>
 			</select><span class="select-arrow" style="margin: 0.6em 0 0 -1.2em !important;"></span>
 			<div id="topRight" style="float: right;">
-				<img src="../../download.png" onclick="download();" style="vertical-align: middle;" class="disabled" title="Download File" id="download">
+				<img src="../../download.png" onclick="download();" style="vertical-align: middle;" class="disabled" title="Download File">
 				<img src="../../share.png" onclick="$('#shareDialog').dialog({width: 609});" style="vertical-align: middle;" title="Share">
-				<img src="../../settings.png" onclick="settings();" style="vertical-align: middle;" class="disabled" title="Settings" id="settings">
+				<img src="../../settings.png" onclick="settings();" style="vertical-align: middle;" class="disabled" title="Settings">
 				<img src="../../about.png" onclick="about();" style="vertical-align: middle;" title="About">
 			</div>
 
@@ -270,7 +263,7 @@
 			<div id="tabs-2">
 				<div class="span5" id='pusher_chat_widget'></div>
 				<div id="vidchat" style="overflow-y: scroll; visibility: hidden;">
-					<div class="pusher-chat-widget-footer"><a onclick="text()" href="javascript:void(0)">Text</a> - Video</div>
+					<div class="pusher-chat-widget-footer">Text - <a onclick="video()" href="javascript:void(0);">Video</a></div>
 				</div>
 			</div>
 			<script>
@@ -315,7 +308,11 @@
 				}
 			});
 
-			
+			//text()
+			function text() {
+				$("#pusher_chat_widget").attr('style', 'display: inherit;');
+				$("#vidchat").attr('style', 'display: none;');
+			}
 
 			//video()
 			function video() {
@@ -324,12 +321,6 @@
 
 				a = new TBStart("44776242", "vidchat");
 				a.startVideo();
-			}
-
-			//text()
-			function text() {
-				$("#pusher_chat_widget").attr('style', 'display: inherit;');
-				$("#vidchat").attr('style', 'display: none;');
 			}
 			</script>
 		</div>
