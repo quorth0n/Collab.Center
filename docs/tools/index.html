@@ -1,159 +1,165 @@
 <!--Whatta YOU lookin' at?-->
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Collab.Center</title>
+<head>
+	<title>Collab.Center</title>
 
-		<link rel="icon" href="../../favicon.ico">
-		<link rel="stylesheet" href="../../tools/style.css">
+	<link rel="icon" href="../../fav_icon.ico">
+	<link rel="stylesheet" href="../../tools/style.css">
 
-		<!--JQUERY-->
-		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/flick/jquery-ui.css" />
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	<!--JQUERY-->
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/flick/jquery-ui.css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
-		<!-- Firebase -->
-		<script src="https://cdn.firebase.com/js/client/1.0.11/firebase.js"></script>
+	<!-- Firebase -->
+	<script src="https://cdn.firebase.com/js/client/1.0.11/firebase.js"></script>
 
-	    <!-- CODEMIRROR -->
-	    <link rel="stylesheet" href="../../tools/CodeMirror/codemirror-4.0/lib/codemirror.css" />
-	    <link rel="stylesheet" href="../../tools/CodeMirror/codemirror-4.0/lib/codemirror.css" />
-	    <script src="../../tools/CodeMirror/codemirror-4.0/lib/codemirror.js"></script>
+	<!-- CODEMIRROR -->
+	<link rel="stylesheet" href="../../tools/CodeMirror/codemirror-4.0/lib/codemirror.css" />
+	<link rel="stylesheet" href="../../tools/CodeMirror/codemirror-4.0/lib/codemirror.css" />
+	<script src="../../tools/CodeMirror/codemirror-4.0/lib/codemirror.js"></script>
 
-	    <!-- Firepad -->
-	    <link rel="stylesheet" href="../../tools/firepad/firepad.css" />
-	    <script src="../../tools/firepad/firepad.js"></script>
+	<!-- Firepad -->
+	<link rel="stylesheet" href="../../tools/firepad/firepad.css" />
+	<script src="../../tools/firepad/firepad.js"></script>
 
-	    <!-- Include userlist. -->
-		<script src="../../tools/firepad/firepad-userlist.js"></script>
-		<link rel="stylesheet" href="../../tools/firepad/firepad-userlist.css" />
+	<!-- Include userlist. -->
+	<script src="../../tools/firepad/firepad-userlist.js"></script>
+	<link rel="stylesheet" href="../../tools/firepad/firepad-userlist.css" />
 
-		<!--Load Mode-->
-		<script src="../../mode/loadmode.js"></script>
+	<!--Load Mode-->
+	<script src="../../mode/loadmode.js"></script>
 
-		<!-- Pusher -->
-		<script src="http://js.pusher.com/2.1/pusher.min.js"></script>
-		<script src="../../tools/pusher-realtime-chat-widget/src/js/PusherChatWidget.js"></script>
-		<link href="../../tools/pusher-realtime-chat-widget/src/pusher-chat-widget.css" rel="stylesheet" type="text/css" />
+	<!-- Pusher -->
+	<script src="http://js.pusher.com/2.1/pusher.min.js"></script>
+	<script src="../../tools/pusher-realtime-chat-widget/src/js/PusherChatWidget.js"></script>
+	<link href="../../tools/pusher-realtime-chat-widget/src/pusher-chat-widget.css" rel="stylesheet" type="text/css" />
 
-		<!-- CoOkies Tool -->
-		<script src="../../tools/Cookies.js"></script>
+	<!-- CoOkies Tool -->
+	<script src="../../tools/Cookies.js"></script>
 
-		<!-- ToxBox Video -->
-		<script src="../../tools/videoChatTokBox.js" type="text/javascript"></script>
+	<!-- ToxBox Video -->
+	<script src="../../tools/videoChatTokBox.js" type="text/javascript"></script>
 
-		<style>
-			
-			.firepad {
-				width: 100%;
-			}
+	<style>
 
-			.firepad-userlist {
-				position: absolute; left: 0; top: 45px; bottom: 0; height: auto;
-			}
+		.firepad {
+			width: 100%;
+		}
 
-			.firepad {
-				position: absolute; left: 175px; top: 25px; bottom: 0; right: 0; height: auto;
-			}
+		.firepad-userlist {
+			position: absolute; left: 0; top: 45px; bottom: 0; height: auto;
+		}
 
-			#top {
-				z-index: 100;
-				position: absolute;
-				top: 0px;
-				left: 0px;
-				bottom: 0;
-				right: 0;
-				height: 25px;
-				background-color: lightgray;
-				vertical-align: middle !important;
-				text-align: center;
+		.firepad {
+			position: absolute; left: 175px; top: 25px; bottom: 0; right: 0; height: auto;
+		}
 
-				background: #ebebeb; /* Old browsers */
-				background: -moz-linear-gradient(bottom, #ebebeb 0%, #eaeaea 50%, #d9d9d9 100%); /* FF3.6+ */
-				background: -webkit-gradient(linear, bottom top, bottom top, color-stop(0%,#ebebeb), color-stop(50%,#eaeaea), color-stop(100%,#d9d9d9)); /* Chrome,Safari4+ */
-				background: -webkit-linear-gradient(bottom, #ebebeb 0%,#eaeaea 50%,#d9d9d9 100%); /* Chrome10+,Safari5.1+ */
-				background: -o-linear-gradient(bottom, #ebebeb 0%,#eaeaea 50%,#d9d9d9 100%); /* Opera 11.10+ */
-				background: -ms-linear-gradient(bottom, #ebebeb 0%,#eaeaea 50%,#d9d9d9 100%); /* IE10+ */
-				background: linear-gradient(to bottom, #ebebeb 0%,#eaeaea 50%,#d9d9d9 100%); /* W3C */
-				color: #404040;
-			}
+		#top {
+			z-index: 100;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			bottom: 0;
+			right: 0;
+			height: 25px;
+			background-color: lightgray;
+			vertical-align: middle !important;
+			text-align: center;
 
-			#shareDialog {
-				overflow: hidden;
-			}
+			background: #ebebeb; /* Old browsers */
+			background: -moz-linear-gradient(bottom, #ebebeb 0%, #eaeaea 50%, #d9d9d9 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, bottom top, bottom top, color-stop(0%,#ebebeb), color-stop(50%,#eaeaea), color-stop(100%,#d9d9d9)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(bottom, #ebebeb 0%,#eaeaea 50%,#d9d9d9 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(bottom, #ebebeb 0%,#eaeaea 50%,#d9d9d9 100%); /* Opera 11.10+ */
+			background: -ms-linear-gradient(bottom, #ebebeb 0%,#eaeaea 50%,#d9d9d9 100%); /* IE10+ */
+			background: linear-gradient(to bottom, #ebebeb 0%,#eaeaea 50%,#d9d9d9 100%); /* W3C */
+			color: #404040;
+		}
 
-			img {
-				cursor: pointer;
-			}
+		#shareDialog {
+			overflow: hidden;
+		}
 
-			.ui-tabs {
-				z-index: 1000000;
-				position: absolute;
-				width: 175px;
-				left: 0;
-				top: 25px;
-				bottom: 0;
-				height: auto;
-				line-height: normal;
-				padding: 0;
-			}
+		img {
+			cursor: pointer;
+		}
 
-			.ui-tabs-nav {
-				padding: 0 !important;
-				cursor: pointer;
-			} 
+		.ui-tabs {
+			z-index: 1000000;
+			position: absolute;
+			width: 175px;
+			left: 0;
+			top: 25px;
+			bottom: 0;
+			height: auto;
+			line-height: normal;
+			padding: 0;
+		}
 
-			.ui-state-active {
-				cursor: default !important;
-			}
+		.ui-tabs-nav {
+			padding: 0 !important;
+			cursor: pointer;
+		} 
 
-			#tabs-2 {
-				/* Background */
-				background: #ebebeb; /* Old browsers */
-				background: -moz-linear-gradient(left, #ebebeb 0%, #eaeaea 93%, #d9d9d9 100%); /* FF3.6+ */
-				background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ebebeb), color-stop(93%,#eaeaea), color-stop(100%,#d9d9d9)); /* Chrome,Safari4+ */
-				background: -webkit-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* Chrome10+,Safari5.1+ */
-				background: -o-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* Opera 11.10+ */
-				background: -ms-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* IE10+ */
-				background: linear-gradient(to right, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* W3C */
-				color: #404040;
-			}
+		.ui-state-active {
+			cursor: default !important;
+		}
 
-			.pusher-chat-widget {
-				position: absolute; left: 0; top: 45px; bottom: 0; height: auto; width: 165px; border: 0; border-radius: 0; -webkitjavaborder-radius: 0;
-			}
+		#tabs-2 {
+			/* Background */
+			background: #ebebeb; /* Old browsers */
+			background: -moz-linear-gradient(left, #ebebeb 0%, #eaeaea 93%, #d9d9d9 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ebebeb), color-stop(93%,#eaeaea), color-stop(100%,#d9d9d9)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* Opera 11.10+ */
+			background: -ms-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* IE10+ */
+			background: linear-gradient(to right, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* W3C */
+			color: #404040;
+		}
 
-			body {
-				overflow: hidden;
-			}
+		.pusher-chat-widget {
+			position: absolute; left: 0; top: 45px; bottom: 0; height: auto; width: 165px; border: 0; border-radius: 0; -webkitjavaborder-radius: 0;
+		}
 
-			.ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor, .ui-tabs .ui-tabs-nav li.ui-state-disabled .ui-tabs-anchor, .ui-tabs .ui-tabs-nav li.ui-tabs-loading .ui-tabs-anchor {
-				cursor: default;
-			}
+		body {
+			overflow: hidden;
+		}
 
-			.disabled {
-				background-color: gray;
-				cursor: default;
-			}
+		.ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor, .ui-tabs .ui-tabs-nav li.ui-state-disabled .ui-tabs-anchor, .ui-tabs .ui-tabs-nav li.ui-tabs-loading .ui-tabs-anchor {
+			cursor: default;
+		}
 
-			.pusher-chat-widget-footer {
-				font-size: 13px;
-				font-family: Helvetica,Arial,sans-serif;
-			}
-		</style>
-		<script>
+		.disabled {
+			background-color: gray;
+			cursor: default;
+		}
+
+		.pusher-chat-widget-footer {
+			font-size: 13px;
+			font-family: Helvetica,Arial,sans-serif;
+		}
+
+		fieldset {
+			border: 2px solid #ADADAD;
+			text-align: center;
+		}
+	</style>
+	<script>
 		var language;
 
-			function getParameterByName(name) {
-				name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-				var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-				results = regex.exec(location.search);
-				return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-			}
+		function getParameterByName(name) {
+			name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+			var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+			results = regex.exec(location.search);
+			return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+			alert('results');
+		}
 
-			function l(lang) {
-				window.location.replace("?lang=" + lang);
-			}
+		function l(lang) {
+			window.location.replace("?lang=" + lang);
+		}
 
 		/**
 		Checking if the user signed in, topbar stuff
@@ -163,9 +169,9 @@
 				$('#uname').text(Cookies.get('name'));
 				$('#logintext').html(', Not you? <a href="../../signin/signin.php?mode=out" target="_new">Sign Out</a>');
 				$('#settings').attr('class', '');
-				$('#settings').attr('onclick', '');
 			} else {
 				$('#settings').attr('class', 'disabled');
+				$('#settings').attr('onclick', '');
 			}
 		});
 
@@ -173,6 +179,7 @@
 		Onload for other
 		*/
 		$(document).ready(function() {
+			//language stuff
 			if(getParameterByName("lang") != "") {
 				var lang = getParameterByName("lang");
 				language = lang;
@@ -183,6 +190,52 @@
 				if (uri.indexOf("?") > 0) {
 					var clean_uri = uri.substring(0, uri.indexOf("?"));
 					window.history.replaceState({}, document.title, clean_uri);
+				}
+			}
+
+			var str = document.URL;
+	    	var padId = str.slice(55, 65);
+	    	alert(padId);
+	    	var myFirebase = new Firebase("https://collab-coding-privacy.firebaseio.com/" + padId);
+
+	    	var isPrivate = false;
+	    	var owner = "";
+	    	var pemial = "";
+
+	    	myFirebase.child("private").on('value', function(snapshot) {
+  				if (snapshot.val() != null) {
+  					isPrivate = true;
+  				}
+			});
+
+			myFirebase.child("pemial").on('value', function(snapshot) {
+  				if (snapshot.val() != null) {
+  					pemail = snapshot.val();
+  				}
+			});
+
+			myFirebase.child("owner").on('value', function(snapshot) {
+  				if (snapshot.val() != null) {
+  					owner = snapshot.val();
+  				}
+			});
+
+			alert(isPrivate); alert(pemial); alert(owner);
+			//Do privacy stuff
+			if (isPrivate == true) {
+				if (pemial == Cookies.get('email') || owner === Cookies.get('email') && Cookies.get('email') != "") {
+					alert('access allowed');
+				} else {
+					$("html").html("<body style='text-align: center;'><h1>Sorry, you do not have access</h1><h3>If you believe this is an error, please contact the owner of the document</h3><img src='../../logo.png' style='position: absolute; right: 0px; bottom: 0px;'></body>")
+				}
+			}
+
+			if(getParameterByName("reload") == "reload") {
+				var uri = window.location.toString();
+				if (uri.indexOf("?") > 0) {
+					var clean_uri = uri.substring(0, uri.indexOf("?"));
+					//window.history.replaceState({}, document.title, clean_uri);
+					window.location.replace(clean_uri);
 				}
 			}
 		});
@@ -224,7 +277,17 @@
 			alert(str);
 		}
 
-		
+		//text()
+		function text() {
+			$("#pusher_chat_widget").attr('style', 'display: inherit;');
+			$("#vidchat").html("");
+			$("#vidchat").html('<div class="pusher-chat-widget-footer"><a href="javascript:text();">Text</a> - Video<br><br>Note: Video chat only works in Chrome, Firefox, and Opera</div>');
+
+		}
+
+		function settings() {
+			$("#settingsDialog").dialog();
+		}
 
 	  	//Pusher
 	  	$(function() {     
@@ -233,13 +296,15 @@
 	  			chatEndPoint: '../../tools/pusher-realtime-chat-widget/src/php/chat.php',
 	  			appendTo: '#pusher_chat_widget'
 	  		});
-	  		var channel = pusher.subscribe('test_channel');
-	  		channel.bind('pusher:subscription_error', function(status) {alert(status)});
+	  		/*var channel = pusher.subscribe('test_channel');
+	  		channel.bind('pusher:subscription_error', function(status) {alert(status)});*/
+	  		Pusher.log = function(message) {
+
+	  		};
 	  	});
-		</script>
+	  </script>
 	</head>
 	<body>
-	<a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
 		<div id="top" style="vertical-align: middle;">
 			<div id="topLeft" style="float: left;">
 				Welcome Back, <strong id="uname">Anonymous</strong><span id="logintext">, please <a href="../../signin/signin.php" target="_new">Sign In</a></span>
@@ -256,7 +321,7 @@
 			<div id="topRight" style="float: right;">
 				<img src="../../download.png" onclick="download();" style="vertical-align: middle;" class="disabled" title="Download File" id="download">
 				<img src="../../share.png" onclick="$('#shareDialog').dialog({width: 609});" style="vertical-align: middle;" title="Share">
-				<img src="../../settings.png" onclick="settings();" style="vertical-align: middle;" class="disabled" title="Settings" id="settings">
+				<img src="../../settings.png" onclick="$('#settingsDialog').dialog();" style="vertical-align: middle;" class="disabled" title="Settings" id="settings">
 				<img src="../../about.png" onclick="about();" style="vertical-align: middle;" title="About">
 			</div>
 
@@ -270,7 +335,7 @@
 			<div id="tabs-2">
 				<div class="span5" id='pusher_chat_widget'></div>
 				<div id="vidchat" style="overflow-y: scroll; visibility: hidden;">
-					<div class="pusher-chat-widget-footer"><a onclick="text()" href="javascript:void(0)">Text</a> - Video</div>
+					<div class="pusher-chat-widget-footer"><a href="javascript:text();">Text</a> - Video</div>
 				</div>
 			</div>
 			<script>
@@ -284,6 +349,7 @@
 					$("#tabs-2").text("Please sign in to use chat!");
 					$(".firepad-userlist-name-input").ready(function () {
 						$(".firepad-userlist-name-input").attr('readonly', 'readonly');
+						myUserRef.child('name').set(Cookies.get("name"));
 						$(".firepad-userlist-name-hint").html("<span style='color: red;'>PLEASE SIGN IN</span>");
 					});
 				} else {
@@ -309,37 +375,86 @@
 						$('.pusher-chat-widget-footer').first().html('Text - <a onclick="video()" href="javascript:void(0);">Video</a> <br><br> <a href="http://pusher.com">Pusher</a> powered realtime chat');
 					});
 
-					$("")
-
 					$("#tabs-2").attr('style', 'padding: 1em 0.5em;');
 				}
 			});
 
-			
+
 
 			//video()
 			function video() {
 				$("#pusher_chat_widget").attr("style", "display: none;");
 				$("#vidchat").attr("style", "display: inherit;");
 
+				//remove once
 				a = new TBStart("44776242", "vidchat");
 				a.startVideo();
 			}
+		</script>
+	</div>
+	<div id="firepad"></div>
+	<div id="shareDialog" style="display: none;" title="Share">
+		To share this code with your peers, please give them the following link:<br>
+		<input type="text" id="url" style="width: 100%; cursor: pointer;" onclick="$(this).select();" readonly><br>
+		Alternatively, you can <a id="email" target="_new">send them the link via email</a>
+	</div>
+	<div id="settingsDialog" style="display: none;" title="Document Settings">
+		<form name="privacy" method="post" action="">
+			<fieldset>
+				<legend>Privacy</legend>
+				<label for="private"><input type="checkbox" name="private" id="private" style="margin-bottom: 7px;">&nbsp;Private</label>
+				<hr>
+				<div id="invite">
+					<h3>Invite People</h3>
+					Enter their email here: <input type="text" width="400" id="pEmail" name="pEmail" disabled> <strong>Note: They must be registered with this email address to view your document!</strong><br>
+					<label for="sendEmail"><input type="checkbox" id="sendEmail" name="sendEmail" checked disabled>&nbsp;Send an email invitation</label>
+				</div>
+				<input type="submit" value="Invite" id="sInvite" name="sInvite" disabled>
+				<?php
+				if (isset($_POST["sInvite"])) {
+					$email = "";
 
-			//text()
-			function text() {
-				$("#pusher_chat_widget").attr('style', 'display: inherit;');
-				$("#vidchat").attr('style', 'display: none;');
-			}
-			</script>
-		</div>
-		<div id="firepad"></div>
-		<div id="shareDialog" style="display: none;" title="Share">
-			To share this code with your peers, please give them the following link:<br>
-			<input type="text" id="url" style="width: 100%; cursor: pointer;" onclick="$(this).select();" readonly><br>
-			Alternatively, you can <a id="email" target="_new">send them the link via email</a>
-		</div>
+					if (isset($_POST["pEmail"])) {
+						$email = $_POST["pEmail"];
+					}
+
+					/*{private: true, owner: Cookies.get('email'), pemail: ". $email ."
+					echo "<script>Cookies.set('private', 'y', {expiry: new Date(2050, 0, 1)});</script>";
+					echo "<script>Cookies.set('pemail', '". $email . "', {expiry: new Date(2050, 0, 1)});</script>";
+					echo "<script>Cookies.set('owner', Cookies.get('email'), {expiry: new Date(2050, 0, 1)});</script>";*/
+					echo "<script>var padId = document.URL.slice(55, 65); var myBase = new Firebase('https://collab-coding-privacy.firebaseio.com').child(padId); myBase.child('private').set(true); myBase.child('owner').set(Cookies.get('email')); myBase.child('pemail').set('". $email ."');</script>";
+
+					if (isset($_POST["sendEmail"])) {
+						echo "<script>window.location.href = 'mailto:". $email ."?Subject=I%20have%20shared%20a%20Collab.Center%20document%20with%20you&Body=I%20have%20created%20a%20private%20collab.center%20document%20and%20I%20have%20invited%20you%20to%20use%20it%20with%20me.%20The%20link%20is%20below%3A%20' + document.URL;</script>";
+					}
+
+					
+				}
+				?>
+			</fieldset>
+		</form>
 		<script>
+			$(document).ready(function () {
+				//$("[name=privacy]").attr('action', document.URL + '?reload=reload');
+			});
+
+			(function($) {
+				$.fn.toggleDisabled = function(){
+					return this.each(function(){
+						this.disabled = !this.disabled;
+					});
+				};
+			})(jQuery);
+
+			//Settings script
+			$('#private').click(function() {
+				$("#pEmail").toggleDisabled(this.checked);
+				$("#sendEmail").toggleDisabled(this.checked);
+				$("#sInvite").toggleDisabled(this.checked);
+			});
+		</script>
+	</div>
+	<script>
 		var codeMirrorInst;
 			/**
 			onload for Firepad & Codemirror related stuff
@@ -347,72 +462,71 @@
 			$(document).ready(function () {
 				CodeMirror.modeURL = "../../tools/CodeMirror/codemirror-4.0/mode/%N/%N.js";
 				// Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
-	    		var userId = Math.floor(Math.random() * 9999999999).toString();
+				var userId = Math.floor(Math.random() * 9999999999).toString();
 
 	    		//Gets the id of the pad
 	    		var str = document.URL;
-	    		var padId = str.slice(27, 37);
+	    		var padId = str.slice(55, 65);
 
-				var firepadRef = new Firebase('https://collaborative-coding.firebaseio.com').child(padId);
-				var codeMirrorFirepad = CodeMirror(document.getElementById('firepad'), { lineWrapping: true, lineNumbers : true });
-				codeMirrorInst = codeMirrorFirepad;
-				var firepad = Firepad.fromCodeMirror(firepadRef, codeMirrorFirepad, {userId: userId});
+	    		var firepadRef = new Firebase('https://collaborative-coding.firebaseio.com').child(padId);
+	    		var codeMirrorFirepad = CodeMirror(document.getElementById('firepad'), { lineWrapping: true, lineNumbers : true });
+	    		codeMirrorInst = codeMirrorFirepad;
+	    		var firepad = Firepad.fromCodeMirror(firepadRef, codeMirrorFirepad, {userId: userId});
 
-				firepad.on('ready', function() {
-					if (firepad.isHistoryEmpty()) {
-	      				firepad.setHtml("Hello, and Welcome to Collab.center! This is how it works:<br> 1. Put some code here.<br> 2. Share the URL with your freinds so you can collaborate (Hint: Use the Mail icon in the top-left!).<br> 3. Toggle some options above.<br> That's all there is to it!");
-	      			}
+	    		firepad.on('ready', function() {
+	    			if (firepad.isHistoryEmpty()) {
+	    				firepad.setHtml("Hello, and Welcome to Collab.center! This is how it works:<br> 1. Put some code here.<br> 2. Share the URL with your freinds so you can collaborate (Hint: Use the Mail icon in the top-left!).<br> 3. Toggle some options above.<br> That's all there is to it!");
+	    			}
 
-	      			if (Cookies.get('lang') != "c" && Cookies.get('lang') != "c++" && Cookies.get('lang') != "c#" && Cookies.get('lang') != "java") {
-	      				codeMirrorFirepad.setOption("mode", Cookies.get('lang'));
-	      				CodeMirror.autoLoadMode(codeMirrorFirepad, Cookies.get('lang'));
-	      			} else {
-	      				codeMirrorFirepad.setOption("mode", "clike");
-		      			CodeMirror.autoLoadMode(codeMirrorFirepad, "clike");
-	      				switch (Cookies.get('lang')) 
-	      				{
-	      					case "c":
-		      					codeMirrorFirepad.setOption("mode", "text/x-csrc");
-		      					CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-csrc");
-		      					break;
-		      				case "c++":
-		      					codeMirrorFirepad.setOption("mode", "text/x-c++src");
-		      					CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-c++src");
-		      					break;
-		      				case "c#":
-		      					codeMirrorFirepad.setOption("mode", "text/x-csharp");
-		      					CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-csharp");
-		      					break;
-		      				case "java":
-		      					codeMirrorFirepad.setOption("mode", "text/x-java");
-		      					CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-java");
-		      					break;
-	      				}
-	      			}
+	    			if (Cookies.get('lang') != "c" && Cookies.get('lang') != "c++" && Cookies.get('lang') != "c#" && Cookies.get('lang') != "java") {
+	    				codeMirrorFirepad.setOption("mode", Cookies.get('lang'));
+	    				CodeMirror.autoLoadMode(codeMirrorFirepad, Cookies.get('lang'));
+	    			} else {
+	    				codeMirrorFirepad.setOption("mode", "clike");
+	    				CodeMirror.autoLoadMode(codeMirrorFirepad, "clike");
+	    				switch (Cookies.get('lang')) 
+	    				{
+	    					case "c":
+	    					codeMirrorFirepad.setOption("mode", "text/x-csrc");
+	    					CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-csrc");
+	    					break;
+	    					case "c++":
+	    					codeMirrorFirepad.setOption("mode", "text/x-c++src");
+	    					CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-c++src");
+	    					break;
+	    					case "c#":
+	    					codeMirrorFirepad.setOption("mode", "text/x-csharp");
+	    					CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-csharp");
+	    					break;
+	    					case "java":
+	    					codeMirrorFirepad.setOption("mode", "text/x-java");
+	    					CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-java");
+	    					break;
+	    				}
+	    			}
 	    		});
 
 				 //// Create FirepadUserList (with desired userId).
-	    		var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
-	        	document.getElementById('userlist'), userId);
-	        	$('#url').val(document.URL);
-	        	$('#email').attr('href', 'mailto:?Subject=My%20Collaborative%20Coding%20Project!&Body=Hey!%20Check%20out%20my%20newest%20Collaborative%20Coding%20project%20at%20' + document.URL + '!');
+				 var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
+				 	document.getElementById('userlist'), userId);
+				 $('#url').val(document.URL);
+				 $('#email').attr('href', 'mailto:?Subject=My%20Collaborative%20Coding%20Project!&Body=Hey!%20Check%20out%20my%20newest%20Collaborative%20Coding%20project%20at%20' + document.URL + '!');
+				});
 
-	  		
-			});
-function download() {
-			jQuery.ajax({
-			    type: "POST",
-			    url: '../../download/download.php',
-			    dataType: 'json',
-			    data: {functionname: 'download', arguments: [codeMirrorInst.getValue()]},
+				function download() {
+					jQuery.ajax({
+						type: "POST",
+						url: '../../download/download.php',
+						dataType: 'json',
+						data: {functionname: 'download', arguments: [codeMirrorInst.getValue()]},
 
-			    success: function (obj, textstatus) {
-			            	alert('sucess!');
-			            }
-			});
-		}
-		</script>
-	</body>
+						success: function (obj, textstatus) {
+							alert('sucess!');
+						}
+					});
+				}
+</script>
+</body>
 </html>
 <!--
 Permission is hereby granted, free of charge, to any person obtaining a copy

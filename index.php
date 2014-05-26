@@ -2,8 +2,8 @@
 <html>
 <head>
 	<script src="docs/tools/Cookies.js"></script>
-	<link rel="icon" href="/docs/favicon.ico" type="image/x-icon">
-	<link rel="shortcut icon" href="/docs/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="./docs/fav_icon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="./docs/fav_icon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="docs/tools/style.css">
 	<title>Collab.Center</title>
 	<style>

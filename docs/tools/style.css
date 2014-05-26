@@ -100,6 +100,7 @@
 	
 	input[type=checkbox] {
 		border-radius: 3px;
+		outline: 0;
 	}
 	
 	input[type=radio]:checked:after{
@@ -116,15 +117,17 @@
 	}
 	
 	input[type=checkbox]:checked:after{
-		content: 'ν';
+		content: '\2713';
 		display: inline-block;
 		position: absolute;
-		margin-left: 0.21em;
-		margin-top: -0.25em;
+		margin-left: -0.08em;
+		margin-top: -0.5em;
 		color: #444;
-		font-weight: bolder ;
-		font-size: 14px;
-		text-shadow:  0 1px 1px #fff;
+		font-weight: bolder;
+		font-size: 1.5em;
+		text-shadow: 0 1px 1px #fff;
+		/* font-size: 1.5em; */
+		white-space: nowrap;
 	}
 	
 	input[type=radio]:not(:disabled):active,
