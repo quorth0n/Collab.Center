@@ -3,7 +3,7 @@
 <head>
 	<script src="docs/tools/Cookies.js"></script>
 	<link rel="icon" href="./docs/fav_icon.ico" type="image/x-icon">
-	<link rel="shortcut icon" href="./docs/fav_icon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="./docs/fav_+icon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="docs/tools/style.css">
 	<title>Collab.Center</title>
 	<style>
@@ -51,33 +51,42 @@
 						if (isset($_POST['Submit'])) {
 							$lang = $_POST['language'];
 
-							if ($lang != '') {
+							if (isset($lang)) {
 								$my_dir = "";
 								$my_file = "";
+								$randString = generateRandomString();
 								
 								if (isset($_COOKIE["email"])) {
-
 									//Check if the user's email dir exists, if not create
 									if (!file_exists("docs/".$_COOKIE["email"])) {
 										mkdir("docs/".$_COOKIE["email"]);
 									}
 
-									$my_dir = "docs/".$_COOKIE["email"]."/".generateRandomString();
+									$my_dir = "docs/".$_COOKIE["email"]."/".$randString;
 									$my_file = $my_dir."/index.php";
 
 								} else {
-									$my_dir = "docs/dev/".generateRandomString();
+									//User is not signed in, create an. directory
+									$my_dir = "docs/dev/".$randString;
 									$my_file = $my_dir."/index.php";
 								}
 
+								//Create the file + directory if it doesn't exist
 								if (!file_exists($my_file)) {
 									mkdir($my_dir);
 									$handle = fopen($my_file, 'w');
 								}
 
+								//Write to index.php
 								$data = file_get_contents('./docs/tools/index.html', true);
-								fwrite($handle, $data);	
+								fwrite($handle, $data);
 
+								//Create the id js file
+								$user_id_file = $my_dir."/id.js";
+								$handle_user_id = fopen($user_id_file, 'w');
+								fwrite($handle_user_id, "var padId = '".$randString."';");
+
+								//redirect to the new document
 								echo '<script>window.location.href="'.$my_dir.'?lang='.$lang.'";</script>';
 
 							} else {

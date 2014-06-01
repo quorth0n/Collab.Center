@@ -47,6 +47,12 @@
             Cookies.clear('email',{path   : '/'});
             Cookies.clear('name',{path   : '/'});
             alert("You have been successfully signed out.");
+            var uri = window.location.toString();
+            if (uri.indexOf("?") > 0) {
+              var clean_uri = uri.substring(0, uri.indexOf("?"));
+              //window.history.replaceState({}, document.title, clean_uri);
+              window.location.replace(clean_uri);
+            }
       } else {
         if (authResult) {
           if (authResult['error'] == undefined){

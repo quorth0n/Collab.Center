@@ -196,7 +196,6 @@
 			if(getParameterByName("lang") != "") {
 				var lang = getParameterByName("lang");
 				language = lang;
-				
 				Cookies.set("lang", language, {expiry: new Date(2030, 0, 1)});
 				
 
@@ -209,40 +208,45 @@
 
 	    	var myFirebase = new Firebase("https://collab-coding-privacy.firebaseio.com/" + padId);
 
-	    	var isPrivate = false;
-	    	var owner = "";
-	    	var allowedEmail = "";
+	    	var isPrivate;// = false;
+	    	var owner;
+	    	var pemial;
 
-	    	myFirebase.child("private").once('value', function(snapshot) {
+	    	myFirebase.child("private").on('value', function(snapshot) {
   				if (snapshot.val() != undefined) {
   					isPrivate = true;
   				}
 			});
 			
 
-			myFirebase.child("privateEmail").once('value', function(snapshot) {
-  				if (snapshot.val() != undefined) {
-  					allowedEmail = snapshot.val().toString();
+			myFirebase.child("pemial").on('value', function(snapshot) {
+  				if (snapshot.val() != null) {
+  					pemail = snapshot.val().toString();
   				}
 			});
 
-			myFirebase.child("owner").once('value', function(snapshot) {
-  				if (snapshot.val() != undefined) {
+			myFirebase.child("owner").on('value', function(snapshot) {
+  				if (snapshot.val() != null) {
   					owner = snapshot.val().toString();
   				}
 			});
 
-			myFirebase.once('value', function(snapshot) {
-				if (snapshot.val() != undefined) {
+			/*myFirebase.on('value', function(snapshot) {
+				if (snapshot.val() != null) {
+					//Do privacy stuff
+					//alert(pemail); 
+					/*alert(owner);
+					alert(isPrivate)
+					alert(Cookies.get('email'));
 					if (isPrivate == true) {
-						if (allowedEmail == Cookies.get('email') || owner == Cookies.get('email')) {
-							//Nothing
+						if (pemial == Cookies.get('email') || owner == Cookies.get('email') && Cookies.get('email') != "") {
+							$("html").html("");
 						} else {
 							$("html").html("<body style='text-align: center;'><h1>Sorry, but You Need Permission to Edit this Document</h1><h3>If you believe this is an error, please contact the owner of the document</h3><h4>Wanna switch accounts? <a href='../../signin/signin.php?mode=out' target='_new'>Click here</a></h4><img src='../../logo.png' style='position: absolute; right: 0px; bottom: 0px;'></body>");
 						}
 					}
 				}
-			});
+			});*/
 			
 
 			if(getParameterByName("reload") == "reload") {
@@ -277,7 +281,7 @@
 			});
 
 			CodeMirror.on('gutterClick', function(cm, line, gutter) {
-				if (gutter === 'CodeMirror-linenumber CodeMirror-gutter-elt') {
+				if (gutter === 'CodeMirror-linenumbers') {
 					return CodeMirror.setSelection(CodeMirror.Pos(line, 0), CodeMirror.Pos(line + 1, 0));
 				}
 			});
@@ -322,11 +326,11 @@
 			<div id="topLeft" style="float: left;">
 				Welcome Back, <strong id="uname">Anonymous</strong><span id="logintext">, please <a href="../../signin/signin.php" target="_new">Sign In</a></span>
 			</div>
-			<select id="language" style="padding: 1px 30px 1px 15px;">
-				<option disabled selected id="langOption">Language</option><option>Plain Text</option><option>apl</option><option>asterisk</option><option>c</option><option>c++</option><option>c#</option><option>clojure</option><option>cobol</option><option>coffeescript</option><option>commonlisp</option><option>css</option><option>d</option><option>diff</option><option>dtd</option><option>ecl</option><option>eiffel</option><option>erlang</option><option>fortran</option><option>gas</option><option>gfm</option><option>gherkin</option><option>go</option><option>groovy</option><option>haml</option><option>haskell</option><option>haxe</option><option>htmlembedded</option><option>htmlmixed</option><option>http</option><option>jade</option><option>java</option><option>javascript</option><option>jinja2</option><option>julia</option><option>livescript</option><option>lua</option><option>markdown</option><option>mirc</option><option>mllike</option><option>nginx</option><option>ntriples</option><option>octave</option><option>pascal</option><option>pegjs</option><option>perl</option><option>php</option><option>pig</option><option>properties</option><option>puppet</option><option>python</option><option>q</option><option>r</option><option>rpm</option><option>rst</option><option>ruby</option><option>rust</option><option>sass</option><option>scheme</option><option>shell</option><option>sieve</option><option>smalltalk</option><option>smarty</option><option>smartymixed</option><option>solr</option><option>sparql</option><option>sql</option><option>stex</option><option>tcl</option><option>tiddlywiki</option><option>tiki</option><option>toml</option><option>turtle</option><option>vb</option><option>vbscript</option><option>velocity</option><option>verilog</option><option>xml</option><option>xquery</option><option>yaml</option><option>z80</option>
+			<select id="language" style="padding: initial !important;">
+				<option disabled selected>Language</option><option>Plain Text</option><option>apl</option><option>asterisk</option><option>c</option><option>c++</option><option>c#</option><option>clojure</option><option>cobol</option><option>coffeescript</option><option>commonlisp</option><option>css</option><option>d</option><option>diff</option><option>dtd</option><option>ecl</option><option>eiffel</option><option>erlang</option><option>fortran</option><option>gas</option><option>gfm</option><option>gherkin</option><option>go</option><option>groovy</option><option>haml</option><option>haskell</option><option>haxe</option><option>htmlembedded</option><option>htmlmixed</option><option>http</option><option>jade</option><option>java</option><option>javascript</option><option>jinja2</option><option>julia</option><option>livescript</option><option>lua</option><option>markdown</option><option>mirc</option><option>mllike</option><option>nginx</option><option>ntriples</option><option>octave</option><option>pascal</option><option>pegjs</option><option>perl</option><option>php</option><option>pig</option><option>properties</option><option>puppet</option><option>python</option><option>q</option><option>r</option><option>rpm</option><option>rst</option><option>ruby</option><option>rust</option><option>sass</option><option>scheme</option><option>shell</option><option>sieve</option><option>smalltalk</option><option>smarty</option><option>smartymixed</option><option>solr</option><option>sparql</option><option>sql</option><option>stex</option><option>tcl</option><option>tiddlywiki</option><option>tiki</option><option>toml</option><option>turtle</option><option>vb</option><option>vbscript</option><option>velocity</option><option>verilog</option><option>xml</option><option>xquery</option><option>yaml</option><option>z80</option>
 			</select><span class="select-arrow" style="margin: 0.6em 0 0 -1.2em !important;"></span>
 
-			<select id="lineNum" style="padding: 1px 30px 1px 15px;">
+			<select id="lineNum" style="padding: initial !important;">
 				<option disabled selected>Line Numbers</option>
 				<option>Show Line Numbers</option>
 				<option>Hide Line Numbers</option>
@@ -357,7 +361,6 @@
 			*/
 			$(document).ready(function() {
 				$('.pusher-chat-widget-send-btn').attr('style', 'background: #0064CD !important;');
-				$('#langOption').text('Language (' + Cookies.get('lang') + ')');
 
 				if ($("#uname").text().toLowerCase() == "anonymous") {
 					$("#tabs-2").text("Please sign in to use chat!");
@@ -424,27 +427,6 @@
 					<label for="sendEmail"><input type="checkbox" id="sendEmail" name="sendEmail" checked disabled>&nbsp;Send an email invitation</label>
 				</div>
 				<input type="submit" value="Invite" id="sInvite" name="sInvite" disabled>
-				<?php
-				if (isset($_POST["sInvite"])) {
-					$email = "";
-
-					if (isset($_POST["pEmail"])) {
-						$email = $_POST["pEmail"];
-					}
-
-					/*{private: true, owner: Cookies.get('email'), pemail: ". $email ."
-					echo "<script>Cookies.set('private', 'y', {expiry: new Date(2050, 0, 1)});</script>";
-					echo "<script>Cookies.set('pemail', '". $email . "', {expiry: new Date(2050, 0, 1)});</script>";
-					echo "<script>Cookies.set('owner', Cookies.get('email'), {expiry: new Date(2050, 0, 1)});</script>";*/
-					echo "<script>var myBase = new Firebase('https://collab-coding-privacy.firebaseio.com').child(padId); myBase.child('private').set(true); myBase.child('owner').set(Cookies.get('email')); myBase.child('privateEmail').set('". $email ."');</script>";
-
-					if (isset($_POST["sendEmail"])) {
-						echo "<script>window.location.href = 'mailto:". $email ."?Subject=I%20have%20shared%20a%20Collab.Center%20document%20with%20you&Body=I%20have%20created%20a%20private%20collab.center%20document%20and%20I%20have%20invited%20you%20to%20use%20it%20with%20me.%20The%20link%20is%20below%3A%20' + document.URL;</script>";
-					}
-
-					
-				}
-				?>
 			</fieldset>
 		</form>
 		<script>
