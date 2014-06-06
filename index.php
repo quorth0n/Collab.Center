@@ -2,8 +2,8 @@
 <html>
 <head>
 	<script src="docs/tools/Cookies.js"></script>
-	<link rel="icon" href="./docs/fav_icon.ico" type="image/x-icon">
-	<link rel="shortcut icon" href="./docs/fav_+icon.ico" type="image/x-icon">
+	<link rel="icon" href="./docs/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="./docs/favicon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="docs/tools/style.css">
 	<title>Collab.Center</title>
 	<style>
@@ -87,7 +87,7 @@
 								fwrite($handle_user_id, "var padId = '".$randString."';");
 
 								//redirect to the new document
-								echo '<script>window.location.href="'.$my_dir.'?lang='.$lang.'";</script>';
+								echo '<script>window.location.href="'.$my_dir.'?lang='.urlencode($lang).'";</script>';
 
 							} else {
 								echo "<br><span>Please select a language, that's why its there.</span>";
@@ -98,5 +98,22 @@
 			<input type="submit" value="Create Doc!" style="font-size: 1.5em;" name="Submit">
 		</form>
 	</div>
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9847367; 
+var sc_invisible=1; 
+var sc_security="8d165f65"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="free hit
+counters" href="http://statcounter.com/"
+target="_blank"><img class="statcounter"
+src="http://c.statcounter.com/9847367/0/8d165f65/1/"
+alt="free hit counters"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
 </body>
 </html>

@@ -4,7 +4,7 @@
 <head>
 	<title>Collab.Center</title>
 
-	<link rel="icon" href="../../fav_icon.ico">
+	<link rel="icon" href="../../favicon.ico">
 	<link rel="stylesheet" href="../../tools/style.css">
 
 	<!--JQUERY-->
@@ -17,7 +17,7 @@
 
 	<!-- CODEMIRROR -->
 	<link rel="stylesheet" href="../../tools/CodeMirror/codemirror-4.0/lib/codemirror.css" />
-	<link rel="stylesheet" href="../../tools/CodeMirror/codemirror-4.0/lib/codemirror.css" />
+	<link rel="stylesheet" href="../../tools/CodeMirror/codemirror-4.0/theme/mdn-like.css" />
 	<script src="../../tools/CodeMirror/codemirror-4.0/lib/codemirror.js"></script>
 
 	<!-- Firepad -->
@@ -46,17 +46,16 @@
 	<script src="id.js"></script>
 
 	<style>
-
-		.firepad {
-			width: 100%;
-		}
-
 		.firepad-userlist {
 			position: absolute; left: 0; top: 45px; bottom: 0; height: auto;
 		}
 
 		.firepad {
 			position: absolute; left: 175px; top: 25px; bottom: 0; right: 0; height: auto;
+		}
+
+		.powered-by-firepad {
+			display: none !important;
 		}
 
 		#top {
@@ -155,10 +154,22 @@
 			font-family: Helvetica,Arial,sans-serif;
 		}
 
+		.CodeMirror-gutters {
+			border-left: 6px solid rgba(0, 83, 159, 0) !important; 
+		}
+
 		fieldset {
 			border: 2px solid #ADADAD;
 			text-align: center;
 		}
+
+		.bModal __bPopup1 {
+	  		display: none !important;
+	  	}
+
+	  	#visas_style_div {
+	  		display: none !important;
+	  	}
 	</style>
 	<script>
 		var language;
@@ -188,16 +199,22 @@
 			}
 		});
 
+		
+		//language firebase ref global var
+		var langBaseRef = new Firebase("https://collab-coding-lang.firebaseio.com").child(padId);
+
 		/**
 		Onload for other
 		*/
 		$(document).ready(function() {
 			//language stuff
 			if(getParameterByName("lang") != "") {
-				var lang = getParameterByName("lang");
-				language = lang;
+				var language = getParameterByName("lang");
+
+				if (language != null) {
+					langBaseRef.set({lang : language});
+				}
 				
-				Cookies.set("lang", language, {expiry: new Date(2030, 0, 1)});
 				
 
 				var uri = window.location.toString();
@@ -212,7 +229,12 @@
 	    	var isPrivate = false;
 	    	var owner = "";
 	    	var allowedEmail = "";
+	    	var langBaseVal = "";
 
+
+	    	/**
+	    	Getting firebase values for later
+	    	*/
 	    	myFirebase.child("private").once('value', function(snapshot) {
   				if (snapshot.val() != undefined) {
   					isPrivate = true;
@@ -232,6 +254,15 @@
   				}
 			});
 
+			langBaseRef.child("lang").once('value', function(snapshot) {
+				if (snapshot.val() != undefined) {
+					langBaseVal = snapshot.val().toString();
+				} else {
+					window.location.replace(document.URL);
+				}
+				
+			});
+
 			myFirebase.once('value', function(snapshot) {
 				if (snapshot.val() != undefined) {
 					if (isPrivate == true) {
@@ -242,6 +273,10 @@
 						}
 					}
 				}
+			});
+
+			langBaseRef.on('child_changed', function(childSnapshot, prevChildName) {
+				window.location.href = document.URL;
 			});
 			
 
@@ -259,6 +294,7 @@
 		onload for topbar stuff
 		*/
 		$(document).ready(function() {
+
 			$('#lineNum').change(function () {
 				var state = $(this).val();
 
@@ -272,15 +308,11 @@
 			});
 
 			$('#language').change(function() {
-				var state = $(this).val();
+				var state = encodeURIComponent($(this).val());
 				l(state);
 			});
 
-			CodeMirror.on('gutterClick', function(cm, line, gutter) {
-				if (gutter === 'CodeMirror-linenumber CodeMirror-gutter-elt') {
-					return CodeMirror.setSelection(CodeMirror.Pos(line, 0), CodeMirror.Pos(line + 1, 0));
-				}
-			});
+			
 		});
 
 		$(function() {
@@ -352,12 +384,25 @@
 				</div>
 			</div>
 			<script>
+			var langBaseRef = new Firebase("https://collab-coding-lang.firebaseio.com").child(padId);
+			var langBaseVal = "";
+
+			langBaseRef.child("lang").once('value', function(snapshot) {
+				if (snapshot.val() != null) {
+					langBaseVal = snapshot.val();
+				} else {
+					window.location.replace(document.URL);
+				}
+				
+			});
+
 			/**
 			onload for sign in stuff
 			*/
+
 			$(document).ready(function() {
 				$('.pusher-chat-widget-send-btn').attr('style', 'background: #0064CD !important;');
-				$('#langOption').text('Language (' + Cookies.get('lang') + ')');
+				//$('#langOption').text('Language (' + langBaseVal + ')');
 
 				if ($("#uname").text().toLowerCase() == "anonymous") {
 					$("#tabs-2").text("Please sign in to use chat!");
@@ -368,7 +413,7 @@
 				} else {
 					$(".firepad-userlist-name-input").ready(function () {
 						//$(".firepad-userlist-name-input").attr('readonly', 'readonly');
-						$(".firepad-userlist-name-input").val(Cookies.get('name'));
+						//$(".firepad-userlist-name-input").val(Cookies.get('name'));
 						//$(".firepad-userlist-name-input").trigger('change');
 
 						var press = jQuery.Event("keypress");
@@ -478,27 +523,27 @@
 				// Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
 				var userId = Math.floor(Math.random() * 9999999999).toString();
 
-				//Pad id
-				/*var padId = readTextFile('id.txt');
-				alert(padId);*/
-
 	    		var firepadRef = new Firebase('https://collaborative-coding.firebaseio.com').child(padId);
-	    		var codeMirrorFirepad = CodeMirror(document.getElementById('firepad'), { lineWrapping: true, lineNumbers : true });
+	    		var codeMirrorFirepad = CodeMirror(document.getElementById('firepad'), { lineWrapping: true, lineNumbers : true, theme : 'mdn-like' });
 	    		codeMirrorInst = codeMirrorFirepad;
 	    		var firepad = Firepad.fromCodeMirror(firepadRef, codeMirrorFirepad, {userId: userId});
 
 	    		firepad.on('ready', function() {
 	    			if (firepad.isHistoryEmpty()) {
-	    				firepad.setHtml("Hello, and Welcome to Collab.center! This is how it works:<br> 1. Put some code here.<br> 2. Share the URL with your freinds so you can collaborate (Hint: Use the Mail icon in the top-left!).<br> 3. Toggle some options above.<br> That's all there is to it!");
+	    				firepad.setHtml("Hello, and Welcome to Collab.center! This is how it works:<br> 1. Put some code here.<br> 2. Share the URL with your friends so you can collaborate (Hint: Use the Mail icon in the top-left!).<br> 3. Toggle some options above.<br> That's all there is to it!");
 	    			}
 
-	    			if (Cookies.get('lang') != "c" && Cookies.get('lang') != "c++" && Cookies.get('lang') != "c#" && Cookies.get('lang') != "java") {
-	    				codeMirrorFirepad.setOption("mode", Cookies.get('lang'));
-	    				CodeMirror.autoLoadMode(codeMirrorFirepad, Cookies.get('lang'));
+	    			if (langBaseVal != "c" && langBaseVal != "c++" && langBaseVal != "c#" && langBaseVal != "java") {
+	    				$('#langOption').text('Language (' + langBaseVal + ')');
+
+	    				codeMirrorFirepad.setOption("mode", langBaseVal);
+	    				CodeMirror.autoLoadMode(codeMirrorFirepad, langBaseVal);
 	    			} else {
+	    				$('#langOption').text('Language (' + langBaseVal + ')');
+
 	    				codeMirrorFirepad.setOption("mode", "clike");
 	    				CodeMirror.autoLoadMode(codeMirrorFirepad, "clike");
-	    				switch (Cookies.get('lang')) 
+	    				switch (langBaseVal)
 	    				{
 	    					case "c":
 	    					codeMirrorFirepad.setOption("mode", "text/x-csrc");
@@ -519,6 +564,7 @@
 	    				}
 	    			}
 	    		});
+				
 
 				 //// Create FirepadUserList (with desired userId).
 				 var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
