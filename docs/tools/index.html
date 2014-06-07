@@ -28,8 +28,9 @@
 	<script src="../../tools/firepad/firepad-userlist.js"></script>
 	<link rel="stylesheet" href="../../tools/firepad/firepad-userlist.css" />
 
-	<!--Load Mode-->
-	<script src="../../mode/loadmode.js"></script>
+	<!--Addons-->
+	<script src="../../tools/CodeMirror/codemirror-4.0/addon/mode/loadmode.js"></script>
+	<script src="../../tools/CodeMirror/codemirror-4.0/addon/edit/matchbrackets.js"></script>
 
 	<!-- Pusher -->
 	<script src="http://js.pusher.com/2.1/pusher.min.js"></script>
@@ -162,14 +163,6 @@
 			border: 2px solid #ADADAD;
 			text-align: center;
 		}
-
-		.bModal __bPopup1 {
-	  		display: none !important;
-	  	}
-
-	  	#visas_style_div {
-	  		display: none !important;
-	  	}
 	</style>
 	<script>
 		var language;
@@ -327,8 +320,8 @@
 		//text()
 		function text() {
 			$("#pusher_chat_widget").attr('style', 'display: inherit;');
-			$("#vidchat").html("");
-			$("#vidchat").html('<div class="pusher-chat-widget-footer"><a href="javascript:text();">Text</a> - Video<br><br>Note: Video chat only works in Chrome, Firefox, and Opera</div>');
+			//$("#vidchat").html('<div class="pusher-chat-widget-footer"><a href="javascript:text()">Text</a> - Video<br><br>Note: Video chat only works in Chrome, Firefox, and Opera</div>');
+			$("#vidchat").attr('style', 'display: none;');
 
 		}
 
@@ -445,9 +438,11 @@
 				$("#pusher_chat_widget").attr("style", "display: none;");
 				$("#vidchat").attr("style", "display: inherit;");
 
-				//remove once
-				a = new TBStart("44776242", "vidchat");
-				a.startVideo();
+				//alert($(".OT_video-container").length);
+				if ($(".OT_video-container").length == false) {
+					a = new TBStart("44776242", "vidchat");
+					a.startVideo();
+				}	
 			}
 		</script>
 	</div>
@@ -524,7 +519,7 @@
 				var userId = Math.floor(Math.random() * 9999999999).toString();
 
 	    		var firepadRef = new Firebase('https://collaborative-coding.firebaseio.com').child(padId);
-	    		var codeMirrorFirepad = CodeMirror(document.getElementById('firepad'), { lineWrapping: true, lineNumbers : true, theme : 'mdn-like' });
+	    		var codeMirrorFirepad = CodeMirror(document.getElementById('firepad'), { lineWrapping: true, lineNumbers : true, theme : 'mdn-like', matchBrackets : true });
 	    		codeMirrorInst = codeMirrorFirepad;
 	    		var firepad = Firepad.fromCodeMirror(firepadRef, codeMirrorFirepad, {userId: userId});
 
