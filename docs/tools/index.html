@@ -319,7 +319,7 @@
 		});
 
 		function about() {
-			var str = "Collab.center, by Liam O'FLynn.\nVersion 0.1\nCopyright (c) Liam O'Flynn, 2014. All rights reserved.\n Bowser Support:\n IE 8+ (Preferably 10+)\nSafari (Any Version)\n Firefox 3.6+\n Chrome (Any Version)\n Opera 11+";
+			var str = "Collab.center, by Liam O'FLynn.\nVersion 0.4\nCopyright (c) Liam O'Flynn, 2014. All rights reserved.\n Bowser Support:\n IE 8+ (Preferably 10+)\nSafari (Any Version)\n Firefox 3.6+\n Chrome (Any Version)\n Opera 11+";
 			alert(str);
 		}
 
@@ -411,16 +411,12 @@
 					});
 				} else {
 					$(".firepad-userlist-name-input").ready(function () {
-						//$(".firepad-userlist-name-input").attr('readonly', 'readonly');
-						//$(".firepad-userlist-name-input").val(Cookies.get('name'));
-						//$(".firepad-userlist-name-input").trigger('change');
+						$(".firepad-userlist-name-input").attr('readonly', 'readonly');
+						$(".firepad-userlist-name-input").focus();
+						$(".firepad-userlist-name-input").val(Cookies.get('name'));
+						$(".firepad-userlist-name-input").blur();
 
-						var press = jQuery.Event("keypress");
-						press.ctrlKey = false;
-						press.which = 13;
-						$(".firepad-userlist-name-input").trigger(press);
-
-						//$(".firepad-userlist-name-hint").html("");
+						$(".firepad-userlist-name-hint").html("");
 					});
 
 					$(".pusher-chat-widget").ready(function () {
@@ -568,8 +564,7 @@
 				
 
 				 //// Create FirepadUserList (with desired userId).
-				 var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
-				 	document.getElementById('userlist'), userId);
+				 var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'), document.getElementById('userlist'), userId);
 				 $('#url').val(document.URL);
 				 $('#email').attr('href', 'mailto:?Subject=My%20Collaborative%20Coding%20Project!&Body=Hey!%20Check%20out%20my%20newest%20Collaborative%20Coding%20project%20at%20' + document.URL + '!');
 				});
