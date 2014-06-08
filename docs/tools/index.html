@@ -120,8 +120,6 @@
 			background: -ms-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* IE10+ */
 			background: linear-gradient(to right, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* W3C */
 			color: #404040;
-
-			height: 100%;
 		}
 
 		.pusher-chat-widget {
@@ -162,6 +160,14 @@
 		fieldset {
 			border: 2px solid #ADADAD;
 			text-align: center;
+		}
+
+		select::-ms-expand {
+    		display: none;
+		}
+
+		.cm-string {
+			color: #a11 !important;
 		}
 	</style>
 	<script>
@@ -427,7 +433,7 @@
 						$('.pusher-chat-widget-footer').first().html('Text - <a onclick="video()" href="javascript:void(0);">Video</a> <br><br> <a href="http://pusher.com">Pusher</a> powered realtime chat');
 					});
 
-					$("#tabs-2").attr('style', 'padding: 1em 0.5em;');
+					$("#tabs-2").attr('style', 'padding: 1em 0.5em; display: none;');
 				}
 			});
 

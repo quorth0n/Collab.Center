@@ -164,7 +164,7 @@
 	/* Select Box */
 	select {
 		-webkit-appearance: button;
-		-moz-appearance: button;
+		-moz-appearance: none;
 		appearance: button;
 		display: inline-block;
 		background: #fafafa;
@@ -180,6 +180,8 @@
 		border: 1px solid #aaa;
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 		color: #444;
+    	text-indent: 0.01px;
+    	text-overflow: '';
 	}
 	
 		select:focus {

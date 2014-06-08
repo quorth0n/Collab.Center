@@ -33,7 +33,7 @@
 </head>
 <body style="background-color: lightgray; font-family: Helvetica, Arial, sans-serif;">
 <a href="https://github.com/Mulletfingers999/Collab.Center" style="display: none;"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>	<div>
-		<h1>Welcome to Collab.Center!<sup>Alpha</sup></h1>
+		<h1>Welcome to Collab.Center!<sup>Beta</sup></h1>
 		<p>Collab.center is an easy way to share collaborative coding docs or even plain text online! Just select a language and your ready to go!</p>
 		<form method="post" id="create">
 			<label for="language">Language:&nbsp;</label><select name="language">

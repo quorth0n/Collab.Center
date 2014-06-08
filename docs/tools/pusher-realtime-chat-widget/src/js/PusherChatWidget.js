@@ -136,7 +136,8 @@ PusherChatWidget.prototype._sendChatMessage = function(data) {
       var image = $('<div class="pusher-chat-widget-current-user-image">' +
                       '<img src="' + imageInfo.url + '" width="32" height="32" />' +
                     '</div>');
-      var name = $('<div class="pusher-chat-widget-current-user-name">' + activity.actor.displayName + '</div>');
+      alert(activity.actor.displayName.replace(/\\/gi, ''));
+      var name = $('<div class="pusher-chat-widget-current-user-name">' + activity.actor.displayName.replace(/\\/gi, '') + '</div>');
       var header = self._widget.find('.pusher-chat-widget-header');
       header.html(image).append(name);
     }
