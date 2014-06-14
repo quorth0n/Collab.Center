@@ -163,11 +163,15 @@
 		}
 
 		select::-ms-expand {
-    		display: none;
+			display: none;
 		}
 
 		.cm-string {
 			color: #a11 !important;
+		}
+
+		#downloadDialog {
+			text-align: center;
 		}
 	</style>
 	<script>
@@ -223,49 +227,49 @@
 				}
 			}
 
-	    	var myFirebase = new Firebase("https://collab-coding-privacy.firebaseio.com/" + padId);
+			var myFirebase = new Firebase("https://collab-coding-privacy.firebaseio.com/" + padId);
 
-	    	var isPrivate = false;
-	    	var owner = "";
-	    	var allowedEmail = "";
-	    	var langBaseVal = "";
+			var isPrivate = false;
+			var owner = "";
+			var allowedEmail = "";
+			var langBaseVal = "";
 
 
 	    	/**
 	    	Getting firebase values for later
 	    	*/
 	    	myFirebase.child("private").once('value', function(snapshot) {
-  				if (snapshot.val() != undefined) {
-  					isPrivate = true;
-  				}
-			});
-			
+	    		if (snapshot.val() != undefined) {
+	    			isPrivate = true;
+	    		}
+	    	});
 
-			myFirebase.child("privateEmail").once('value', function(snapshot) {
-  				if (snapshot.val() != undefined) {
-  					allowedEmail = snapshot.val().toString();
-  				}
-			});
 
-			myFirebase.child("owner").once('value', function(snapshot) {
-  				if (snapshot.val() != undefined) {
-  					owner = snapshot.val().toString();
-  				}
-			});
+	    	myFirebase.child("privateEmail").once('value', function(snapshot) {
+	    		if (snapshot.val() != undefined) {
+	    			allowedEmail = snapshot.val().toString();
+	    		}
+	    	});
 
-			langBaseRef.child("lang").once('value', function(snapshot) {
-				if (snapshot.val() != undefined) {
-					langBaseVal = snapshot.val().toString();
-				} else {
-					window.location.replace(document.URL);
-				}
-				
-			});
+	    	myFirebase.child("owner").once('value', function(snapshot) {
+	    		if (snapshot.val() != undefined) {
+	    			owner = snapshot.val().toString();
+	    		}
+	    	});
 
-			myFirebase.once('value', function(snapshot) {
-				if (snapshot.val() != undefined) {
-					if (isPrivate == true) {
-						if (allowedEmail == Cookies.get('email') || owner == Cookies.get('email')) {
+	    	langBaseRef.child("lang").once('value', function(snapshot) {
+	    		if (snapshot.val() != undefined) {
+	    			langBaseVal = snapshot.val().toString();
+	    		} else {
+	    			window.location.replace(document.URL);
+	    		}
+
+	    	});
+
+	    	myFirebase.once('value', function(snapshot) {
+	    		if (snapshot.val() != undefined) {
+	    			if (isPrivate == true) {
+	    				if (allowedEmail == Cookies.get('email') || owner == Cookies.get('email')) {
 							//Nothing
 						} else {
 							$("html").html("<body style='text-align: center;'><h1>Sorry, but You Need Permission to Edit this Document</h1><h3>If you believe this is an error, please contact the owner of the document</h3><h4>Wanna switch accounts? <a href='../../signin/signin.php?mode=out'>Click here</a></h4><img src='../../logo.png' style='position: absolute; right: 0px; bottom: 0px;'></body>");
@@ -274,15 +278,15 @@
 				}
 			});
 
-			langBaseRef.on('child_changed', function(childSnapshot, prevChildName) {
-				window.location.href = document.URL;
-			});
-			
+	    	langBaseRef.on('child_changed', function(childSnapshot, prevChildName) {
+	    		window.location.href = document.URL;
+	    	});
 
-			if(getParameterByName("reload") == "reload") {
-				var uri = window.location.toString();
-				if (uri.indexOf("?") > 0) {
-					var clean_uri = uri.substring(0, uri.indexOf("?"));
+
+	    	if(getParameterByName("reload") == "reload") {
+	    		var uri = window.location.toString();
+	    		if (uri.indexOf("?") > 0) {
+	    			var clean_uri = uri.substring(0, uri.indexOf("?"));
 					//window.history.replaceState({}, document.title, clean_uri);
 					window.location.replace(clean_uri);
 				}
@@ -354,7 +358,7 @@
 				Welcome Back, <strong id="uname">Anonymous</strong><span id="logintext">, please <a href="../../signin/signin.php">Sign In</a></span>
 			</div>
 			<select id="language" style="padding: 1px 30px 1px 15px;">
-				<option disabled selected id="langOption">Language</option><option>Plain Text</option><option>apl</option><option>asterisk</option><option>c</option><option>c++</option><option>c#</option><option>clojure</option><option>cobol</option><option>coffeescript</option><option>commonlisp</option><option>css</option><option>d</option><option>diff</option><option>dtd</option><option>ecl</option><option>eiffel</option><option>erlang</option><option>fortran</option><option>gas</option><option>gfm</option><option>gherkin</option><option>go</option><option>groovy</option><option>haml</option><option>haskell</option><option>haxe</option><option>htmlembedded</option><option>htmlmixed</option><option>http</option><option>jade</option><option>java</option><option>javascript</option><option>jinja2</option><option>julia</option><option>livescript</option><option>lua</option><option>markdown</option><option>mirc</option><option>mllike</option><option>nginx</option><option>ntriples</option><option>octave</option><option>pascal</option><option>pegjs</option><option>perl</option><option>php</option><option>pig</option><option>properties</option><option>puppet</option><option>python</option><option>q</option><option>r</option><option>rpm</option><option>rst</option><option>ruby</option><option>rust</option><option>sass</option><option>scheme</option><option>shell</option><option>sieve</option><option>smalltalk</option><option>smarty</option><option>smartymixed</option><option>solr</option><option>sparql</option><option>sql</option><option>stex</option><option>tcl</option><option>tiddlywiki</option><option>tiki</option><option>toml</option><option>turtle</option><option>vb</option><option>vbscript</option><option>velocity</option><option>verilog</option><option>xml</option><option>xquery</option><option>yaml</option><option>z80</option>
+				<option disabled selected id="langOption">Language</option><option>Plain Text</option><option>apl</option><option>asterisk</option><option>c</option><option>c++</option><option>c#</option><option>clojure</option><option>cobol</option><option>coffeescript</option><option>commonlisp</option><option>css</option><option>d</option><option>diff</option><option>dtd</option><option>ecl</option><option>eiffel</option><option>erlang</option><option>f#</option><option>fortran</option><option>gas</option><option>gfm</option><option>gherkin</option><option>go</option><option>groovy</option><option>haml</option><option>haskell</option><option>haxe</option><option>htmlembedded</option><option>htmlmixed</option><option>http</option><option>jade</option><option>java</option><option>javascript</option><option>jinja2</option><option>julia</option><option>livescript</option><option>lua</option><option>markdown</option><option>mirc</option><option>nginx</option><option>ntriples</option><option>ocaml</option><option>octave</option><option>pascal</option><option>pegjs</option><option>perl</option><option>php</option><option>pig</option><option>properties</option><option>puppet</option><option>python</option><option>q</option><option>r</option><option>rpm</option><option>rst</option><option>ruby</option><option>rust</option><option>sass</option><option>scheme</option><option>shell</option><option>sieve</option><option>smalltalk</option><option>smarty</option><option>smartymixed</option><option>solr</option><option>sparql</option><option>sql</option><option>stex</option><option>tcl</option><option>tiddlywiki</option><option>tikiwiki</option><option>toml</option><option>turtle</option><option>vb</option><option>vbscript</option><option>velocity</option><option>verilog</option><option>xml</option><option>xquery</option><option>yaml</option><option>z80</option>
 			</select><span class="select-arrow" style="margin: 0.6em 0 0 -1.2em !important;"></span>
 
 			<select id="lineNum" style="padding: 1px 30px 1px 15px;">
@@ -363,7 +367,7 @@
 				<option>Hide Line Numbers</option>
 			</select><span class="select-arrow" style="margin: 0.6em 0 0 -1.2em !important;"></span>
 			<div id="topRight" style="float: right;">
-				<img src="../../download.png" onclick="download();" style="vertical-align: middle;" class="disabled" title="Download File" id="download">
+				<img src="../../download.png" onclick="$('#downloadDialog').dialog();" style="vertical-align: middle;" title="Download File" id="download">
 				<img src="../../share.png" onclick="$('#shareDialog').dialog({width: 609});" style="vertical-align: middle;" title="Share">
 				<img src="../../settings.png" onclick="$('#settingsDialog').dialog();" style="vertical-align: middle;" class="disabled" title="Settings" id="settings">
 				<img src="../../about.png" onclick="about();" style="vertical-align: middle;" title="About">
@@ -383,17 +387,17 @@
 				</div>
 			</div>
 			<script>
-			var langBaseRef = new Firebase("https://collab-coding-lang.firebaseio.com").child(padId);
-			var langBaseVal = "";
+				var langBaseRef = new Firebase("https://collab-coding-lang.firebaseio.com").child(padId);
+				var langBaseVal = "";
 
-			langBaseRef.child("lang").once('value', function(snapshot) {
-				if (snapshot.val() != null) {
-					langBaseVal = snapshot.val();
-				} else {
-					window.location.replace(document.URL);
-				}
-				
-			});
+				langBaseRef.child("lang").once('value', function(snapshot) {
+					if (snapshot.val() != null) {
+						langBaseVal = snapshot.val();
+					} else {
+						window.location.replace(document.URL);
+					}
+
+				});
 
 			/**
 			onload for sign in stuff
@@ -510,8 +514,50 @@
 			});
 		</script>
 	</div>
+	<div id="downloadDialog" style="display: none;" title="Download as">
+		<form name="codeFile" method="post">
+			<!--$_POST["filename"][0]-->
+			<input type="hidden" name="filename[0]" value="Collab_Center_Document">
+			<input type="hidden" name="filecontents[0]" id="filecontents">
+			<input type="hidden" name="filelang[0]" id="filelang">
+			<input type="submit" id="codeFileSubmit" name="codeSubmit">
+		</form>
+		<form name="pdfFile" method="post">
+			<input type="hidden" name="filename[0]" value="Collab_Center_Document">
+			<input type="hidden" name="pdfcontents[0]" id="pdfcontents">
+			<input type="submit" id="pdfFileSubmit" name="pdfSubmit" value="PDF File (*.pdf)" disabled>
+		</form>
+		<?php
+		//Code file
+		$fileext = array("Plain Text" => "txt", "apl" => "apl", "asterisk" => "conf", "c" => "c", "c++" => "cc", "c#" => "cs", "clojure" => "clj", "cobol" => "cob", "coffeescript" => "coffee", "commonlisp" => "lisp", "css" => "css", "d" => "d", "diff" => "diff", "dtd" => "dtd", "ecl" => "ecl", "eiffel" => "e", "erlang" => "erl", "fortran" => "f", "gas" => "s", "gfm" => "gfm", "gherkin" => "feature", "go" => "go", "groovy" => "groovy", "haml" => "haml", "haskell" => "hs", "haxe" => "hx", "htmlembedded" => "html", "htmlmixed" => "html", "http" => "none", "jade" => "jade", "java" => "java", "javascript" => "js", "jinja2" => "py", "julia" => "jl", "livescript" => "ls", "lua" => "lua", "markdown" => "md", "mirc" => "mrc", "f#" => "fs", "ocaml" => "ml", "nginx" => "conf", "ntriples" => "nt", "octave" => "m", "pascal" => "pas", "pegjs" => "pegjs", "perl" => "pl", "php" => "php", "pig" => "pig", "properties" => "properties", "puppet" => "pp", "python" => "py", "q" => "q", "r" => "r", "rpm" => "rpm", "rst" => "rst", "ruby" => "rb", "rust" => "rs", "sass" => "scss", "scheme" => "scm", "shell" => "none", "sieve" => "none", "smalltalk" => "st", "smarty" => "tpl", "smartymixed" => "tpl", "solr" => "none", "sparql" => "sparql", "sql" => "sql", "stex" => "tex", "tcl" => "tcl", "tiddlywiki" => "none", "tikiwiki" => "none", "toml" => "toml", "turtle" => "ttl", "vb" => "vb", "vbscript" => "vbs", "velocity" => "vm", "verilog" => "v", "xml" => "xml", "xquery" => "xq", "yaml" => "yaml", "z80" => "z80");
+
+		if (isset($_POST['codeSubmit'])) {
+			$filename = $_POST['filename'][0].".".$fileext[$_POST["filelang"][0]];
+
+			file_put_contents($filename, $_POST["filecontents"][0]);
+
+			echo "<script>window.location.href = '".$filename."';</script>";
+		}
+
+		//Pdf file
+		
+
+		/*if (isset($_POST['pdfSubmit'])) {
+			try {
+				require_once('../../tools/html2pdf.class.php');
+				$html2pdf = new HTML2PDF('P', 'A4', 'en');
+				$html2pdf->writeHTML('<p>This is your first PDF File</p>');
+				$html2pdf->Output('my_doc.pdf', 'D');
+			} catch(HTML2PDF_exception $e) {
+        		echo $e;
+        		exit;
+    		}		
+		}*/
+		?>
+	</div>
 	<script>
 		var codeMirrorInst;
+		var firepadInst;
 			/**
 			onload for Firepad & Codemirror related stuff
 			*/
@@ -520,67 +566,76 @@
 				// Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
 				var userId = Math.floor(Math.random() * 9999999999).toString();
 
-	    		var firepadRef = new Firebase('https://collaborative-coding.firebaseio.com').child(padId);
-	    		var codeMirrorFirepad = CodeMirror(document.getElementById('firepad'), { lineWrapping: true, lineNumbers : true, theme : 'mdn-like', matchBrackets : true });
-	    		codeMirrorInst = codeMirrorFirepad;
-	    		var firepad = Firepad.fromCodeMirror(firepadRef, codeMirrorFirepad, {userId: userId});
+				var firepadRef = new Firebase('https://collaborative-coding.firebaseio.com').child(padId);
+				var codeMirrorFirepad = CodeMirror(document.getElementById('firepad'), { lineWrapping: true, lineNumbers : true, theme : 'mdn-like', matchBrackets : true });
+				codeMirrorInst = codeMirrorFirepad;
+				var firepad = Firepad.fromCodeMirror(firepadRef, codeMirrorFirepad, {userId: userId});
+				firepadInst = firepad;
 
-	    		firepad.on('ready', function() {
-	    			if (firepad.isHistoryEmpty()) {
-	    				firepad.setHtml("Hello, and Welcome to Collab.center! This is how it works:<br> 1. Put some code here.<br> 2. Share the URL with your friends so you can collaborate (Hint: Use the Mail icon in the top-left!).<br> 3. Toggle some options above.<br> That's all there is to it!");
-	    			}
+				firepad.on('ready', function() {
+					if (firepad.isHistoryEmpty()) {
+						firepad.setHtml("Hello, and Welcome to Collab.center! This is how it works:<br> 1. Put some code here.<br> 2. Share the URL with your friends so you can collaborate (Hint: Use the Mail icon in the top-left!).<br> 3. Toggle some options above.<br> That's all there is to it!");
+					}
 
-	    			if (langBaseVal != "c" && langBaseVal != "c++" && langBaseVal != "c#" && langBaseVal != "java") {
-	    				$('#langOption').text('Language (' + langBaseVal + ')');
+					if (langBaseVal != "c" && langBaseVal != "c++" && langBaseVal != "c#" && langBaseVal != "java" && langBaseVal != "f#" && langBaseVal != "ocaml") {
+						$('#langOption').text('Language (' + langBaseVal + ')');
 
-	    				codeMirrorFirepad.setOption("mode", langBaseVal);
-	    				CodeMirror.autoLoadMode(codeMirrorFirepad, langBaseVal);
-	    			} else {
-	    				$('#langOption').text('Language (' + langBaseVal + ')');
+						codeMirrorFirepad.setOption("mode", langBaseVal);
+						CodeMirror.autoLoadMode(codeMirrorFirepad, langBaseVal);
+					} else {
+						$('#langOption').text('Language (' + langBaseVal + ')');
 
-	    				codeMirrorFirepad.setOption("mode", "clike");
-	    				CodeMirror.autoLoadMode(codeMirrorFirepad, "clike");
-	    				switch (langBaseVal)
-	    				{
-	    					case "c":
-	    					codeMirrorFirepad.setOption("mode", "text/x-csrc");
-	    					CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-csrc");
-	    					break;
-	    					case "c++":
-	    					codeMirrorFirepad.setOption("mode", "text/x-c++src");
-	    					CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-c++src");
-	    					break;
-	    					case "c#":
-	    					codeMirrorFirepad.setOption("mode", "text/x-csharp");
-	    					CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-csharp");
-	    					break;
-	    					case "java":
-	    					codeMirrorFirepad.setOption("mode", "text/x-java");
-	    					CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-java");
-	    					break;
-	    				}
-	    			}
-	    		});
-				
+						codeMirrorFirepad.setOption("mode", "mllike");
+						CodeMirror.autoLoadMode(codeMirrorFirepad, "mllike");
 
-				 //// Create FirepadUserList (with desired userId).
-				 var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'), document.getElementById('userlist'), userId);
-				 $('#url').val(document.URL);
-				 $('#email').attr('href', 'mailto:?Subject=My%20Collaborative%20Coding%20Project!&Body=Hey!%20Check%20out%20my%20newest%20Collaborative%20Coding%20project%20at%20' + document.URL + '!');
+						codeMirrorFirepad.setOption("mode", "clike");
+						CodeMirror.autoLoadMode(codeMirrorFirepad, "clike");
+						switch (langBaseVal)
+						{
+							case "c":
+							codeMirrorFirepad.setOption("mode", "text/x-csrc");
+							CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-csrc");
+							break;
+							case "c++":
+							codeMirrorFirepad.setOption("mode", "text/x-c++src");
+							CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-c++src");
+							break;
+							case "c#":
+							codeMirrorFirepad.setOption("mode", "text/x-csharp");
+							CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-csharp");
+							break;
+							case "java":
+							codeMirrorFirepad.setOption("mode", "text/x-java");
+							CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-java");
+							break;
+							case "f#":
+							codeMirrorFirepad.setOption("mode", "text/x-fsharp");
+							CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-fsharp");
+							case "ocaml":
+							codeMirrorFirepad.setOption("mode", "text/x-ocaml");
+							CodeMirror.autoLoadMode(codeMirrorFirepad, "text/x-ocaml");
+						}
+					}
 				});
 
-				function download() {
-					jQuery.ajax({
-						type: "POST",
-						url: '../../download/download.php',
-						dataType: 'json',
-						data: {functionname: 'download', arguments: [codeMirrorInst.getValue()]},
+				//// Create FirepadUserList (with desired userId).
+				var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'), document.getElementById('userlist'), userId);
+				$('#url').val(document.URL);
+				$('#email').attr('href', 'mailto:?Subject=My%20Collaborative%20Coding%20Project!&Body=Hey!%20Check%20out%20my%20newest%20Collaborative%20Coding%20project%20at%20' + document.URL + '!');
+			});
 
-						success: function (obj, textstatus) {
-							alert('sucess!');
-						}
-					});
-				}
+			$("#download").click(function() {
+				//Code file
+				$("#filecontents").attr('value', firepadInst.getText());
+				$("#filelang").attr('value', langBaseVal);
+
+				var fileext = {"Plain Text" : "txt", "apl" : "apl", "asterisk" : "conf", "c" : "c", "c++" : "cc", "c#" : "cs", "clojure" : "clj", "cobol" : "cob", "coffeescript" : "coffee", "commonlisp" : "lisp", "css" : "css", "d" : "d", "diff" : "diff", "dtd" : "dtd", "ecl" : "ecl", "eiffel" : "e", "erlang" : "erl", "fortran" : "f", "gas" : "s", "gfm" : "gfm", "gherkin" : "feature", "go" : "go", "groovy" : "groovy", "haml" : "haml", "haskell" : "hs", "haxe" : "hx", "htmlembedded" : "html", "htmlmixed" : "html", "http" : "none", "jade" : "jade", "java" : "java", "javascript" : "js", "jinja2" : "py", "julia" : "jl", "livescript" : "ls", "lua" : "lua", "markdown" : "md", "mirc" : "mrc", "f#" : "fs", "ocaml" : "ml", "nginx" : "conf", "ntriples" : "nt", "octave" : "m", "pascal" : "pas", "pegjs" : "pegjs", "perl" : "pl", "php" : "php", "pig" : "pig", "properties" : "properties", "puppet" : "pp", "python" : "py", "q" : "q", "r" : "r", "rpm" : "rpm", "rst" : "rst", "ruby" : "rb", "rust" : "rs", "sass" : "scss", "scheme" : "scm", "shell" : "none", "sieve" : "none", "smalltalk" : "st", "smarty" : "tpl", "smartymixed" : "tpl", "solr" : "none", "sparql" : "sparql", "sql" : "sql", "stex" : "tex", "tcl" : "tcl", "tiddlywiki" : "none", "tikiwiki" : "none", "toml" : "toml", "turtle" : "ttl", "vb" : "vb", "vbscript" : "vbs", "velocity" : "vm", "verilog" : "v", "xml" : "xml", "xquery" : "xq", "yaml" : "yaml", "z80" : "z80"};
+
+				$("#codeFileSubmit").attr('value', 'Code File (*.' + fileext[$("#filelang").val()] + ')');
+
+				//Pdf file
+				$("#pdfcontents").attr('value', firepadInst.getHtml())
+			});
 	</script>
 </body>
 </html>
