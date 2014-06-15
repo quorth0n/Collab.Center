@@ -193,16 +193,68 @@
 		*/
 		$(document).ready(function() {
 			if (Cookies.get('name') != undefined) {
-				$('#uname').text(Cookies.get('name'));
-				$('#logintext').html(', Not you? <a href="../../signin/signin.php?mode=out" target="_new">Sign Out</a>');
+				//not you? sign out
+				$('#logintext').html(', Not you? <a href="../../signin/signin.php?mode=out">Sign Out</a>');
+
+				//enable doc settings
 				$('#settings').attr('class', '');
+
+				//set username
+				$(".firepad-userlist-name-input").val(Cookies.get('name'));
+
+				//validate pusher chat
+				$(".pusher-chat-widget").ready(function () {
+					$('[name="nickname"]').val(Cookies.get('name'));
+					$('[name="email"]').val(Cookies.get('email'));
+					$('[name="message"]').val(Cookies.get('name') + " has joined the chat!");
+					$('[name="message"]').attr('style', 'width: 140px;');
+					$('.pusher-chat-widget-send-btn').trigger("click");
+
+					$('.pusher-chat-widget-footer').first().html('Text - <a onclick="video()" href="javascript:void(0);">Video</a>');
+				});
+
+				//tabs-2 styles
+				$("#tabs-2").attr('style', 'padding: 1em 0.5em; display: none;');
 			} else {
+				//disable doc settings
 				$('#settings').attr('class', 'disabled');
 				$('#settings').attr('onclick', '');
+
+				//sign in to use chat
+				$("#tabs-2").text("Please sign in to use chat!");
+
+				//Firepad sign in
+				$(".firepad-userlist-name-input").ready(function () {
+					$(".firepad-userlist-name-hint").html("<span style='color: red;'>PLEASE SIGN IN</span>");
+				});
+
+				
 			}
 		});
 
-		
+		/*$(document).ready(function() {
+				//$('.pusher-chat-widget-send-btn').attr('style', 'background: #0064CD !important;');
+				//$('#langOption').text('Language (' + langBaseVal + ')');
+
+				if (Cookies.get('name') != undefined) {
+					
+				} else {
+					$(".firepad-userlist-name-input").ready(function () {
+						$(".firepad-userlist-name-input").attr('readonly', 'readonly');
+						$(".firepad-userlist-name-input").focus();
+						$(".firepad-userlist-name-input").val(Cookies.get('name'));
+						$(".firepad-userlist-name-input").blur();
+
+						$(".firepad-userlist-name-hint").html("");
+					});
+
+					
+
+					$("#tabs-2").attr('style', 'padding: 1em 0.5em; display: none;');
+				}
+			});*/
+
+
 		//language firebase ref global var
 		var langBaseRef = new Firebase("https://collab-coding-lang.firebaseio.com").child(padId);
 
@@ -399,46 +451,21 @@
 
 				});
 
-			/**
-			onload for sign in stuff
-			*/
-
-			$(document).ready(function() {
-				$('.pusher-chat-widget-send-btn').attr('style', 'background: #0064CD !important;');
-				//$('#langOption').text('Language (' + langBaseVal + ')');
-
-				if ($("#uname").text().toLowerCase() == "anonymous") {
-					$("#tabs-2").text("Please sign in to use chat!");
+				$(document).ready(function() {
+					//defaults
 					$(".firepad-userlist-name-input").ready(function () {
 						$(".firepad-userlist-name-input").attr('readonly', 'readonly');
-						$(".firepad-userlist-name-hint").html("<span style='color: red;'>PLEASE SIGN IN</span>");
 					});
-				} else {
-					$(".firepad-userlist-name-input").ready(function () {
-						$(".firepad-userlist-name-input").attr('readonly', 'readonly');
-						$(".firepad-userlist-name-input").focus();
-						$(".firepad-userlist-name-input").val(Cookies.get('name'));
-						$(".firepad-userlist-name-input").blur();
 
+					$(".firepad-userlist-name-hint").ready(function () {
 						$(".firepad-userlist-name-hint").html("");
 					});
-
-					$(".pusher-chat-widget").ready(function () {
-						$('[name="nickname"]').val(Cookies.get('name'));
-						$('[name="email"]').val(Cookies.get('email'));
-						$('[name="message"]').val(Cookies.get('name') + " has joined the chat!");
-						$('[name="message"]').attr('style', 'width: 140px;');
-						$('.pusher-chat-widget-send-btn').trigger("click");
-
-						$('.pusher-chat-widget-footer').first().html('Text - <a onclick="video()" href="javascript:void(0);">Video</a> <br><br> <a href="http://pusher.com">Pusher</a> powered realtime chat');
+					
+					$('.pusher-chat-widget-send-btn').ready(function () {
+						$('.pusher-chat-widget-send-btn').attr('style', 'background: #0064CD !important;');
 					});
-
-					$("#tabs-2").attr('style', 'padding: 1em 0.5em; display: none;');
-				}
-			});
-
-
-
+					
+				});
 			//video()
 			function video() {
 				$("#pusher_chat_widget").attr("style", "display: none;");
@@ -459,7 +486,7 @@
 		Alternatively, you can <a id="email" target="_new">send them the link via email</a>
 	</div>
 	<div id="settingsDialog" style="display: none;" title="Document Settings">
-		<form name="privacy" method="post" action="">
+		<form name="privacy" method="post">
 			<fieldset>
 				<legend>Privacy</legend>
 				<label for="private"><input type="checkbox" name="private" id="private" style="margin-bottom: 7px;">&nbsp;Private</label>
@@ -478,10 +505,6 @@
 						$email = $_POST["pEmail"];
 					}
 
-					/*{private: true, owner: Cookies.get('email'), pemail: ". $email ."
-					echo "<script>Cookies.set('private', 'y', {expiry: new Date(2050, 0, 1)});</script>";
-					echo "<script>Cookies.set('pemail', '". $email . "', {expiry: new Date(2050, 0, 1)});</script>";
-					echo "<script>Cookies.set('owner', Cookies.get('email'), {expiry: new Date(2050, 0, 1)});</script>";*/
 					echo "<script>var myBase = new Firebase('https://collab-coding-privacy.firebaseio.com').child(padId); myBase.child('private').set(true); myBase.child('owner').set(Cookies.get('email')); myBase.child('privateEmail').set('". $email ."');</script>";
 
 					if (isset($_POST["sendEmail"])) {
@@ -552,12 +575,12 @@
         		echo $e;
         		exit;
     		}		
-		}*/
-		?>
-	</div>
-	<script>
-		var codeMirrorInst;
-		var firepadInst;
+    	}*/
+    	?>
+    </div>
+    <script>
+    	var codeMirrorInst;
+    	var firepadInst;
 			/**
 			onload for Firepad & Codemirror related stuff
 			*/
@@ -622,6 +645,17 @@
 				var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'), document.getElementById('userlist'), userId);
 				$('#url').val(document.URL);
 				$('#email').attr('href', 'mailto:?Subject=My%20Collaborative%20Coding%20Project!&Body=Hey!%20Check%20out%20my%20newest%20Collaborative%20Coding%20project%20at%20' + document.URL + '!');
+
+				//// Set firepadUserList names and textbox value
+				
+				var firebaseUserName = new Firebase("https://collaborative-coding.firebaseio.com/" + padId + "/users/" + userId);
+				firebaseUserName.child('name').set(Cookies.get('name'));
+
+				firebaseUserName.child('name').once('value', function (snapshot) {
+					$('#uname').text(snapshot.val());
+					$('.firepad-userlist-name-input').val(snapshot.val());
+				});
+				
 			});
 
 			$("#download").click(function() {

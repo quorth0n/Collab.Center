@@ -13,7 +13,9 @@ var FirepadUserList = (function() {
       if (s.val() === true && self.displayName_) {
         var nameRef = ref.child(self.userId_).child('name');
         nameRef.onDisconnect().remove();
-        nameRef.set(self.displayName_);
+        /*if (Cookies.get('name') == undefined) {
+          nameRef.set(self.displayName_);
+        }*/
       }
     });
 
