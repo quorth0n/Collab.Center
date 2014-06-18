@@ -4,6 +4,8 @@
   <link rel="icon" href="docs/favicon.ico">
   <link rel="stylesheet" href="../tools/style.css">
   <script src="../tools/Cookies.js"></script>
+  <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
+  <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.5.0/firebase-simple-login.js'></script>
   <title>Sign In - Collab.Center</title>
   <style>
     div#content {
@@ -16,18 +18,72 @@
       text-align: center;
     }
 
-    span {
-      color: red;
-      font-weight: bold;
-      display: inline;
-    }
-
     blockquote {
       border-bottom: 1px solid lightgray; 
     }
+
+    .button {
+      display: inline-block;
+      color: white;
+      width: 180px;
+      border-radius: 5px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    #google {
+      background: #dd4b39;
+    }
+
+    #facebook {
+      background: #3974DD;
+      width: 200px;
+    }
+
+    #google:hover {
+      background: #e74b37;
+    }
+
+    #facebook:hover {
+      background: #3784E7;
+    }
+
+    .icon {
+      display: inline-block;
+      vertical-align: middle;
+      width: 35px;
+      height: 35px;
+    }
+
+    #google .icon {
+      background: url('gplus.png') transparent 5px 50% no-repeat;
+      border-right: #bb3f30 1px solid;
+    }
+
+    #facebook .icon {
+      background: url('fb.png') transparent 5px 50% no-repeat;
+      border-right: #3057BB 1px solid;
+    }
+
+    .btntxt {
+      display: inline-block;
+      vertical-align: middle;
+      padding-right: 35px;
+      font-size: 14px;
+      font-weight: bold;
+      font-family: 'Roboto',arial,sans-serif;
+    }
+
+    #first {
+      width: 66px;
+    }
+
+    #last {
+      width: 63px;
+    }
   </style>
   <!-- Place this asynchronous JavaScript just before your </body> tag -->
-  <script type="text/javascript">
+  <!--<script type="text/javascript">
     (function() {
      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
      po.src = 'https://apis.google.com/js/client:plusone.js';
@@ -144,6 +200,137 @@
       document.getElementById("quote").innerHTML = "\"" + quotes[rand] + "\"";
       document.getElementById("author").innerHTML = "- " + authors[rand];
     }
+  </script>-->
+  <script>
+    function qotd() {
+      var quotes = [
+        "The secret of getting ahead is getting started",
+        "Expect problems and eat them for breakfast",
+        "By failing to prepare, you are preparing to fail",
+        "Optimism is the faith that leads to achievement. Nothing can be done without hope and confidence",
+        "It does not matter how slow you go - so long as you do not stop"
+      ];
+
+      var authors = [
+        "Mark Twain",
+        "Alfred A. Montapert",
+        "Benjamin Franklin",
+        "Helen Keller",
+        "Confucius"
+      ];
+
+      var rand = Math.floor(Math.random()*(5-0+1)+0);
+
+      document.getElementById("quote").innerHTML = "\"" + quotes[rand] + "\"";
+      document.getElementById("author").innerHTML = "- " + authors[rand];
+    }
+
+    function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+      return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    var chatRef = new Firebase('https://collab-coding-login.firebaseio.com');
+    var auth = new FirebaseSimpleLogin(chatRef, function(error, user) {
+      if (error) {
+        // an error occurred while attempting login
+        console.log(error);
+        alert('An error occurred while trying to log you in.' + error);
+      } else if (user) {
+        // user authenticated with Firebase
+        console.log('Name: ' + user.displayName + ', email: ' + user.thirdPartyUserData.email);
+
+        //set cookies
+        Cookies.set('name', user.displayName, {path : '/'});
+        if (user.provider != "facebook") {
+          Cookies.set('email', user.email , {path: '/'});
+        } else {
+          Cookies.set('email', user.thirdPartyUserData.email , {path: '/'});
+        }
+        
+
+        console.log(user);
+
+        if (getParameterByName('mode') != "out") {
+          //window.history.back();
+        }
+      } else {
+        // user is logged out
+      }
+
+      
+    });
+
+    if (getParameterByName('mode') == "out") {
+      auth.logout();
+      Cookies.clear('email',{path   : '/'});
+      Cookies.clear('name',{path   : '/'});
+      alert("You have been successfully signed out.");
+      var uri = window.location.toString();
+
+      if (uri.indexOf("?") > 0) {
+        var clean_uri = uri.substring(0, uri.indexOf("?"));
+        //window.history.replaceState({}, document.title, clean_uri);
+        window.location.replace(clean_uri);
+      }
+    }
+
+    /*if (getParameterByName('sign') == "in") {
+      inMode();
+    } else if (getParameterByName('sign') == "up") {
+      upMode();
+    }*/
+
+    function google() {
+      auth.login('google', {
+        rememberMe: true
+      });
+    }
+
+    function facebook() {
+      auth.login('facebook', {
+        rememberMe: true,
+        scope: 'email,user_likes'
+      });
+    }
+
+    function inMode() {
+      var html = '<input type="email" placeholder="Email"><br><input type="password" placeholder="Password"><br><input type="submit" value="Login" style="font-size: 1.5em;" name="Submit">';
+      document.getElementById("create").innerHTML = html;
+      document.getElementById("create").setAttribute('onsubmit', "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>");
+    }
+
+    function upMode() {
+      var html = '<input type="text" placeholder="First Name" style="width: 66px;" name="first" id="first">&nbsp;<input type="text" placeholder="Last Name" style="width: 63px;" name="last" id="last"><br><input type="email" placeholder="Email" name="email" id="email"><br><input type="password" placeholder="Password" name="p1" id="p1"><br><input type="password" placeholder="Repeat Password" name="p2" id="p2"><br><input type="submit" value="Sign Me Up!" style="font-size: 1.5em;" name="signup">';
+      document.getElementById("create").innerHTML = html;
+      document.getElementById("create").setAttribute('action', "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>");
+    }
+
+    /*function validateEmail(email) { 
+      var re = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+      return re.test(email);
+    } 
+
+    function signup(form) {
+      var email = form.email.value;
+      var p1 = form.p1.value;
+      var p2 = form.p2.value;
+      if (validateEmail(email) == true) {
+          alert('rn')
+          document.getElementById('email').setAttribute('style', 'border: 1px solid red;');
+          document.getElementById('error').innerHTML = "<span style='color: red;'>Email Is Not Valid!</span>";
+          return false;
+        }
+      if (p1 != p2) {
+        document.getElementById('p1').setAttribute('style', 'border: 1px solid red;');
+        document.getElementById('p2').setAttribute('style', 'border: 1px solid red;');
+        document.getElementById('error').innerHTML = "<span style='color: red;'>Passwords Do Not Match!</span>";
+        return false;
+      } else {
+        
+      }*/
   </script>
 </head>
 <body style="background-color: lightgray; font-family: Helvetica, Arial, sans-serif;" onload="qotd()">
@@ -153,22 +340,46 @@
       <footer id="author"></footer><br>
     </blockquote>
     <h1>Sign in to Collab.Center</h1>
-    <p>Enter your email and passsword</p>
-    <form method="post" id="create">
-      <input type="email" placeholder="Email">
-      <input type="password" placeholder="Password">
-      <input type="submit" value="Login" style="font-size: 1.5em;" name="Submit">
+    <p id="error">Enter your email and passsword</p>
+    <form id="create" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+      <input type="email" placeholder="Email"><br>
+      <input type="password" placeholder="Password"><br>
+      <input type="submit" value="Login" style="font-size: 1.5em;" name="login">
     </form>
+    <?php
+      if (isset($_POST["signup"])) {
+        $fname = $_POST["first"];
+        $lname = $_POST["last"];
+        $email = $_POST["email"];
+        $password = $_POST["p1"];
+        $rPassword = $_POST["p2"];
+
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
+          echo "<script>upMode();</script>";
+          echo "<script>document.getElementById('email').setAttribute('style', 'border: 1px solid red;');document.getElementById('error').innerHTML = \"<span style='color: red;'>Email Is Not Valid!</span>\";</script>";
+        } else if ($password != $rPassword || empty($password) || empty($rPassword)) {
+          echo "<script>upMode();</script>";
+          echo "<script>document.getElementById('p1').setAttribute('style', 'border: 1px solid red;');document.getElementById('p2').setAttribute('style', 'border: 1px solid red;');document.getElementById('error').innerHTML = '<span style=\"color: red;\">Passwords Do Not Match!</span>';</script>";
+        } else if (empty($fname) || empty($lname)) {
+          echo "<script>upMode();</script>";
+          echo "<script>document.getElementById('first').setAttribute('style', 'border: 1px solid red;');document.getElementById('last').setAttribute('style', 'border: 1px solid red;');document.getElementById('error').innerHTML = '<span style=\"color: red;\">First and Last Name is Blank!</span>';</script>";
+        } else {
+          //Everything's correct
+          echo "<script>auth.createUser('".$email."', '".$password."', function(error, user) {if (!error) {console.log('User Id: ' + user.usid + ', Email: ' + user.email);}else{console.log(error);}});</script>";
+        }
+      }
+    ?>
+    <br>
+    <p><a href="#" onclick="inMode()">Sign In</a> - <a href="#" onclick="upMode()">Sign Up</a></p>
     <p>Or,</p>
-    <span id="signin-button">
-      <span
-      class="g-signin"
-      data-callback="loginFinishedCallback"
-      data-clientid="1028947543008-ft295kt00v0gg4n77rcusb0694jo4fjt.apps.googleusercontent.com"
-      data-cookiepolicy="single_host_origin"
-      data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.profile.emails.read"
-      data-theme="dark">
-    </span>
+    <div id="google" class="button" onclick="google()">
+      <span class="icon"></span>
+      <span class="btntxt">Sign in with Google</span>
+    </div><br><br>
+    <div id="facebook" class="button" onclick="facebook()">
+      <span class="icon"></span>
+      <span class="btntxt">Sign in with Facebook</span>
+    </div>
   </span>
 </div>
 <div id="logout"></div>

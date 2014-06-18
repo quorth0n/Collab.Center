@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script src="docs/tools/Cookies.js"></script>
+	<link rel="icon" href="./docs/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="./docs/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="docs/tools/style.css">
+	<title>500 - Internal Server Error</title>
+	<style>
+		div {
+			width: 600px;
+			margin: 5em auto;
+			padding: 50px;
+			border-radius: 1em;
+			box-shadow: 1em;
+			text-align: center;
+			background-color: white;
+		}
+
+		h1, h2, h3, h4, h5, h6, a {
+			-webkit-animation: colorfade 10s; /* Chrome, Safari, Opera */
+		    animation: colorfade 10s; /* Standard */
+		    -webkit-animation-iteration-count: infinite; /* Same */
+		    animation-iteration-count: infinite;
+		}
+
+		body {
+			-webkit-animation: bgcolorfade 10s; /* Chrome, Safari, Opera */
+		    animation: bgcolorfade 10s; /* Standard */
+		    -webkit-animation-iteration-count: infinite; /* Same */
+		    animation-iteration-count: infinite;
+		}
+
+		/* Chrome, Safari, Opera */
+		@-webkit-keyframes colorfade {
+		    0% {color: red;}
+		    25% {color: yellow;}
+		    50% {color: green;}
+		    75% {color: blue;}
+		    100% {color: red;}
+		}
+
+		/* Standard syntax */
+		@keyframes colorfade {
+		    0% {color: red;}
+		    25% {color: yellow;}
+		    50% {color: green;}
+		    75% {color: blue;}
+		    100% {color: red;}
+		}
+
+		/* Chrome, Safari, Opera */
+		@-webkit-keyframes bgcolorfade {
+		    0% {background-color: red;}
+		    25% {background-color: yellow;}
+		    50% {background-color: green;}
+		    75% {background-color: blue;}
+		    100% {background-color: red;}
+		}
+
+		/* Standard syntax */
+		@keyframes bgcolorfade {
+		    0% {background-color: red;}
+		    25% {background-color: yellow;}
+		    50% {background-color: green;}
+		    75% {background-color: blue;}
+		    100% {background-color: red;}
+		}
+	</style>
+</head>
+<body style="background-color: lightgray; font-family: Helvetica, Arial, sans-serif;">
+	<div>
+		<h1>500: This Is Not the Page You're Looking For...</h1>
+		<h2>...And Hopefully You Weren't Looking for the Error Page...</h2>
+		<h3>...But in Which Case You Were..</h3>
+		<h4>...Well, Congrats, I Guess...</h4>
+		<h5>...But I'm Not Sure Why You Would Look for It...</h5>
+		<h6>...I'm out of Headings ("&lt;h1&gt;-&lt;h6&gt;")...</h6>
+		<p>500 Error: Sorry, This is something WE did wrong, not you, try <a href="javascript:window.history.back();">going back</a></p>
+	</div>
+</body>
+</html>
