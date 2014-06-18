@@ -236,14 +236,36 @@
     var auth = new FirebaseSimpleLogin(chatRef, function(error, user) {
       if (error) {
         // an error occurred while attempting login
-        console.log(error);
-        alert('An error occurred while trying to log you in.' + error);
+        if (error.code == "INVALID_EMAIL" || error.code == "INVALID_PASSWORD" || error.code == "INVALID_USER") {
+          document.getElementById('error').innerHTML = "<span style='color: red;'>Invalid Email/Password</span>";
+        } else {
+          alert('An error occurred while trying to log you in.' + error);
+          console.log(error);
+        }
+        
       } else if (user) {
         // user authenticated with Firebase
-        console.log('Name: ' + user.displayName + ', email: ' + user.thirdPartyUserData.email);
+        //console.log('Name: ' + user.displayName + ', email: ' + user.thirdPartyUserData.email);
 
         //set cookies
-        Cookies.set('name', user.displayName, {path : '/'});
+        if (user.provider != "password") {
+          Cookies.set('name', user.displayName, {path : '/'});
+        } else {
+          var firstname;
+          var lastname;
+          var firstnameb = new Firebase('https://collab-coding-login.firebaseio.com').child(user.uid).child('first');
+          var lastnameb = new Firebase('https://collab-coding-login.firebaseio.com').child(user.uid).child('last');
+
+          firstnameb.once('value', function (snapshot) {
+            firstname = snapshot.val();
+            lastnameb.once('value', function (snapshot) {
+              lastname = snapshot.val();
+              Cookies.set('name', firstname + " " + lastname, {path : '/'});
+            });
+          });
+          
+        }
+        
         if (user.provider != "facebook") {
           Cookies.set('email', user.email , {path: '/'});
         } else {
@@ -254,7 +276,7 @@
         console.log(user);
 
         if (getParameterByName('mode') != "out") {
-          //window.history.back();
+          window.history.back();
         }
       } else {
         // user is logged out
@@ -297,7 +319,7 @@
     }
 
     function inMode() {
-      var html = '<input type="email" placeholder="Email"><br><input type="password" placeholder="Password"><br><input type="submit" value="Login" style="font-size: 1.5em;" name="Submit">';
+      var html = '<input type="email" placeholder="Email" name="lemail"><br><input type="password" placeholder="Password" name="lpassword"><br><input type="submit" value="Login" style="font-size: 1.5em;" name="login">';
       document.getElementById("create").innerHTML = html;
       document.getElementById("create").setAttribute('onsubmit', "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>");
     }
@@ -342,8 +364,8 @@
     <h1>Sign in to Collab.Center</h1>
     <p id="error">Enter your email and passsword</p>
     <form id="create" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-      <input type="email" placeholder="Email"><br>
-      <input type="password" placeholder="Password"><br>
+      <input type="email" placeholder="Email" name="lemail"><br>
+      <input type="password" placeholder="Password" name="lpassword"><br>
       <input type="submit" value="Login" style="font-size: 1.5em;" name="login">
     </form>
     <?php
@@ -360,13 +382,30 @@
         } else if ($password != $rPassword || empty($password) || empty($rPassword)) {
           echo "<script>upMode();</script>";
           echo "<script>document.getElementById('p1').setAttribute('style', 'border: 1px solid red;');document.getElementById('p2').setAttribute('style', 'border: 1px solid red;');document.getElementById('error').innerHTML = '<span style=\"color: red;\">Passwords Do Not Match!</span>';</script>";
-        } else if (empty($fname) || empty($lname)) {
+        } else if (empty($fname) || empty($lname) || strpos($fname, "'") !== FALSE || strpos($lname, "'") !== FALSE) {
           echo "<script>upMode();</script>";
-          echo "<script>document.getElementById('first').setAttribute('style', 'border: 1px solid red;');document.getElementById('last').setAttribute('style', 'border: 1px solid red;');document.getElementById('error').innerHTML = '<span style=\"color: red;\">First and Last Name is Blank!</span>';</script>";
+          echo "<script>document.getElementById('first').setAttribute('style', 'border: 1px solid red;');document.getElementById('last').setAttribute('style', 'border: 1px solid red;');document.getElementById('error').innerHTML = '<span style=\"color: red;\">Name Cannot Be Blank or Contain Special Characters!</span>';</script>";
         } else {
           //Everything's correct
-          echo "<script>auth.createUser('".$email."', '".$password."', function(error, user) {if (!error) {console.log('User Id: ' + user.usid + ', Email: ' + user.email);}else{console.log(error);}});</script>";
+          echo "<script>auth.createUser('".$email."', '".$password."', function(error, user) {if (!error) {
+            console.log('User Id: ' + user.uid + ', Email: ' + user.email);
+            var newuserbase = new Firebase('https://collab-coding-login.firebaseio.com');
+            newuserbase.child(user.uid).child('first').set('".$fname."');
+            newuserbase.child(user.uid).child('last').set('".$lname."');
+            }else{console.log(error);
+            if (error.code == 'EMAIL_TAKEN') {
+            document.getElementById('email').setAttribute('style', 'border: 1px solid red;');
+            document.getElementById('error').innerHTML = '<span style=\"color: red;\">Email In Use!</span>';
+            }
+            }});</script>";
         }
+      }
+
+      if (isset($_POST["login"])) {
+        $email = $_POST["lemail"];
+        $password = $_POST["lpassword"];
+
+        echo "<script>auth.login('password',{email: '".$email."',password: '".$password."',rememberMe: true });</script>";
       }
     ?>
     <br>
