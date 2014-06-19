@@ -47,6 +47,10 @@
 	<script src="id.js"></script>
 
 	<style>
+		@font-face {
+		    font-family: actionman;
+		    src: url(../../actionman.ttf);
+		}
 		.firepad-userlist {
 			position: absolute; left: 0; top: 45px; bottom: 0; height: auto;
 		}
@@ -172,6 +176,12 @@
 
 		#downloadDialog {
 			text-align: center;
+		}
+
+		#loadingTitle {
+			font-family: actionman;
+			text-align: center;
+			font-size: 5em;
 		}
 	</style>
 	<script>
@@ -480,6 +490,28 @@
 		</script>
 	</div>
 	<div id="firepad"></div>
+	<div id="loading" class="firepad">
+		<style>#fadingBarsG{position:relative;width:1000px;height:121px}.fadingBarsG{position:absolute;top:0;background-color:#000000;width:121px;height:121px;-moz-animation-name:bounce_fadingBarsG;-moz-animation-duration:1.1s;-moz-animation-iteration-count:infinite;-moz-animation-direction:linear;-moz-transform:scale(.3);-webkit-animation-name:bounce_fadingBarsG;-webkit-animation-duration:1.1s;-webkit-animation-iteration-count:infinite;-webkit-animation-direction:linear;-webkit-transform:scale(.3);-ms-animation-name:bounce_fadingBarsG;-ms-animation-duration:1.1s;-ms-animation-iteration-count:infinite;-ms-animation-direction:linear;-ms-transform:scale(.3);-o-animation-name:bounce_fadingBarsG;-o-animation-duration:1.1s;-o-animation-iteration-count:infinite;-o-animation-direction:linear;-o-transform:scale(.3);animation-name:bounce_fadingBarsG;animation-duration:1.1s;animation-iteration-count:infinite;animation-direction:linear;transform:scale(.3);}#fadingBarsG_1{left:0;-moz-animation-delay:0.44s;-webkit-animation-delay:0.44s;-ms-animation-delay:0.44s;-o-animation-delay:0.44s;animation-delay:0.44s;}#fadingBarsG_2{left:125px;-moz-animation-delay:0.55s;-webkit-animation-delay:0.55s;-ms-animation-delay:0.55s;-o-animation-delay:0.55s;animation-delay:0.55s;}#fadingBarsG_3{left:250px;-moz-animation-delay:0.66s;-webkit-animation-delay:0.66s;-ms-animation-delay:0.66s;-o-animation-delay:0.66s;animation-delay:0.66s;}#fadingBarsG_4{left:375px;-moz-animation-delay:0.77s;-webkit-animation-delay:0.77s;-ms-animation-delay:0.77s;-o-animation-delay:0.77s;animation-delay:0.77s;}#fadingBarsG_5{left:500px;-moz-animation-delay:0.88s;-webkit-animation-delay:0.88s;-ms-animation-delay:0.88s;-o-animation-delay:0.88s;animation-delay:0.88s;}#fadingBarsG_6{left:625px;-moz-animation-delay:0.99s;-webkit-animation-delay:0.99s;-ms-animation-delay:0.99s;-o-animation-delay:0.99s;animation-delay:0.99s;}#fadingBarsG_7{left:750px;-moz-animation-delay:1.1s;-webkit-animation-delay:1.1s;-ms-animation-delay:1.1s;-o-animation-delay:1.1s;animation-delay:1.1s;}#fadingBarsG_8{left:875px;-moz-animation-delay:1.21s;-webkit-animation-delay:1.21s;-ms-animation-delay:1.21s;-o-animation-delay:1.21s;animation-delay:1.21s;}@-moz-keyframes bounce_fadingBarsG{0%{-moz-transform:scale(1);background-color:#000000;}100%{-moz-transform:scale(.3);background-color:#FFFFFF;}}@-webkit-keyframes bounce_fadingBarsG{0%{-webkit-transform:scale(1);background-color:#000000;}100%{-webkit-transform:scale(.3);background-color:#FFFFFF;}}@-ms-keyframes bounce_fadingBarsG{0%{-ms-transform:scale(1);background-color:#000000;}100%{-ms-transform:scale(.3);background-color:#FFFFFF;}}@-o-keyframes bounce_fadingBarsG{0%{-o-transform:scale(1);background-color:#000000;}100%{-o-transform:scale(.3);background-color:#FFFFFF;}}@keyframes bounce_fadingBarsG{0%{transform:scale(1);background-color:#000000;}100%{transform:scale(.3);background-color:#FFFFFF;}}</style>
+		<div id="fadingBarsG" style="margin: auto;">
+			<div id="fadingBarsG_1" class="fadingBarsG">
+			</div>
+			<div id="fadingBarsG_2" class="fadingBarsG">
+			</div>
+			<div id="fadingBarsG_3" class="fadingBarsG">
+			</div>
+			<div id="fadingBarsG_4" class="fadingBarsG">
+			</div>
+			<div id="fadingBarsG_5" class="fadingBarsG">
+			</div>
+			<div id="fadingBarsG_6" class="fadingBarsG">
+			</div>
+			<div id="fadingBarsG_7" class="fadingBarsG">
+			</div>
+			<div id="fadingBarsG_8" class="fadingBarsG">
+			</div>
+		</div>
+		<h1 id="loadingTitle">Loading...</h1>
+	</div>
 	<div id="shareDialog" style="display: none;" title="Share">
 		To share this code with your peers, please give them the following link:<br>
 		<input type="text" id="url" style="width: 100%; cursor: pointer;" onclick="$(this).select();" readonly><br>
@@ -536,6 +568,25 @@
 				$("#sInvite").toggleDisabled(this.checked);
 			});
 		</script>
+		<div id="docsettings">
+			<fieldset>
+				<legend>Document-Specific</legend>
+				Name: <input type="text" value="Untitled-CollabCenterDoc.code" id="docname" maxlength="30"> 
+				<button id="updateDocname">Update</button>
+				<script>
+				var docnameBase = new Firebase('https://collab-coding-lang.firebaseio.com').child(padId);
+				$("#updateDocname").click(function () {
+					docnameBase.child('name').set($("#docname").val());
+				});
+
+				docnameBase.once('value', function(snapshot) {
+					if (snapshot.val() != undefined) {
+						$("#docname").val(snapshot.val());
+					}
+				});
+				</script>
+			</fieldset>
+		</div>
 	</div>
 	<div id="downloadDialog" style="display: none;" title="Download as">
 		<form name="codeFile" method="post">
@@ -595,7 +646,13 @@
 				var firepad = Firepad.fromCodeMirror(firepadRef, codeMirrorFirepad, {userId: userId});
 				firepadInst = firepad;
 
+				$("#loading").show();
+				$("#firepad").hide();
+
 				firepad.on('ready', function() {
+					$("#loading").hide();
+					$("#firepad").show();
+
 					if (firepad.isHistoryEmpty()) {
 						firepad.setHtml("Hello, and Welcome to Collab.center! This is how it works:<br> 1. Put some code here.<br> 2. Share the URL with your friends so you can collaborate (Hint: Use the Mail icon in the top-left!).<br> 3. Toggle some options above.<br> That's all there is to it!");
 					}
