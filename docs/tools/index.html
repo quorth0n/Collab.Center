@@ -4,7 +4,8 @@
 <head>
 	<title>Collab.Center</title>
 
-	<link rel="icon" href="../../favicon.ico">
+	<link rel="icon" href="../../favicon.ico" type="image/x-icon" class="favicon">
+	<link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" class="favicon">
 	<link rel="stylesheet" href="../../tools/style.css">
 
 	<!--JQUERY-->
@@ -331,10 +332,11 @@
 	    	myFirebase.once('value', function(snapshot) {
 	    		if (snapshot.val() != undefined) {
 	    			if (isPrivate == true) {
+	    				$(".favicon").attr('href', '../../faviconlocked.ico')
 	    				if (allowedEmail == Cookies.get('email') || owner == Cookies.get('email')) {
 							//Nothing
 						} else {
-							$("html").html("<body style='text-align: center;'><h1>Sorry, but You Need Permission to Edit this Document</h1><h3>If you believe this is an error, please contact the owner of the document</h3><h4>Wanna switch accounts? <a href='../../signin/signin.php?mode=out'>Click here</a></h4><img src='../../logo.png' style='position: absolute; right: 0px; bottom: 0px;'></body>");
+							$("html").html("<body style='text-align: center;'><h1 class='permission'>Sorry, but You Need Permission to Edit this Document</h1><h3>If you believe this is an error, please contact the owner of the document</h3><h4>Wanna switch accounts? <a href='../../signin/signin.php?mode=out'>Click here</a></h4><img src='../../logo.png' style='position: absolute; right: 0px; bottom: 0px;'></body>");
 						}
 					}
 				}
@@ -580,7 +582,8 @@
 				});
 
 				docnameBase.once('value', function(snapshot) {
-					if (snapshot.val() != undefined) {
+					alert(snapshot.val());
+					if (snapshot.val() != [object Object]) {
 						$("#docname").val(snapshot.val());
 					}
 				});

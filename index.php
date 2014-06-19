@@ -5,8 +5,8 @@
 	<script src="docs/tools/Cookies.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="dialog.js"></script>
-	<link rel="icon" href="./docs/favicon.ico" type="image/x-icon">
-	<link rel="shortcut icon" href="./docs/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="./docs/faviconold.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="./docs/faviconold.ico" type="image/x-icon">
 	<link rel="stylesheet" href="docs/tools/style.css">
 	<title>Collab.Center - Online, Collaborative Coding in Real-Time!</title>
 	<style>
@@ -31,6 +31,20 @@
 			text-transform: uppercase;
 			font-weight: normal;
 			font-size: small;
+		}
+
+		footer {
+			color: darkgray;
+			position: relative;
+			bottom: 0;
+		}
+
+		footer a {
+			color: black;
+		}
+
+		p {
+			text-align: center;
 		}
 	</style>
 </head>
@@ -111,6 +125,7 @@
 		<input type="submit" value="Create Doc!" style="font-size: 1.5em;" name="Submit">
 	</form>
 </div>
+<footer><p>Copyright (c) 2014, Liam O'Flynn. All rights reserved. <a href="./terms#terms">Privacy Policy & Terms of Use</a>, Updated 6/8/2014</p></footer>
 <script>
 	dialog("w3cD", 'w3cvalidhtml.gif', 'Thu, 18 Dec 2013 12:00:00 GMT');
 

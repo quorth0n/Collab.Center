@@ -205,8 +205,7 @@ PusherChatWidget._buildListItem = function(activity) {
   
   var user = $('<div class="activity-row">' +
                 '<span class="user-name">' +
-                  '<a class="screen-name" title="' + activity.actor.displayName + '">' + activity.actor.displayName + '</a>' +
-                  //'<span class="full-name">' + activity.actor.displayName + '</span>' +
+                  '<a class="screen-name" title="' + activity.actor.displayName.replace(/\\/gi, '') + '">' + activity.actor.displayName.replace(/\\/gi, '') + '</a>' +
                 '</span>' +
               '</div>');
   content.append(user);
