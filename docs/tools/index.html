@@ -32,6 +32,12 @@
 	<!--Addons-->
 	<script src="../../tools/CodeMirror/codemirror-4.0/addon/mode/loadmode.js"></script>
 	<script src="../../tools/CodeMirror/codemirror-4.0/addon/edit/matchbrackets.js"></script>
+	<script src="../../tools/CodeMirror/codemirror-4.0/addon/edit/closebrackets.js"></script>
+	<script src="../../tools/CodeMirror/codemirror-4.0/addon/search/search.js"></script>
+	<script src="../../tools/CodeMirror/codemirror-4.0/addon/search/searchcursor.js"></script>
+	<script src="../../tools/CodeMirror/codemirror-4.0/addon/dialog/dialog.js"></script>
+	<link rel="stylesheet" href="../../tools/CodeMirror/codemirror-4.0/addon/dialog/dialog.css" />
+	<script src="../../tools/CodeMirror/codemirror-4.0/keymap/sublime.js"></script>
 
 	<!-- Pusher -->
 	<script src="http://js.pusher.com/2.1/pusher.min.js"></script>
@@ -582,8 +588,8 @@
 				});
 
 				docnameBase.once('value', function(snapshot) {
-					alert(snapshot.val());
-					if (snapshot.val() != [object Object]) {
+					//alert(snapshot.val());
+					if (snapshot.val() != "[object Object]") {
 						$("#docname").val(snapshot.val());
 					}
 				});
@@ -644,7 +650,7 @@
 				var userId = Math.floor(Math.random() * 9999999999).toString();
 
 				var firepadRef = new Firebase('https://collaborative-coding.firebaseio.com').child(padId);
-				var codeMirrorFirepad = CodeMirror(document.getElementById('firepad'), { lineWrapping: true, lineNumbers : true, theme : 'mdn-like', matchBrackets : true });
+				var codeMirrorFirepad = CodeMirror(document.getElementById('firepad'), { lineWrapping: true, lineNumbers : true, theme : 'mdn-like', matchBrackets : true, autoCloseBrackets : true, keyMap : "sublime"});
 				codeMirrorInst = codeMirrorFirepad;
 				var firepad = Firepad.fromCodeMirror(firepadRef, codeMirrorFirepad, {userId: userId});
 				firepadInst = firepad;
