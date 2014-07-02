@@ -322,12 +322,17 @@
       var html = '<input type="email" placeholder="Email" name="lemail"><br><input type="password" placeholder="Password" name="lpassword"><br><input type="submit" value="Login" style="font-size: 1.5em;" name="login">';
       document.getElementById("create").innerHTML = html;
       document.getElementById("create").setAttribute('onsubmit', "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>");
+      document.getElementById("gptxt").innerHTML = "Sign in with Google";
+      document.getElementById("fbtxt").innerHTML = "Sign in with Facebook";
     }
 
     function upMode() {
       var html = '<input type="text" placeholder="First Name" style="width: 66px;" name="first" id="first">&nbsp;<input type="text" placeholder="Last Name" style="width: 63px;" name="last" id="last"><br><input type="email" placeholder="Email" name="email" id="email"><br><input type="password" placeholder="Password" name="p1" id="p1"><br><input type="password" placeholder="Repeat Password" name="p2" id="p2"><br><input type="submit" value="Sign Me Up!" style="font-size: 1.5em;" name="signup">';
       document.getElementById("create").innerHTML = html;
       document.getElementById("create").setAttribute('action', "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>");
+      document.getElementById("gptxt").innerHTML = "Sign up with Google";
+      document.getElementById("fbtxt").innerHTML = "Sign up with Facebook";
+      //document.getElementById("upmode").setAttribute('href', '').setAttribute('onclick', '');
     }
 
     /*function validateEmail(email) { 
@@ -409,15 +414,15 @@
       }
     ?>
     <br>
-    <p><a href="#" onclick="inMode()">Sign In</a> - <a href="#" onclick="upMode()">Sign Up</a></p>
+    <p><a href="#" onclick="inMode()" id="inmode">Sign In</a> - <a href="#" onclick="upMode()" id="upmode">Sign Up</a></p>
     <p>Or,</p>
     <div id="google" class="button" onclick="google()">
       <span class="icon"></span>
-      <span class="btntxt">Sign in with Google</span>
+      <span class="btntxt" id="gptxt">Sign in with Google</span>
     </div><br><br>
     <div id="facebook" class="button" onclick="facebook()">
       <span class="icon"></span>
-      <span class="btntxt">Sign in with Facebook</span>
+      <span class="btntxt" id="fbtxt">Sign in with Facebook</span>
     </div>
   </span>
 </div>

@@ -184,9 +184,14 @@
     	text-overflow: '';
 	}
 	
-		select:focus {
-			outline: none;
-		}
+	select:focus {
+		outline: none;
+	}
+
+	/*Hide IE Dropdown expand*/
+	select::-ms-expand {
+		display: none;
+	}
 	
 	.select-arrow { 
 		display: inline-block;

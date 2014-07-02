@@ -53,9 +53,9 @@
 
 	<!--Dialogs-->
 	<div id="dialogs" style="position: absolute; right: 10px; top: 10px;">
-		<div id="w3cD" style="display: none;"><a href="http://validator.w3.org/check?uri=http%3A%2F%2Fcollabcenter.net84.net%2F" style="color: #666;">HTML 5.0 Validated!</a></div>
+		<div id="welcomeD" style="display: none;">Welcome back, Anonymous, please <a href="docs/signin/signin.php">Sign in</a></div>
+		<div id="w3cD" style="display: none;"><a href="http://validator.w3.org/check?uri=http%3A%2F%2Fcollabcenter.net84.net%2F" target="_blank" style="color: #666;">HTML 5.0 Validated!</a></div>
 		<div id="adblockD" style="display: none;"><br>Our website can only be hosted and running because of our ads. Please consider disabling your AdBlocker</div>
-		<div id="welcomeD" style="display: none;"></div>
 	</div>
 
 	<a href="https://github.com/Mulletfingers999/Collab.Center" style="display: none;"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>	<div>
@@ -66,6 +66,7 @@
 		<label for="language">Language:&nbsp;</label><select name="language" id="language">
 		<option selected>Plain Text</option><option>apl</option><option>asterisk</option><option>c</option><option>c++</option><option>c#</option><option>clojure</option><option>cobol</option><option>coffeescript</option><option>commonlisp</option><option>css</option><option>d</option><option>diff</option><option>dtd</option><option>ecl</option><option>eiffel</option><option>erlang</option><option>f#</option><option>fortran</option><option>gas</option><option>gfm</option><option>gherkin</option><option>go</option><option>groovy</option><option>haml</option><option>haskell</option><option>haxe</option><option>htmlembedded</option><option>htmlmixed</option><option>http</option><option>jade</option><option>java</option><option>javascript</option><option>jinja2</option><option>julia</option><option>livescript</option><option>lua</option><option>markdown</option><option>mirc</option><option>nginx</option><option>ntriples</option><option>ocaml</option><option>octave</option><option>pascal</option><option>pegjs</option><option>perl</option><option>php</option><option>pig</option><option>properties</option><option>puppet</option><option>python</option><option>q</option><option>r</option><option>rpm</option><option>rst</option><option>ruby</option><option>rust</option><option>sass</option><option>scheme</option><option>shell</option><option>sieve</option><option>smalltalk</option><option>smarty</option><option>smartymixed</option><option>solr</option><option>sparql</option><option>sql</option><option>stex</option><option>tcl</option><option>tiddlywiki</option><option>tikiwiki</option><option>toml</option><option>turtle</option><option>vb</option><option>vbscript</option><option>velocity</option><option>verilog</option><option>xml</option><option>xquery</option><option>yaml</option><option>z80</option></select><span class="select-arrow"></span>
 		<?php
+
 		function generateRandomString($length = 10) {
 			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 			$randomString = '';
@@ -76,6 +77,8 @@
 		}
 
 		if (isset($_POST['Submit'])) {
+			file_put_contents("./docs.txt", (string)intval(file_get_contents("./docs.txt")) + 1);
+
 			$lang = $_POST['language'];
 
 			if (isset($lang)) {
@@ -124,14 +127,15 @@
 		<br><br>
 		<input type="submit" value="Create Doc!" style="font-size: 1.5em;" name="Submit">
 	</form>
+	<h3>So far, Collab.Center has created <?php echo  file_get_contents('docs.txt', true);?> docs for people like you!</h3>
 </div>
 <footer><p>Copyright (c) 2014, Liam O'Flynn. All rights reserved. <a href="./terms#terms">Privacy Policy & Terms of Use</a>, Updated 6/8/2014</p></footer>
 <script>
-	dialog("w3cD", 'w3cvalidhtml.gif', 'Thu, 18 Dec 2013 12:00:00 GMT');
+	dialog("w3cD", 'w3cvalidhtml.gif', '604800');
 
 	if($("#google_ads_frame1").css('display')=="none")
 	{
-        dialog('adblockD', 'noadblock.png', 'Thu, 18 Dec 19 12:00:00 GMT');//.html("We noticed you have an active Ad Blocker. Example.com is ad funded, we promise our ads are of high quality and are unobtrusive. The best help you could provide to keep us running, is to whitelist us in your ad blocker. Thanks!");
+        //dialog('adblockD', 'noadblock.png', 'never');//.html("We noticed you have an active Ad Blocker. Example.com is ad funded, we promise our ads are of high quality and are unobtrusive. The best help you could provide to keep us running, is to whitelist us in your ad blocker. Thanks!");
     }
     else
     {
@@ -140,7 +144,9 @@
 
     if (Cookies.get('name') != undefined) {
     	$("#welcomeD").html("Welcome Back, " + Cookies.get('name'));
-    	dialog('welcomeD', 'none', 'foo')
+    	dialog('welcomeD', 'none', 'never');
+    } else {
+    	dialog('welcomeD', 'none', 'never');
     }
 </script>
 <!-- Start of StatCounter Code for Default Guide -->

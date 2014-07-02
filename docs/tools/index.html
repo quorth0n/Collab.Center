@@ -58,6 +58,7 @@
 		    font-family: actionman;
 		    src: url(../../actionman.ttf);
 		}
+
 		.firepad-userlist {
 			position: absolute; left: 0; top: 45px; bottom: 0; height: auto;
 		}
@@ -101,7 +102,7 @@
 		}
 
 		.ui-tabs {
-			z-index: 1000000;
+			z-index: 99;
 			position: absolute;
 			width: 175px;
 			left: 0;
@@ -119,6 +120,15 @@
 
 		.ui-state-active {
 			cursor: default !important;
+			background: #ebebeb !important;
+		}
+
+		.ui-state-default[aria-selected=false] {
+			background: white !important;
+		}
+
+		.ui-state-hover[aria-selected=false] .ui-tabs-anchor, .ui-state-focus[aria-selected=false] .ui-tabs-anchor {
+			color: #0073ea !important;
 		}
 
 		#tabs-2 {
@@ -173,10 +183,6 @@
 			text-align: center;
 		}
 
-		select::-ms-expand {
-			display: none;
-		}
-
 		.cm-string {
 			color: #a11 !important;
 		}
@@ -189,6 +195,17 @@
 			font-family: actionman;
 			text-align: center;
 			font-size: 5em;
+		}
+
+		#status {
+			font-size: 0.9em;
+			text-align: center;
+			background-color: rgba(144, 238, 144, 0.51);
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			cursor: pointer;
 		}
 	</style>
 	<script>
@@ -204,7 +221,15 @@
 		function l(lang) {
 			window.location.replace("?lang=" + lang);
 		}
-
+		/**
+		Keybind Ctrl + S to download
+		*/
+		$(window).keydown(function(event) {
+		    if (!(event.which == 115 && event.ctrlKey) && !(event.which == 19)) return true;
+		    alert("Ctrl-S pressed");
+		    event.preventDefault();
+		    return false;
+		});
 		/**
 		Checking if the user signed in, topbar stuff
 		*/
@@ -296,6 +321,15 @@
 				}
 			}
 
+			if (getParameterByName("rename") == "rename") {
+				$('#downloadDialog').dialog();
+				$('#docname').attr('autofocus', 'autofocus');
+			}
+
+			if (getParameterByName("edit") == "edit") {
+				$('#downloadDialog').dialog();
+			}
+
 			var myFirebase = new Firebase("https://collab-coding-privacy.firebaseio.com/" + padId);
 
 			var isPrivate = false;
@@ -308,8 +342,10 @@
 	    	Getting firebase values for later
 	    	*/
 	    	myFirebase.child("private").once('value', function(snapshot) {
-	    		if (snapshot.val() != undefined) {
+	    		if (snapshot.val() != undefined && snapshot.val() != false) {
 	    			isPrivate = true;
+	    			$("#private").trigger('click');
+	    			$("#shareDialog").html("<h1 style='text-align: center;'>To invite people in private documents, click on the settings/gear icon!</h1>");
 	    		}
 	    	});
 
@@ -317,6 +353,7 @@
 	    	myFirebase.child("privateEmail").once('value', function(snapshot) {
 	    		if (snapshot.val() != undefined) {
 	    			allowedEmail = snapshot.val().toString();
+	    			$("#private").attr('value', snapshot.val());
 	    		}
 	    	});
 
@@ -340,7 +377,7 @@
 	    			if (isPrivate == true) {
 	    				$(".favicon").attr('href', '../../faviconlocked.ico')
 	    				if (allowedEmail == Cookies.get('email') || owner == Cookies.get('email')) {
-							//Nothing
+							//Nothing, user is allowed into the document
 						} else {
 							$("html").html("<body style='text-align: center;'><h1 class='permission'>Sorry, but You Need Permission to Edit this Document</h1><h3>If you believe this is an error, please contact the owner of the document</h3><h4>Wanna switch accounts? <a href='../../signin/signin.php?mode=out'>Click here</a></h4><img src='../../logo.png' style='position: absolute; right: 0px; bottom: 0px;'></body>");
 						}
@@ -423,6 +460,42 @@
 	  </script>
 	</head>
 	<body>
+		<?php
+			function DeleteFolder($path)
+			{
+			    if (is_dir($path) === true)
+			    {
+			        $files = array_diff(scandir($path), array('.', '..'));
+
+			        foreach ($files as $file)
+			        {
+			            DeleteFolder(realpath($path) . '/' . $file);
+			        }
+
+			        return rmdir($path);
+			    }
+
+			    else if (is_file($path) === true)
+			    {
+			        return unlink($path);
+			    }
+
+			    return false;
+			}
+
+			if (!empty($_GET["delete"])) {
+				DeleteFolder("./");
+				echo "<script>alert('Deleted Succesfully');</script>";
+				echo "<script>window.location.replace('../../../');</script>";
+			}
+
+			if (!empty($_GET["renameto"])) {
+				//rename("./", "../" . $_GET["renameto"]);
+				file_put_contents("../id.js", 'var id = "test";', LOCK_EX);
+				echo "<script>alert('Renamed Succesfully');</script>";
+				//echo "<script>window.location.replace('../" . $_GET["renameto"] . "')</script>";
+			}
+		?>
 		<div id="top" style="vertical-align: middle;">
 			<div id="topLeft" style="float: left;">
 				Welcome Back, <strong id="uname">Anonymous</strong><span id="logintext">, please <a href="../../signin/signin.php">Sign In</a></span>
@@ -437,11 +510,15 @@
 				<option>Hide Line Numbers</option>
 			</select><span class="select-arrow" style="margin: 0.6em 0 0 -1.2em !important;"></span>
 			<div id="topRight" style="float: right;">
-				<img src="../../download.png" onclick="$('#downloadDialog').dialog();" style="vertical-align: middle;" title="Download File" id="download">
-				<img src="../../share.png" onclick="$('#shareDialog').dialog({width: 609});" style="vertical-align: middle;" title="Share">
-				<img src="../../settings.png" onclick="$('#settingsDialog').dialog();" style="vertical-align: middle;" class="disabled" title="Settings" id="settings">
-				<img src="../../about.png" onclick="about();" style="vertical-align: middle;" title="About">
+				<img src="../../download.png" title="Download" onclick="$('#downloadDialog').dialog();" style="vertical-align: middle;" id="download">
+				<img src="../../share.png" title="Share Your Document" onclick="$('#shareDialog').dialog({width: 609});" style="vertical-align: middle;">
+				<img src="../../settings.png" title="Document Settings" onclick="$('#settingsDialog').dialog();" style="vertical-align: middle;" class="disabled" id="settings">
+				<img src="../../account.png" title="Account Settings" onclick="window.location.href = '../../manage/manage.php';" style="vertical-align: middle;">
+				<img src="../../about.png" title="About Collab Center" onclick="about();" style="vertical-align: middle;">
+				
 			</div>
+			<script>
+			</script>
 
 		</div>
 		<div id="tabs">
@@ -523,34 +600,40 @@
 	<div id="shareDialog" style="display: none;" title="Share">
 		To share this code with your peers, please give them the following link:<br>
 		<input type="text" id="url" style="width: 100%; cursor: pointer;" onclick="$(this).select();" readonly><br>
-		Alternatively, you can <a id="email" target="_new">send them the link via email</a>
+		Alternatively, you can <a id="email" target="_blank">send them the link via email</a>
 	</div>
 	<div id="settingsDialog" style="display: none;" title="Document Settings">
+		<div id="status"></div>
 		<form name="privacy" method="post">
 			<fieldset>
 				<legend>Privacy</legend>
-				<label for="private"><input type="checkbox" name="private" id="private" style="margin-bottom: 7px;">&nbsp;Private</label>
+				<label for="private"><input type="checkbox" name="private[]" id="private" style="margin-bottom: 7px;">&nbsp;Private</label>
 				<hr>
 				<div id="invite">
 					<h3>Invite People</h3>
-					Enter their email here: <input type="text" width="400" id="pEmail" name="pEmail" disabled> <strong>Note: They must be registered with this email address to view your document!</strong><br>
+					Enter their email here: <input type="text" width="400" id="pEmail" name="pEmail" disabled> <br><strong>Note: They must be registered with this email address to view your document!</strong><br>
 					<label for="sendEmail"><input type="checkbox" id="sendEmail" name="sendEmail" checked disabled>&nbsp;Send an email invitation</label>
 				</div>
-				<input type="submit" value="Invite" id="sInvite" name="sInvite" disabled>
+				<input type="submit" value="Update" id="sInvite" name="sInvite">
 				<?php
 				if (isset($_POST["sInvite"])) {
-					$email = "";
+					if (isset($_POST["private"])) {
+						echo "<script>$('#status').text('Document is Now Private!');</script>";
+						$email = "";
 
-					if (isset($_POST["pEmail"])) {
-						$email = $_POST["pEmail"];
+						if (isset($_POST["pEmail"])) {
+							$email = $_POST["pEmail"];
+						}
+
+						echo "<script>var myBase = new Firebase('https://collab-coding-privacy.firebaseio.com').child(padId); myBase.child('private').set(true); myBase.child('owner').set(Cookies.get('email')); myBase.child('privateEmail').set('". $email ."');</script>";
+
+						if (isset($_POST["sendEmail"])) {
+							echo "<script>window.location.href = 'mailto:". $email ."?Subject=I%20have%20shared%20a%20Collab.Center%20document%20with%20you&Body=I%20have%20created%20a%20private%20collab.center%20document%20and%20I%20have%20invited%20you%20to%20use%20it%20with%20me.%20The%20link%20is%20below%3A%20' + document.URL;</script>";
+						}
+					} else {
+						echo "<script>$('#status').text('Document is No Longer Private!');</script>";
+						echo "<script>var myBase = new Firebase('https://collab-coding-privacy.firebaseio.com').child(padId); myBase.child('private').set(false); myBase.child('owner').remove(); myBase.child('privateEmail').remove();</script>";
 					}
-
-					echo "<script>var myBase = new Firebase('https://collab-coding-privacy.firebaseio.com').child(padId); myBase.child('private').set(true); myBase.child('owner').set(Cookies.get('email')); myBase.child('privateEmail').set('". $email ."');</script>";
-
-					if (isset($_POST["sendEmail"])) {
-						echo "<script>window.location.href = 'mailto:". $email ."?Subject=I%20have%20shared%20a%20Collab.Center%20document%20with%20you&Body=I%20have%20created%20a%20private%20collab.center%20document%20and%20I%20have%20invited%20you%20to%20use%20it%20with%20me.%20The%20link%20is%20below%3A%20' + document.URL;</script>";
-					}
-
 					
 				}
 				?>
@@ -573,25 +656,48 @@
 			$('#private').click(function() {
 				$("#pEmail").toggleDisabled(this.checked);
 				$("#sendEmail").toggleDisabled(this.checked);
-				$("#sInvite").toggleDisabled(this.checked);
+				//$("#sInvite").toggleDisabled(this.checked);
 			});
-		</script>
+		</script><br>
 		<div id="docsettings">
 			<fieldset>
 				<legend>Document-Specific</legend>
-				Name: <input type="text" value="Untitled-CollabCenterDoc.code" id="docname" maxlength="30"> 
+				Name: <br>
+				<input type="text" value="Untitled-CC-Doc" id="docname" maxlength="30" style="width: 50%;"><span id="fileext">Loading...</span>
 				<button id="updateDocname">Update</button>
 				<script>
-				var docnameBase = new Firebase('https://collab-coding-lang.firebaseio.com').child(padId);
-				$("#updateDocname").click(function () {
-					docnameBase.child('name').set($("#docname").val());
+				var langBase = new Firebase("https://collab-coding-lang.firebaseio.com").child(padId);
+				var langBaseValue = "";
+
+				langBase.child("lang").once('value', function(snapshot) {
+					if (snapshot.val() != undefined) {
+						//alert(snapshot.val());
+						langBaseValue = snapshot.val();
+						var fileext = {"Plain Text" : "txt", "apl" : "apl", "asterisk" : "conf", "c" : "c", "c++" : "cc", "c#" : "cs", "clojure" : "clj", "cobol" : "cob", "coffeescript" : "coffee", "commonlisp" : "lisp", "css" : "css", "d" : "d", "diff" : "diff", "dtd" : "dtd", "ecl" : "ecl", "eiffel" : "e", "erlang" : "erl", "fortran" : "f", "gas" : "s", "gfm" : "gfm", "gherkin" : "feature", "go" : "go", "groovy" : "groovy", "haml" : "haml", "haskell" : "hs", "haxe" : "hx", "htmlembedded" : "html", "htmlmixed" : "html", "http" : "none", "jade" : "jade", "java" : "java", "javascript" : "js", "jinja2" : "py", "julia" : "jl", "livescript" : "ls", "lua" : "lua", "markdown" : "md", "mirc" : "mrc", "f#" : "fs", "ocaml" : "ml", "nginx" : "conf", "ntriples" : "nt", "octave" : "m", "pascal" : "pas", "pegjs" : "pegjs", "perl" : "pl", "php" : "php", "pig" : "pig", "properties" : "properties", "puppet" : "pp", "python" : "py", "q" : "q", "r" : "r", "rpm" : "rpm", "rst" : "rst", "ruby" : "rb", "rust" : "rs", "sass" : "scss", "scheme" : "scm", "shell" : "none", "sieve" : "none", "smalltalk" : "st", "smarty" : "tpl", "smartymixed" : "tpl", "solr" : "none", "sparql" : "sparql", "sql" : "sql", "stex" : "tex", "tcl" : "tcl", "tiddlywiki" : "none", "tikiwiki" : "none", "toml" : "toml", "turtle" : "ttl", "vb" : "vb", "vbscript" : "vbs", "velocity" : "vm", "verilog" : "v", "xml" : "xml", "xquery" : "xq", "yaml" : "yaml", "z80" : "z80"};
+
+						$("#fileext").text('.' + fileext[snapshot.val()]);
+					}
 				});
 
-				docnameBase.once('value', function(snapshot) {
-					//alert(snapshot.val());
-					if (snapshot.val() != "[object Object]") {
-						$("#docname").val(snapshot.val());
+				$("#status").click(function () {
+					$(this).hide();
+				});
+
+				//var docnameBase = new Firebase('https://collab-coding-lang.firebaseio.com').child(padId);
+				$("#updateDocname").click(function () {
+					langBase.child('name').set($("#docname").val() + $("#fileext").text());
+					//$("#status").text("Renamed Document!");*/
+					window.location.replace("?renameto=" + $("#docname").val() + $("#fileext").text());
+				});
+
+				langBase.child('name').once('value', function(snapshot) {
+					if (snapshot.val() != undefined) {
+						$("#docname").val(snapshot.val().split(".")[0]);
 					}
+				});
+
+				$(document).ready(function () {
+					
 				});
 				</script>
 			</fieldset>
@@ -657,13 +763,15 @@
 
 				$("#loading").show();
 				$("#firepad").hide();
+				$("body").attr('style', 'cursor: wait;');
 
 				firepad.on('ready', function() {
 					$("#loading").hide();
 					$("#firepad").show();
+					$("body").attr('style', '');
 
 					if (firepad.isHistoryEmpty()) {
-						firepad.setHtml("Hello, and Welcome to Collab.center! This is how it works:<br> 1. Put some code here.<br> 2. Share the URL with your friends so you can collaborate (Hint: Use the Mail icon in the top-left!).<br> 3. Toggle some options above.<br> That's all there is to it!");
+						firepad.setHtml("Hello, and Welcome to Collab.Center! This is how it works:<br> 1. Put some code here.<br> 2. Share the URL with your friends so you can collaborate (Hint: Use the Mail icon in the top-right!).<br> 3. Toggle some options above.<br> That's all there is to it!");
 					}
 
 					if (langBaseVal != "c" && langBaseVal != "c++" && langBaseVal != "c#" && langBaseVal != "java" && langBaseVal != "f#" && langBaseVal != "ocaml") {
@@ -724,18 +832,20 @@
 				
 			});
 
+			var fileext = {"Plain Text" : "txt", "apl" : "apl", "asterisk" : "conf", "c" : "c", "c++" : "cc", "c#" : "cs", "clojure" : "clj", "cobol" : "cob", "coffeescript" : "coffee", "commonlisp" : "lisp", "css" : "css", "d" : "d", "diff" : "diff", "dtd" : "dtd", "ecl" : "ecl", "eiffel" : "e", "erlang" : "erl", "fortran" : "f", "gas" : "s", "gfm" : "gfm", "gherkin" : "feature", "go" : "go", "groovy" : "groovy", "haml" : "haml", "haskell" : "hs", "haxe" : "hx", "htmlembedded" : "html", "htmlmixed" : "html", "http" : "none", "jade" : "jade", "java" : "java", "javascript" : "js", "jinja2" : "py", "julia" : "jl", "livescript" : "ls", "lua" : "lua", "markdown" : "md", "mirc" : "mrc", "f#" : "fs", "ocaml" : "ml", "nginx" : "conf", "ntriples" : "nt", "octave" : "m", "pascal" : "pas", "pegjs" : "pegjs", "perl" : "pl", "php" : "php", "pig" : "pig", "properties" : "properties", "puppet" : "pp", "python" : "py", "q" : "q", "r" : "r", "rpm" : "rpm", "rst" : "rst", "ruby" : "rb", "rust" : "rs", "sass" : "scss", "scheme" : "scm", "shell" : "none", "sieve" : "none", "smalltalk" : "st", "smarty" : "tpl", "smartymixed" : "tpl", "solr" : "none", "sparql" : "sparql", "sql" : "sql", "stex" : "tex", "tcl" : "tcl", "tiddlywiki" : "none", "tikiwiki" : "none", "toml" : "toml", "turtle" : "ttl", "vb" : "vb", "vbscript" : "vbs", "velocity" : "vm", "verilog" : "v", "xml" : "xml", "xquery" : "xq", "yaml" : "yaml", "z80" : "z80"};
+
 			$("#download").click(function() {
 				//Code file
 				$("#filecontents").attr('value', firepadInst.getText());
 				$("#filelang").attr('value', langBaseVal);
-
-				var fileext = {"Plain Text" : "txt", "apl" : "apl", "asterisk" : "conf", "c" : "c", "c++" : "cc", "c#" : "cs", "clojure" : "clj", "cobol" : "cob", "coffeescript" : "coffee", "commonlisp" : "lisp", "css" : "css", "d" : "d", "diff" : "diff", "dtd" : "dtd", "ecl" : "ecl", "eiffel" : "e", "erlang" : "erl", "fortran" : "f", "gas" : "s", "gfm" : "gfm", "gherkin" : "feature", "go" : "go", "groovy" : "groovy", "haml" : "haml", "haskell" : "hs", "haxe" : "hx", "htmlembedded" : "html", "htmlmixed" : "html", "http" : "none", "jade" : "jade", "java" : "java", "javascript" : "js", "jinja2" : "py", "julia" : "jl", "livescript" : "ls", "lua" : "lua", "markdown" : "md", "mirc" : "mrc", "f#" : "fs", "ocaml" : "ml", "nginx" : "conf", "ntriples" : "nt", "octave" : "m", "pascal" : "pas", "pegjs" : "pegjs", "perl" : "pl", "php" : "php", "pig" : "pig", "properties" : "properties", "puppet" : "pp", "python" : "py", "q" : "q", "r" : "r", "rpm" : "rpm", "rst" : "rst", "ruby" : "rb", "rust" : "rs", "sass" : "scss", "scheme" : "scm", "shell" : "none", "sieve" : "none", "smalltalk" : "st", "smarty" : "tpl", "smartymixed" : "tpl", "solr" : "none", "sparql" : "sparql", "sql" : "sql", "stex" : "tex", "tcl" : "tcl", "tiddlywiki" : "none", "tikiwiki" : "none", "toml" : "toml", "turtle" : "ttl", "vb" : "vb", "vbscript" : "vbs", "velocity" : "vm", "verilog" : "v", "xml" : "xml", "xquery" : "xq", "yaml" : "yaml", "z80" : "z80"};
-
 				$("#codeFileSubmit").attr('value', 'Code File (*.' + fileext[$("#filelang").val()] + ')');
 
+
 				//Pdf file
-				$("#pdfcontents").attr('value', firepadInst.getHtml())
+				$("#pdfcontents").attr('value', firepadInst.getHtml());
 			});
+
+			//$("#fileext").text('.' + fileext[$("#filelang").val()]);
 	</script>
 </body>
 </html>
