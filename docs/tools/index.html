@@ -260,7 +260,9 @@
 			} else {
 				//disable doc settings
 				$('#settings').attr('class', 'disabled');
+				$('#account').attr('class', 'disabled');
 				$('#settings').attr('onclick', '');
+				$('#account').attr('onclick', '');
 
 				//sign in to use chat
 				$("#tabs-2").text("Please sign in to use chat!");
@@ -513,7 +515,7 @@
 				<img src="../../download.png" title="Download" onclick="$('#downloadDialog').dialog();" style="vertical-align: middle;" id="download">
 				<img src="../../share.png" title="Share Your Document" onclick="$('#shareDialog').dialog({width: 609});" style="vertical-align: middle;">
 				<img src="../../settings.png" title="Document Settings" onclick="$('#settingsDialog').dialog();" style="vertical-align: middle;" class="disabled" id="settings">
-				<img src="../../account.png" title="Account Settings" onclick="window.location.href = '../../manage/manage.php';" style="vertical-align: middle;">
+				<img src="../../account.png" title="Account Settings" onclick="window.location.href = '../../manage/manage.php';" style="vertical-align: middle;" id="account">
 				<img src="../../about.png" title="About Collab Center" onclick="about();" style="vertical-align: middle;">
 				
 			</div>

@@ -181,5 +181,12 @@
 			?>
 		</nav>
 	</div>
+	<?php
+		if (empty($_COOKIE["email"])) {
+			echo '<script>$("body").html(\'<h1 style="text-align: center; font-family: Arial;">Please <a href="../../signin/signin.php">Sign In</a> To View This Page!</h1>\');</script>';
+		} else {
+			echo "test";
+		}
+	?>
 </body>
 </html>
