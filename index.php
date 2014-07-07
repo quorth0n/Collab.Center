@@ -143,7 +143,7 @@
     }
 
     if (Cookies.get('name') != undefined) {
-    	$("#welcomeD").html("Welcome Back, " + Cookies.get('name'));
+    	$("#welcomeD").html("Welcome Back, " + Cookies.get('name') + '<br> <a href="docs/signin/signin.php?mode=out">Sign out</a> | <a href="docs/manage/manage.php?tab=docs">Manage docs</a>');
     	dialog('welcomeD', 'none', 'never');
     } else {
     	dialog('welcomeD', 'none', 'never');
