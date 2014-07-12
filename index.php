@@ -10,14 +10,17 @@
 	<link rel="stylesheet" href="docs/tools/style.css">
 	<title>Collab.Center - Online, Collaborative Coding in Real-Time!</title>
 	<style>
-		div:not(#dialogs) {
+		div:not(#dialogs):not([class*="ps"]) {
 			width: 600px;
-			margin: 5em auto;
 			padding: 50px;
 			border-radius: 1em;
 			background-color: white;
 			box-shadow: 1em;
 			text-align: center;
+		}
+
+		div:not(#dialogs):not(.dialog):not([class*="ps"]) {
+			margin: 5em auto;
 		}
 
 		span {
@@ -48,17 +51,33 @@
 		}
 	</style>
 </head>
-<body style="background-color: lightgray; font-family: Helvetica, Arial, sans-serif;">
+<body style="background-color: lightgray; font-family: Helvetica, Arial, sans-serif;position:inherit;overflow:hidden;">
 	<div id="google_ads_frame1" style="position: absolute; left: -999999999999999999999999999999999em;">holmes is a very cool browser cuz its fast free and powerful</div>
 
 	<!--Dialogs-->
 	<div id="dialogs" style="position: absolute; right: 10px; top: 10px;">
 		<div id="welcomeD" style="display: none;">Welcome back, Anonymous, please <a href="docs/signin/signin.php">Sign in</a></div>
+		<div id="noticeD" style="display: none;"><br>We just recently had an update that changes the way documents are handled. This effects all documents created before 7/10/14. 
+			When you go to manage your docs, you will get some error messages. To fix this, copy &amp; paste your code from the old document into a new document, and delete the old document. 
+			Thank you for your patience.
+		</div>
+		<div id="featuresD" style="display: none;"><h3>Features:</h3>
+		<ul style="text-align: left;">
+		<li>Real-Time Collaborative Coding in the Browser!</li>
+		<li>Support for over 60 languages!</li>
+		<li>Powerful Syntax Highlighting, and Many Other Useful Features (Auto-Closing Brackets, etc)!</li>
+		<li>Make Your Documents Public On The Web, or Secure &amp; Private With Just A Few!<b>*</b></li>
+		<li>Text or Webcam Chat With Your Peers!<b>*</b></li>
+		<li>Neatly Manage All Of Your Documents<b>*</b></li>
+		</ul>
+		<p><b>*</b> Requires Sign-In</div>
 		<div id="w3cD" style="display: none;"><a href="http://validator.w3.org/check?uri=http%3A%2F%2Fcollabcenter.net84.net%2F" target="_blank" style="color: #666;">HTML 5.0 Validated!</a></div>
 		<div id="adblockD" style="display: none;"><br>Our website can only be hosted and running because of our ads. Please consider disabling your AdBlocker</div>
+		
 	</div>
 
 	<a href="https://github.com/Mulletfingers999/Collab.Center" style="display: none;"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>	<div>
+	<noscript>Your Browser Will Not Work With Collab.Center, or Most Sites. Please Upgrade Your Browser To A Modern One, Like <a href="http://holmes-browser.tumblr.com">Holmes</a> or <a href="https://www.google.com/chrome/">Google Chrome</a></noscript>
 	<h1>Welcome to Collab.Center!<sup>Beta</sup></h1>
 	<h2 id="collabcode"></h2>
 	<p>Collab.center is an easy way to share collaborative coding docs or even plain text online! Just select a language and your ready to go!</p>
@@ -116,6 +135,11 @@
 				$handle_user_id = fopen($user_id_file, 'w');
 				fwrite($handle_user_id, "var padId = '".$randString."';");
 
+				//Create the name.php file
+				$user_name_file = $my_dir."/name.php";
+				$handle_user_name = fopen($user_name_file, 'w');
+				fwrite($handle_user_name, '<?php $padName = "'.$randString.'";?>');
+
 				//redirect to the new document
 				echo '<script>window.location.href="'.$my_dir.'?lang='.urlencode($lang).'";</script>';
 
@@ -127,11 +151,13 @@
 		<br><br>
 		<input type="submit" value="Create Doc!" style="font-size: 1.5em;" name="Submit">
 	</form>
-	<h3>So far, Collab.Center has created <?php echo  file_get_contents('docs.txt', true);?> docs for people like you!</h3>
+	<h3 style="display: none;">So far, Collab.Center has created <?php echo  file_get_contents('docs.txt', true);?> docs for people like you!</h3>
 </div>
 <footer><p>Copyright (c) 2014, Liam O'Flynn. All rights reserved. <a href="./terms#terms">Privacy Policy & Terms of Use</a>, Updated 6/8/2014</p></footer>
 <script>
 	dialog("w3cD", 'w3cvalidhtml.gif', '604800');
+	dialog("noticeD", 'notice.png', '604800');
+	dialog("featuresD", 'none', '604800');
 
 	if($("#google_ads_frame1").css('display')=="none")
 	{
@@ -151,20 +177,15 @@
 </script>
 <!-- Start of StatCounter Code for Default Guide -->
 <script type="text/javascript">
-	var sc_project=9847367; 
-	var sc_invisible=1; 
-	var sc_security="8d165f65"; 
-	var scJsHost = (("https:" == document.location.protocol) ?
-		"https://secure." : "http://www.");
-	document.write("<sc"+"ript type='text/javascript' src='" +
-		scJsHost+
-		"statcounter.com/counter/counter.js'></"+"script>");
+var sc_project=9847367; 
+var sc_invisible=1; 
+var sc_security="8d165f65"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
 </script>
-<noscript><div class="statcounter"><a title="free hit
-	counters" href="http://statcounter.com/"
-	target="_blank"><img class="statcounter"
-	src="http://c.statcounter.com/9847367/0/8d165f65/1/"
-	alt="free hit counters"></a></div></noscript>
-	<!-- End of StatCounter Code for Default Guide -->
+<!-- End of StatCounter Code for Default Guide -->
 </body>
 </html>

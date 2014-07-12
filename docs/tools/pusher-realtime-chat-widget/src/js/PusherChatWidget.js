@@ -50,6 +50,13 @@ function PusherChatWidget(pusher, options) {
   this._widget.find('button').click(function() {
     self._sendChatButtonClicked();
   })
+
+  this._messageInputEl.keyup(function(e) {
+    var code = (e.keyCode ? e.keyCode : e.which);
+    if (code == 13) {
+      self._sendChatButtonClicked();
+    }
+  })
   
   var messageEl = this._messagesEl;
   messageEl.scroll(function() {

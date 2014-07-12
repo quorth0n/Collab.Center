@@ -218,8 +218,19 @@
 			return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 		}
 
+		function escapeHtml(text) {
+		  return text
+		      .replace(/&/g, "&amp;")
+		      .replace(/</g, "&lt;")
+		      .replace(/>/g, "&gt;")
+		      .replace(/"/g, "&quot;")
+		      .replace(/'/g, "&#039;")
+		      .replace(/-/g, "&#045;")
+		      .replace(/\./g, "&#046;");
+		}
+
 		function l(lang) {
-			window.location.replace("?lang=" + lang);
+			window.location.replace("?lang=" + lang + "&changeext=" + escapeHtml($("#docname").val() + $("#fileext").text()));
 		}
 		/**
 		Keybind Ctrl + S to download
@@ -307,19 +318,18 @@
 		*/
 		$(document).ready(function() {
 			//language stuff
-			if(getParameterByName("lang") != "") {
+			if (getParameterByName("lang") != "") {
 				var language = getParameterByName("lang");
 
 				if (language != null) {
 					langBaseRef.set({lang : language});
 				}
-				
-				
 
 				var uri = window.location.toString();
 				if (uri.indexOf("?") > 0) {
 					var clean_uri = uri.substring(0, uri.indexOf("?"));
-					window.history.replaceState({}, document.title, clean_uri);
+					//window.history.replaceState({}, document.title, clean_uri);
+					//window.location.replace("?changeext=" + $("#docname").val() + $("#fileext").text());
 				}
 			}
 
@@ -329,7 +339,7 @@
 			}
 
 			if (getParameterByName("edit") == "edit") {
-				$('#downloadDialog').dialog();
+				$('#settingsDialog').dialog();
 			}
 
 			var myFirebase = new Firebase("https://collab-coding-privacy.firebaseio.com/" + padId);
@@ -368,9 +378,10 @@
 	    	langBaseRef.child("lang").once('value', function(snapshot) {
 	    		if (snapshot.val() != undefined) {
 	    			langBaseVal = snapshot.val().toString();
-	    		} else {
+	    		} /*else {
 	    			window.location.replace(document.URL);
-	    		}
+	    			alert('hey');
+	    		}*/
 
 	    	});
 
@@ -493,9 +504,27 @@
 
 			if (!empty($_GET["renameto"])) {
 				//rename("./", "../" . $_GET["renameto"]);
-				file_put_contents("../id.js", 'var id = "test";', LOCK_EX);
-				echo "<script>alert('Renamed Succesfully');</script>";
+				$padId = str_replace(".", "˙", $_GET["renameto"]);
+				file_put_contents("name.php", '<?php $padName = "' . $padId .'"; ?>', LOCK_EX);
+				echo "<script>";
+				echo 'var uri = window.location.toString();if (uri.indexOf("?") > 0) {var clean_uri = uri.substring(0, uri.indexOf("?"));window.history.replaceState({}, document.title, clean_uri);}';
+				echo "alert('Renamed Succesfully');";
+				
+				echo "</script>";
+
 				//echo "<script>window.location.replace('../" . $_GET["renameto"] . "')</script>";
+			}
+
+			if (!empty($_GET["changeext"])) {
+				
+				$extPadId = str_replace(".", "˙", $_GET["changeext"]);
+				file_put_contents("name.php", '<?php $padName = "' . $extPadId .'"; echo $padName;?>', LOCK_EX);
+				echo "<script>";
+				//echo 'var uri = window.location.toString();if (uri.indexOf("?") > 0) {var clean_uri = uri.substring(0, uri.indexOf("?"));window.history.replaceState({}, document.title, clean_uri);}';
+				echo $extPadId;
+				echo "</script>";
+
+				
 			}
 		?>
 		<div id="top" style="vertical-align: middle;">
@@ -519,8 +548,6 @@
 				<img src="../../about.png" title="About Collab Center" onclick="about();" style="vertical-align: middle;">
 				
 			</div>
-			<script>
-			</script>
 
 		</div>
 		<div id="tabs">
@@ -542,9 +569,10 @@
 				langBaseRef.child("lang").once('value', function(snapshot) {
 					if (snapshot.val() != null) {
 						langBaseVal = snapshot.val();
-					} else {
+					} /*else {
 						window.location.replace(document.URL);
-					}
+						alert('hey');
+					}*/
 
 				});
 
@@ -696,10 +724,6 @@
 					if (snapshot.val() != undefined) {
 						$("#docname").val(snapshot.val().split(".")[0]);
 					}
-				});
-
-				$(document).ready(function () {
-					
 				});
 				</script>
 			</fieldset>
