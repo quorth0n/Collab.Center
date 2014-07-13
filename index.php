@@ -153,7 +153,7 @@
 	</form>
 	<h3 style="display: none;">So far, Collab.Center has created <?php echo  file_get_contents('docs.txt', true);?> docs for people like you!</h3>
 </div>
-<footer><p>Copyright (c) 2014, Liam O'Flynn. All rights reserved. <a href="./terms#terms">Privacy Policy & Terms of Use</a>, Updated 6/8/2014</p></footer>
+<footer><p>Copyright (c) 2014, Liam O'Flynn. All rights reserved. <a href="./terms#terms">Privacy Policy & Terms of Use</a>, Updated 7/12/2014</p></footer>
 <script>
 	dialog("w3cD", 'w3cvalidhtml.gif', '604800');
 	dialog("noticeD", 'notice.png', '604800');

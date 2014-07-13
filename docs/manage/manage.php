@@ -316,49 +316,51 @@
 					return $files;
 				}
 
-				if ($_GET["sort"] == "datec") {
-					foreach (array_reverse($sorted_array) as $entry) {
-						if (file_exists('../' . $_COOKIE["email"] . "/$entry/name.php")) {
-			    			INCLUDE '../' . $_COOKIE["email"] . "/$entry/name.php"; 
+				if (file_exists('../' . $_COOKIE['email'])) {
+					if ($_GET["sort"] == "datec") {
+						foreach (array_reverse($sorted_array) as $entry) {
+							if (file_exists('../' . $_COOKIE["email"] . "/$entry/name.php")) {
+								INCLUDE '../' . $_COOKIE["email"] . "/$entry/name.php"; 
 
-				    		$newPadName = str_replace('˙', '.', $padName);
-				    		$entry2 = str_replace(".","-",$entry);
-				    		echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'>$newPadName<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'><img src='edit.png' onclick=\"return ren('$entry2')\" class='$entry2'><img src='gear.png' onclick=\" return edit('$entry')\" class='$entry2'></a>";
+								$newPadName = str_replace('˙', '.', $padName);
+								$entry2 = str_replace(".","-",$entry);
+								echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'>$newPadName<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'><img src='edit.png' onclick=\"return ren('$entry2')\" class='$entry2'><img src='gear.png' onclick=\" return edit('$entry')\" class='$entry2'></a>";
 
-				    		echo "<script>";
-				    		echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
-				    		echo "</script>";
-			    		} else {
-			    			$entry2 = str_replace(".","-",$entry);
-			    			echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'>$entry<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'></a>";
-			    			echo '<a href="javascript:void(0)" style="color: black; font-size: smaller;"><strong>NOTE:</strong> This document was created before 7/10/14 and document-specific settings are not supported (Rename, etc.)';
+								echo "<script>";
+								echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
+								echo "</script>";
+							} else {
+								$entry2 = str_replace(".","-",$entry);
+								echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'>$entry<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'></a>";
+								echo '<a href="javascript:void(0)" style="color: black; font-size: smaller;"><strong>NOTE:</strong> This document was created before 7/10/14 and document-specific settings are not supported (Rename, etc.)';
 
-			    			echo "<script>";
-				    		echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
-				    		echo "</script>";
-			    		}
-					}
-				} elseif ($_GET["sort"] == "name") {
-					foreach ($sorted_name_files as $entry) {
-						if (file_exists('../' . $_COOKIE["email"] . "/$entry/name.php")) {
-			    			INCLUDE '../' . $_COOKIE["email"] . "/$entry/name.php"; 
+								echo "<script>";
+								echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
+								echo "</script>";
+							}
+						}
+					} elseif ($_GET["sort"] == "name") {
+						foreach ($sorted_name_files as $entry) {
+							if (file_exists('../' . $_COOKIE["email"] . "/$entry/name.php")) {
+								INCLUDE '../' . $_COOKIE["email"] . "/$entry/name.php"; 
 
-				    		$newPadName = str_replace('˙', '.', $padName);
-				    		$entry2 = str_replace(".","-",$entry);
-				    		echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'>$newPadName<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'><img src='edit.png' onclick=\"return ren('$entry2')\" class='$entry2'><img src='gear.png' onclick=\" return edit('$entry')\" class='$entry2'></a>";
+								$newPadName = str_replace('˙', '.', $padName);
+								$entry2 = str_replace(".","-",$entry);
+								echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'>$newPadName<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'><img src='edit.png' onclick=\"return ren('$entry2')\" class='$entry2'><img src='gear.png' onclick=\" return edit('$entry')\" class='$entry2'></a>";
 
-				    		echo "<script>";
-				    		echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
-				    		echo "</script>";
-			    		} else {
-			    			$entry2 = str_replace(".","-",$entry);
-			    			echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'>$entry<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'></a>";
-			    			echo '<a href="javascript:void(0)" style="color: black; font-size: smaller;"><strong>NOTE:</strong> This document was created before 7/10/14 and document-specific settings are not supported (Rename, etc.)';
+								echo "<script>";
+								echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
+								echo "</script>";
+							} else {
+								$entry2 = str_replace(".","-",$entry);
+								echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'>$entry<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'></a>";
+								echo '<a href="javascript:void(0)" style="color: black; font-size: smaller;"><strong>NOTE:</strong> This document was created before 7/10/14 and document-specific settings are not supported (Rename, etc.)';
 
-			    			echo "<script>";
-				    		echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
-				    		echo "</script>";
-			    		}
+								echo "<script>";
+								echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
+								echo "</script>";
+							}
+						}
 					}
 				}
 			?>
