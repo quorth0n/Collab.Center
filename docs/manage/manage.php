@@ -109,7 +109,7 @@
 		            return arrParamValues[i];
 		        	}
     			}
-    			return "No Parameters Found";
+    			return null;
 			}		
 		}
 
@@ -155,7 +155,12 @@
 						break;
 				}
 			});
+
+			if (getURLParameters("sort") == null && getURLParameters("tab") != "account") {
+				window.location.replace("?sort=datec")
+			}
 		});
+
 		function del(doc) {
 			var del = confirm('Are you sure you\'d like to delete ' + doc + '?');
 			if (del == true) {
@@ -245,41 +250,16 @@
 				<!--<option value="3">Sort by date modified</option>-->
 			</select> <span class="select-arrow"></span>
 			<?php 
-				if ($handle = opendir('../' . $_COOKIE["email"])) {
-
-				    while (false !== ($entry = readdir($handle))) {
-				    	/*if ($entry != "." && $entry != "..") {
-				    		if (file_exists('../' . $_COOKIE["email"] . "/$entry/name.php")) {
-				    			INCLUDE '../' . $_COOKIE["email"] . "/$entry/name.php"; 
-
-					    		$newPadName = str_replace('˙', '.', $padName);
-					    		$entry2 = str_replace(".","-",$entry);
-					    		echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'>$newPadName<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'><img src='edit.png' onclick=\"return ren('$entry2')\" class='$entry2'><img src='gear.png' onclick=\" return edit('$entry')\" class='$entry2'></a>";
-
-					    		echo "<script>";
-					    		echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
-					    		echo "</script>";
-				    		} else {
-				    			$entry2 = str_replace(".","-",$entry);
-				    			echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'>$entry<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'></a>";
-				    			echo '<a href="#" style="color: black; font-size: smaller;"><strong>NOTE:</strong> This document was created before 7/10/14 and document-specific settings are not supported (Rename, etc.)';
-
-				    			echo "<script>";
-					    		echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
-					    		echo "</script>";
-				    		}*/
-				    		
-				    	//}
-				    }
-
-				    closedir($handle);
-				}
-
 				$file = '*';
 				$dir = '../' . $_COOKIE['email'] . '/';
 
-				$sorted_array = listdir_by_date($dir.$file);
-				$sorted_name_files = listdir_by_name($dir);
+				$sorted_array = array();
+				$sorted_name_files = array();
+
+				if (file_exists('../' . $_COOKIE['email']) && is_dir('../' . $_COOKIE['email'])) {
+					$sorted_array = listdir_by_date($dir.$file);
+					$sorted_name_files = listdir_by_name($dir);
+				}
 
 				function listdir_by_date($pathtosearch)
 				{
@@ -316,7 +296,7 @@
 					return $files;
 				}
 
-				if (file_exists('../' . $_COOKIE['email'])) {
+				if (file_exists('../' . $_COOKIE['email']) && is_dir('../' . $_COOKIE['email'])) {
 					if ($_GET["sort"] == "datec") {
 						foreach (array_reverse($sorted_array) as $entry) {
 							if (file_exists('../' . $_COOKIE["email"] . "/$entry/name.php")) {
@@ -324,7 +304,7 @@
 
 								$newPadName = str_replace('˙', '.', $padName);
 								$entry2 = str_replace(".","-",$entry);
-								echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'>$newPadName<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'><img src='edit.png' onclick=\"return ren('$entry2')\" class='$entry2'><img src='gear.png' onclick=\" return edit('$entry')\" class='$entry2'></a>";
+								echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'>$newPadName &nbsp;&nbsp;&nbsp; " . date('F d Y H:i:s', filectime('../' . $_COOKIE['email'] . "/$entry")) . "<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'><img src='edit.png' onclick=\"return ren('$entry2')\" class='$entry2'><img src='gear.png' onclick=\" return edit('$entry')\" class='$entry2'></a>";
 
 								echo "<script>";
 								echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
@@ -362,6 +342,8 @@
 							}
 						}
 					}
+				} else {
+					echo "<br /><h1>No Documents Here!</h1>";
 				}
 			?>
 		</nav>
