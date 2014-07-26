@@ -319,18 +319,22 @@
 		$(document).ready(function() {
 			//language stuff
 			if (getParameterByName("lang") != "") {
+
 				var language = getParameterByName("lang");
 
 				if (language != null) {
 					langBaseRef.set({lang : language});
 				}
 
-				var uri = window.location.toString();
-				if (uri.indexOf("?") > 0) {
-					var clean_uri = uri.substring(0, uri.indexOf("?"));
-					//window.history.replaceState({}, document.title, clean_uri);
-					//window.location.replace("?changeext=" + $("#docname").val() + $("#fileext").text());
+				if (getParameterByName('template') == "") {
+					var uri = window.location.toString();
+					if (uri.indexOf("?") > 0) {
+						var clean_uri = uri.substring(0, uri.indexOf("?"));
+						window.history.replaceState({}, document.title, clean_uri);
+						//window.location.replace("?changeext=" + $("#docname").val() + $("#fileext").text());
+					}
 				}
+				
 			}
 
 			if (getParameterByName("rename") == "rename") {
@@ -505,7 +509,7 @@
 			if (!empty($_GET["renameto"])) {
 				//rename("./", "../" . $_GET["renameto"]);
 				$padId = str_replace(".", "˙", $_GET["renameto"]);
-				file_put_contents("name.php", '<?php $padName = "' . $padId .'"; ?>', LOCK_EX);
+				file_put_contents("name.php", '<?php $padName = "' . $padId .'";?>', FILE_APPEND);
 				echo "<script>";
 				echo 'var uri = window.location.toString();if (uri.indexOf("?") > 0) {var clean_uri = uri.substring(0, uri.indexOf("?"));window.history.replaceState({}, document.title, clean_uri);}';
 				echo "alert('Renamed Succesfully');";
@@ -518,12 +522,25 @@
 			if (!empty($_GET["changeext"])) {
 				
 				$extPadId = str_replace(".", "˙", $_GET["changeext"]);
-				file_put_contents("name.php", '<?php $padName = "' . $extPadId .'"; echo $padName;?>', LOCK_EX);
+				file_put_contents("name.php", '<?php $padName = "' . $extPadId .'";?>', FILE_APPEND);
 				echo "<script>";
 				//echo 'var uri = window.location.toString();if (uri.indexOf("?") > 0) {var clean_uri = uri.substring(0, uri.indexOf("?"));window.history.replaceState({}, document.title, clean_uri);}';
 				echo $extPadId;
 				echo "</script>";
 
+				
+			}
+
+			if (file_exists('name.php')) {
+				INCLUDE 'name.php';
+				if (!empty($template)) {
+					if ($template == true) {
+						echo '<script>';
+						echo '$(".favicon").attr("href", "../../template.ico");';
+						echo '$("#template").attr("checked", "checked");';
+						echo '</script>';
+					}
+				}
 				
 			}
 		?>
@@ -695,6 +712,30 @@
 				Name: <br>
 				<input type="text" value="Untitled-CC-Doc" id="docname" maxlength="30" style="width: 50%;"><span id="fileext">Loading...</span>
 				<button id="updateDocname">Update</button>
+				<hr>
+				<form name="templateForm" id="templateForm" method="post">
+					<label for="template"><input type="checkbox" name="templateCheck" id="template">Template Document</label>
+					<input type="hidden" name="padId[0]" id="padId">
+					<input type="submit" value="Update" name="sTemplate" style="display: none;" id="sTemplate">
+					<script>
+					$('#template').change(function () {
+						$('#sTemplate').trigger('click');
+					});
+
+					$('#padId').attr('value', padId);
+					</script>
+				</form>
+				<?php
+					if (isset($_POST['sTemplate'])) {
+						if (isset($_POST['templateCheck'])) {
+							file_put_contents('name.php', '<?php $template = true; $id = "' . $_POST['padId'][0] . '";?>', FILE_APPEND);
+							echo '<script>$("#template").attr("checked", "checked");</script>';
+						} else {
+							file_put_contents('name.php', '<?php $template = false; $id = "' . $_POST['padId'][0] . '";?>', FILE_APPEND);
+							echo '<script>$("#template").attr("checked", false);</script>';
+						}
+					}
+				?>
 				<script>
 				var langBase = new Firebase("https://collab-coding-lang.firebaseio.com").child(padId);
 				var langBaseValue = "";
@@ -731,7 +772,6 @@
 	</div>
 	<div id="downloadDialog" style="display: none;" title="Download as">
 		<form name="codeFile" method="post">
-			<!--$_POST["filename"][0]-->
 			<input type="hidden" name="filename[0]" value="Collab_Center_Document">
 			<input type="hidden" name="filecontents[0]" id="filecontents">
 			<input type="hidden" name="filelang[0]" id="filelang">
@@ -792,6 +832,19 @@
 				$("body").attr('style', 'cursor: wait;');
 
 				firepad.on('ready', function() {
+					codeMirrorInst.on("change", function(cm, change) {
+  						//$('#templateForm').attr('action', document.URL + '?tempTxt=' + firepadInst.getText());
+  						var docTxt = new Firebase('https://collab-coding-docs.firebaseio.com/');
+  						docTxt.child(padId).set(firepad.getText());
+					});
+
+					if (getParameterByName('template') != "") {
+						var template = new Firebase('https://collab-coding-docs.firebaseio.com/').child(getParameterByName('template'));
+						template.once('value', function (snapshot) {
+							firepad.setText(snapshot.val());
+						});
+					}
+
 					$("#loading").hide();
 					$("#firepad").show();
 					$("body").attr('style', '');
@@ -866,12 +919,9 @@
 				$("#filelang").attr('value', langBaseVal);
 				$("#codeFileSubmit").attr('value', 'Code File (*.' + fileext[$("#filelang").val()] + ')');
 
-
 				//Pdf file
 				$("#pdfcontents").attr('value', firepadInst.getHtml());
-			});
-
-			//$("#fileext").text('.' + fileext[$("#filelang").val()]);
+			});		
 	</script>
 </body>
 </html>
