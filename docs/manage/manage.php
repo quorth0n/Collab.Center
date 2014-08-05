@@ -67,6 +67,7 @@
 			position: absolute;
 			padding-bottom: 4px;
 			display: none;
+			width: 32px;
 		}
 
 		img[src="gear.png"] {
@@ -74,11 +75,11 @@
 		}
 
 		img[src="delete.png"] {
-			right: 19px;
+			right: 34px;
 		}
 
 		img[src="edit.png"] {
-			right: 38px;
+			right: 72px;
 		}
 
 		.template {
@@ -255,7 +256,7 @@ function edit(doc) {
 		</nav>
 	</div>
 	<div id="account">
-		<h1>Comming Soon!</h1>
+		<h1>Coming Soon!</h1>
 	</div>
 	<div id="documents">
 		<h1>Documents</h1>
