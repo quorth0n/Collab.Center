@@ -195,7 +195,9 @@ function ren(doc) {
 			var fileext = {"Plain Text" : "txt", "apl" : "apl", "asterisk" : "conf", "c" : "c", "c++" : "cc", "c#" : "cs", "clojure" : "clj", "cobol" : "cob", "coffeescript" : "coffee", "commonlisp" : "lisp", "css" : "css", "d" : "d", "diff" : "diff", "dtd" : "dtd", "ecl" : "ecl", "eiffel" : "e", "erlang" : "erl", "fortran" : "f", "gas" : "s", "gfm" : "gfm", "gherkin" : "feature", "go" : "go", "groovy" : "groovy", "haml" : "haml", "haskell" : "hs", "haxe" : "hx", "htmlembedded" : "html", "htmlmixed" : "html", "http" : "none", "jade" : "jade", "java" : "java", "javascript" : "js", "jinja2" : "py", "julia" : "jl", "livescript" : "ls", "lua" : "lua", "markdown" : "md", "mirc" : "mrc", "f#" : "fs", "ocaml" : "ml", "nginx" : "conf", "ntriples" : "nt", "octave" : "m", "pascal" : "pas", "pegjs" : "pegjs", "perl" : "pl", "php" : "php", "pig" : "pig", "properties" : "properties", "puppet" : "pp", "python" : "py", "q" : "q", "r" : "r", "rpm" : "rpm", "rst" : "rst", "ruby" : "rb", "rust" : "rs", "sass" : "scss", "scheme" : "scm", "shell" : "none", "sieve" : "none", "smalltalk" : "st", "smarty" : "tpl", "smartymixed" : "tpl", "solr" : "none", "sparql" : "sparql", "sql" : "sql", "stex" : "tex", "tcl" : "tcl", "tiddlywiki" : "none", "tikiwiki" : "none", "toml" : "toml", "turtle" : "ttl", "vb" : "vb", "vbscript" : "vbs", "velocity" : "vm", "verilog" : "v", "xml" : "xml", "xquery" : "xq", "yaml" : "yaml", "z80" : "z80"};
 
 			var renameto = prompt('Enter a new name for the document (Do not include file extension):' , 'UntitledDoc');
-			window.location.replace('../' + '<?php echo $_COOKIE["email"]?>' + "/" + doc + "?renameto=" + renameto + "." + fileext[snapshot.val()]);
+			if (renameto != null) {
+				window.location.replace('../' + '<?php echo $_COOKIE["email"]?>' + "/" + doc + "?renameto=" + renameto + "." + fileext[snapshot.val()]);
+			}
 		} else {
 			alert('Error. Code: LANGBASE_CHILD_UNDEFINED');
 		}

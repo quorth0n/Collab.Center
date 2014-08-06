@@ -537,7 +537,7 @@
 					if ($template == true) {
 						echo '<script>';
 						echo '$(".favicon").attr("href", "../../template.ico");';
-						echo '$("#template").attr("checked", "checked");';
+						echo '$("#template").ready(function() {$("#template").attr("checked", "checked");});';
 						echo '</script>';
 					}
 				}
@@ -844,6 +844,13 @@
 						template.once('value', function (snapshot) {
 							firepad.setText(snapshot.val());
 						});
+
+						var uri = window.location.toString();
+						if (uri.indexOf("?") > 0) {
+							var clean_uri = uri.substring(0, uri.indexOf("?"));
+							window.history.replaceState({}, document.title, clean_uri);
+							//window.location.replace("?changeext=" + $("#docname").val() + $("#fileext").text());
+						}
 					}
 
 					$("#loading").hide();
