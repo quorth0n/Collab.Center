@@ -341,8 +341,8 @@ function edit(doc) {
 									echo '</script>';
 								} else {
 									$entry2 = str_replace(".","-",$entry);
-									echo '<span class="doc"><a href="../' . $_COOKIE["email"] . "/$entry\" class='$entry2'>$entry<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'></a>";
-									echo '<a href="javascript:void(0)" style="color: black; font-size: smaller;"><strong>NOTE:</strong> This document was created before 7/10/14 and document-specific settings are not supported (Rename, etc.)';
+									echo '<a href="../' . $_COOKIE["email"] . "/$entry\" class='$entry2'><span class='doc'></span>$entry<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'></a>";
+									//echo '<a href="javascript:void(0)" style="color: black; font-size: smaller;"><strong>NOTE:</strong> This document was created before 7/10/14 and document-specific settings are not supported (Rename, etc.)';
 
 									echo "<script>";
 									echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
