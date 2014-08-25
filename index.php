@@ -95,7 +95,7 @@
 		}
 
 		if (isset($_POST['Submit'])) {
-			file_put_contents("./docs.txt", (string)intval(file_get_contents("./docs.txt")) + 1);
+			file_put_contents("./docCount.txt", (string)intval(file_get_contents("./docCount.txt")) + 1);
 
 			if (isset($_POST['language'])) {
 				$lang = $_POST['language'];
@@ -235,7 +235,8 @@
 
 						$newPadName = str_replace('˙', '.', $padName);
 						$entry2 = str_replace(".","-",$entry);
-						echo ($template == true ? "<option>$newPadName</option>" : '');
+						echo (!empty($template) && $template == true ? "<option>$newPadName</option>" : '');
+						$template = null;
 					}
 				}
 			}
@@ -245,7 +246,7 @@
 		<br><br>
 		<input type="submit" value="Create Doc!" style="font-size: 1.5em;" name="Submit" id="submit" disabled>
 	</form>
-	<h3 style="display: none;">So far, Collab.Center has created <?php echo  file_get_contents('docs.txt', true);?> docs for people like you!</h3>
+	<h3 style="display: none;">So far, Collab.Center has created <?php echo  file_get_contents('docCount.txt', true);?> docs for people like you!</h3>
 </div>
 <footer><p>Copyright (c) 2014, Liam O'Flynn. All rights reserved. <a href="./terms#terms">Privacy Policy &amp; Terms of Use</a>, Updated 7/12/2014</p></footer>
 <script>

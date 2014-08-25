@@ -336,7 +336,7 @@ function edit(doc) {
 									$entry2 = str_replace(".","-",$entry);
 
 									echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'><span class='" . (!empty($template) && $template == true ? 'template' : 'doc') . "'></span>$newPadName &nbsp;&nbsp;&nbsp; " . date('F d Y H:i:s', filectime('../' . $_COOKIE['email'] . "/$entry")) . "<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'><img src='edit.png' onclick=\"return ren('$entry2')\" class='$entry2'><img src='gear.png' onclick=\" return edit('$entry')\" class='$entry2'></a>";
-
+									$template = null;
 
 									echo '<script>';
 									echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
