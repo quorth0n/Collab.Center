@@ -327,7 +327,7 @@ function edit(doc) {
 					}
 
 					if (file_exists('../' . $_COOKIE['email']) && is_dir('../' . $_COOKIE['email']) && !is_dir_empty('../' . $_COOKIE['email'])) {
-						if ($_GET["sort"] == "datec") {
+						if (!empty($_GET["sort"]) && $_GET["sort"] == "datec") {
 							foreach (array_reverse($sorted_array) as $entry) {
 								if (file_exists('../' . $_COOKIE["email"] . "/$entry/name.php")) {
 									INCLUDE '../' . $_COOKIE["email"] . "/$entry/name.php"; 
@@ -351,7 +351,7 @@ function edit(doc) {
 									echo "</script>";
 								}
 							}
-						} elseif ($_GET["sort"] == "name") {
+						} elseif (!empty($_GET["sort"]) && $_GET["sort"] == "name") {
 							foreach ($sorted_name_files as $entry) {
 								if (file_exists('../' . $_COOKIE["email"] . "/$entry/name.php")) {
 									INCLUDE '../' . $_COOKIE["email"] . "/$entry/name.php"; 

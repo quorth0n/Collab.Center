@@ -114,7 +114,7 @@
 					$my_file = $my_dir."/index.php";
 
 				} else {
-					//User is not signed in, create a new directory
+					//User is not signed in, create in the dev directory
 					$my_dir = "docs/dev/".$randString;
 					$my_file = $my_dir."/index.php";
 				}
