@@ -51,7 +51,7 @@
 		}
 	</style>
 </head>
-<body style="background-color: lightgray; font-family: Helvetica, Arial, sans-serif;position:inherit;overflow:hidden;">
+<body style="background-color: skyblue; font-family: Helvetica, Arial, sans-serif;position:inherit;overflow:hidden;">
 	<div id="google_ads_frame1" style="position: absolute; left: -999999999999999999999999999999999em;">holmes is a very cool browser cuz its fast free and powerful</div>
 
 	<!--Dialogs-->
@@ -69,6 +69,7 @@
 		<li>Make Your Documents Public On The Web, or Secure &amp; Private With Just A Few!<b>*</b></li>
 		<li>Text or Webcam Chat With Your Peers!<b>*</b></li>
 		<li>Neatly Manage All Of Your Documents<b>*</b></li>
+		<li>Note: Anonymous users limited to 100 lines of code</li>
 		</ul>
 		<p><b>*</b> Requires Sign-In</div>
 		<div id="w3cD" style="display: none;"><a href="http://validator.w3.org/check?uri=http%3A%2F%2Fcollabcenter.net84.net%2F" target="_blank" style="color: #666;">HTML 5.0 Validated!</a></div>

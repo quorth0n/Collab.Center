@@ -1,4 +1,4 @@
-<!--Whatta YOU lookin' at?-->
+<!--my code is cool enough, no need to copy it-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -660,7 +660,7 @@
 				<div id="invite">
 					<h3>Invite People</h3>
 					Enter their email here: <input type="text" width="400" id="pEmail" name="pEmail" disabled> <br><strong>Note: They must be registered with this email address to view your document!</strong><br>
-					<label for="sendEmail"><input type="checkbox" id="sendEmail" name="sendEmail" checked disabled>&nbsp;Send an email invitation</label>
+					<label for="sendEmail"><input type="checkbox" id="sendEmail" name="sendEmail" disabled>&nbsp;Send an email invitation</label>
 				</div>
 				<input type="submit" value="Update" id="sInvite" name="sInvite">
 				<?php
@@ -839,6 +839,17 @@
   						docTxt.child(padId).set(firepad.getText());
 					});
 
+					//200-line code limit
+					codeMirrorInst.on("beforeChange", function(cm, change) {
+						console.log(change.text);
+  						 if (change.text && change.text.length > 1) { 
+                            if (parseInt($('.CodeMirror-linenumber').last().text()) >= 200) {
+                            	alert('You have reached the maximum line count (200) for anonymous users. Please log in to continue editing this document (Among other benefits).');
+                            	change.cancel();
+                            }
+                         } 
+					});
+
 					if (getParameterByName('template') != "") {
 						var template = new Firebase('https://collab-coding-docs.firebaseio.com/').child(getParameterByName('template'));
 						template.once('value', function (snapshot) {
@@ -930,6 +941,27 @@
 				//Pdf file
 				$("#pdfcontents").attr('value', firepadInst.getHtml());
 			});		
+				
+			var current = false;
+			var myFirebase = new Firebase("https://collab-coding-privacy.firebaseio.com").child(padId);
+			myFirebase.child("private").once('value', function(snapshot) {
+		    	if (snapshot.val() != undefined && snapshot.val() != false) {
+		    		current = true;
+		    	}
+		    });
+
+			//check every 15 sec
+			setInterval(function(){
+				//check if private in firebase
+				myFirebase.child("private").once('value', function(snapshot) {
+			    	if (snapshot.val() != undefined) {
+			    		if (current != null && current != undefined && snapshot.val() != current && snapshot.val() == true) {
+			    			window.location.replace(document.URL);
+			    		}
+			    	}
+		    	});
+
+			}, 15000);
 	</script>
 </body>
 </html>
