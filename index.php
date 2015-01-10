@@ -57,8 +57,8 @@
 	<!--Dialogs-->
 	<div id="dialogs" style="position: absolute; right: 10px; top: 10px;">
 		<div id="welcomeD" style="display: none;">Welcome back, Anonymous, please <a href="docs/signin/signin.php">Sign in</a></div>
-		<div id="noticeD" style="display: none;"><br>We just recently had an update that changes the way documents are handled. This effects all documents created before 7/10/14. 
-			When you go to manage your docs, you will get some error messages. To fix this, copy &amp; paste your code from the old document into a new document, and delete the old document. 
+		<div id="noticeD" style="display: none;"><br>We just recently had an update that changes the way documents are handled. This effects all documents created before 7/10/14.
+			When you go to manage your docs, you will get some error messages. To fix this, copy &amp; paste your code from the old document into a new document, and delete the old document.
 			Thank you for your patience.
 		</div>
 		<div id="featuresD" style="display: none;"><h2>Features:</h2>
@@ -69,12 +69,17 @@
 		<li>Make Your Documents Public On The Web, or Secure &amp; Private With Just A Few!<b>*</b></li>
 		<li>Text or Webcam Chat With Your Peers!<b>*</b></li>
 		<li>Neatly Manage All Of Your Documents<b>*</b></li>
-		<li>Note: Anonymous users limited to 100 lines of code</li>
+		<li>Note: Anonymous users limited to 200 lines of code</li>
 		</ul>
 		<p><b>*</b> Requires Sign-In</div>
 		<div id="w3cD" style="display: none;"><a href="http://validator.w3.org/check?uri=http%3A%2F%2Fcollabcenter.net84.net%2F" target="_blank" style="color: #666;">HTML 5.0 Validated!</a></div>
 		<div id="adblockD" style="display: none;"><br>Our website can only be hosted and running because of our ads. Please consider disabling your AdBlocker</div>
-		
+		<div id="shareD" style="display: none;">
+			<!-- facebook -->
+			Collab.Center is on Facebook! <br><br>
+			<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Ffacebook.com%2Fcollabcentercoding%27&amp;width=250&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=80&amp;appId=330440663773880" scrolling="no" style="border:none; overflow:hidden; width:250px; height:80px; padding-left:30px;" allowTransparency="true"></iframe>
+		</div>
+
 	</div>
 	<a href="https://github.com/Mulletfingers999/Collab.Center" style="display: none;"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>	<div>
 	<noscript>Your Browser Will Not Work With Collab.Center, or Most Sites. Please Upgrade Your Browser To A Modern One, Like <a href="http://holmes-browser.tumblr.com">Holmes</a> or <a href="https://www.google.com/chrome/">Google Chrome</a></noscript>
@@ -232,7 +237,7 @@
 			if (file_exists('docs/' . $_COOKIE['email']) && is_dir('docs/' . $_COOKIE['email'])) {
 				foreach (array_reverse($sorted_array) as $entry) {
 					if (file_exists('docs/' . $_COOKIE["email"] . "/$entry/name.php")) {
-						INCLUDE 'docs/' . $_COOKIE["email"] . "/$entry/name.php"; 
+						INCLUDE 'docs/' . $_COOKIE["email"] . "/$entry/name.php";
 
 						$newPadName = str_replace('˙', '.', $padName);
 						$entry2 = str_replace(".","-",$entry);
@@ -266,6 +271,7 @@
 	dialog("w3cD", 'w3cvalidhtml.gif', '604800');
 	//dialog("noticeD", 'notice.png', '604800');
 	dialog("featuresD", 'none', '604800');
+	dialog("shareD", 'none', '604800');
 
 	if($("#google_ads_frame1").css('display')=="none")
 	{
@@ -285,9 +291,9 @@
 </script>
 <!-- Start of StatCounter Code for Default Guide -->
 <script type="text/javascript">
-var sc_project=9847367; 
-var sc_invisible=1; 
-var sc_security="8d165f65"; 
+var sc_project=9847367;
+var sc_invisible=1;
+var sc_security="8d165f65";
 var scJsHost = (("https:" == document.location.protocol) ?
 "https://secure." : "http://www.");
 document.write("<sc"+"ript type='text/javascript' src='" +
