@@ -10,6 +10,10 @@
 	<link rel="stylesheet" href="docs/tools/style.css">
 	<title>Collab.Center - Online, Collaborative Coding in Real-Time!</title>
 	<style>
+		body {
+				padding-top: 40px;
+		}
+
 		div:not(#dialogs) {
 			width: 600px;
 			padding: 50px;
@@ -49,13 +53,36 @@
 		p {
 			text-align: center;
 		}
+
+		#topbanner {
+			position: fixed;
+			top: 0px;
+			margin: auto !important;
+			z-index: 1000000000000000000000;
+			width: 100% !important;
+			background-color: rgb(236, 236, 236) !important;
+			padding: 5px !important;
+			left: 0px;
+			border-radius: 0px !important;
+		}
 	</style>
 </head>
 <body style="background-color: skyblue; font-family: Helvetica, Arial, sans-serif;position:inherit;overflow:hidden;">
-	<div id="google_ads_frame1" style="position: absolute; left: -999999999999999999999999999999999em;">holmes is a very cool browser cuz its fast free and powerful</div>
+	<div id="topbanner">
+		<!-- LinkedIn -->
+		<script src="//platform.linkedin.com/in.js" type="text/javascript">
+		lang: en_US
+		</script>
+		<script type="IN/Share" data-url="collab.center" data-counter="top"></script>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+
+		<!-- Facebook -->
+		<iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Ffacebook.com%2Fcollabcentercoding&width=1&layout=box_count&action=like&show_faces=true&share=true&height=65&appId=330440663773880" style="border: 0; width:65px; height:65px;"></iframe>
+	</div>
+	<div id="google_ads_frame1" style="position: absolute; left: -999999999999999999999999999999999em;">adblock</div>
 
 	<!--Dialogs-->
-	<div id="dialogs" style="position: absolute; right: 10px; top: 10px;">
+	<div id="dialogs" style="position: absolute; right: 10px; top: 100px;">
 		<div id="welcomeD" style="display: none;">Welcome back, Anonymous, please <a href="docs/signin/signin.php">Sign in</a></div>
 		<div id="noticeD" style="display: none;"><br>We just recently had an update that changes the way documents are handled. This effects all documents created before 7/10/14.
 			When you go to manage your docs, you will get some error messages. To fix this, copy &amp; paste your code from the old document into a new document, and delete the old document.
@@ -74,11 +101,6 @@
 		<p><b>*</b> Requires Sign-In</div>
 		<div id="w3cD" style="display: none;"><a href="http://validator.w3.org/check?uri=http%3A%2F%2Fcollabcenter.net84.net%2F" target="_blank" style="color: #666;">HTML 5.0 Validated!</a></div>
 		<div id="adblockD" style="display: none;"><br>Our website can only be hosted and running because of our ads. Please consider disabling your AdBlocker</div>
-		<div id="shareD" style="display: none;">
-			<!-- facebook -->
-			Collab.Center is on Facebook! <br><br>
-			<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Ffacebook.com%2Fcollabcentercoding%27&amp;width=250&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=80&amp;appId=330440663773880" scrolling="no" style="border:none; overflow:hidden; width:250px; height:80px; padding-left:30px;" allowTransparency="true"></iframe>
-		</div>
 
 	</div>
 	<a href="https://github.com/Mulletfingers999/Collab.Center" style="display: none;"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>	<div>
