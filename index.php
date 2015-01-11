@@ -11,7 +11,7 @@
 	<title>Collab.Center - Online, Collaborative Coding in Real-Time!</title>
 	<style>
 		body {
-				padding-top: 40px;
+				padding-top: 70px;
 		}
 
 		div:not(#dialogs) {
@@ -76,13 +76,28 @@
 		<script type="IN/Share" data-url="collab.center" data-counter="top"></script>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 
+		<!-- Flattr -->
+		<script id="fbto2qc">(function(i){var f,s=document.getElementById(i);f=document.createElement("iframe");f.src="//api.flattr.com/button/view/?uid=poflynn&url="+encodeURIComponent(document.URL);f.title="Flattr";f.height=62;f.width=55;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})("fbto2qc");</script>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+
 		<!-- Facebook -->
 		<iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Ffacebook.com%2Fcollabcentercoding&width=1&layout=box_count&action=like&show_faces=true&share=true&height=65&appId=330440663773880" style="border: 0; width:65px; height:65px;"></iframe>
+
+		<!-- paypal -->
+		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display: inline; vertical-align: middle;">
+		<input type="hidden" name="cmd" value="_s-xclick">
+		<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+		">
+		<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - Donate" style="margin-bottom: 1.5%">
+		<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+		</form>
+		<hr>
+		<h4 style="display: inline;"><i>Help us keep Collab.Center ad-free! :)</i></h4>
 	</div>
 	<div id="google_ads_frame1" style="position: absolute; left: -999999999999999999999999999999999em;">adblock</div>
 
 	<!--Dialogs-->
-	<div id="dialogs" style="position: absolute; right: 10px; top: 100px;">
+	<div id="dialogs" style="position: absolute; right: 10px; top: 140px;">
 		<div id="welcomeD" style="display: none;">Welcome back, Anonymous, please <a href="docs/signin/signin.php">Sign in</a></div>
 		<div id="noticeD" style="display: none;"><br>We just recently had an update that changes the way documents are handled. This effects all documents created before 7/10/14.
 			When you go to manage your docs, you will get some error messages. To fix this, copy &amp; paste your code from the old document into a new document, and delete the old document.
@@ -99,7 +114,7 @@
 		<li>Note: Anonymous users limited to 200 lines of code</li>
 		</ul>
 		<p><b>*</b> Requires Sign-In</div>
-		<div id="w3cD" style="display: none;"><a href="http://validator.w3.org/check?uri=http%3A%2F%2Fcollabcenter.net84.net%2F" target="_blank" style="color: #666;">HTML 5.0 Validated!</a></div>
+		<div id="w3cD" style="display: none;"><a id="w3cLink" target="_blank" style="color: #666;">HTML 5.0 Validated!</a></div>
 		<div id="adblockD" style="display: none;"><br>Our website can only be hosted and running because of our ads. Please consider disabling your AdBlocker</div>
 
 	</div>
@@ -310,6 +325,9 @@
     } else {
     	dialog('welcomeD', 'none', 'never');
     }
+
+		//w3c validator href
+		$("#w3cLink").attr('href', 'http://validator.w3.org/check?uri=' + document.URL);
 </script>
 <!-- Start of StatCounter Code for Default Guide -->
 <script type="text/javascript">
