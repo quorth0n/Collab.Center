@@ -41,7 +41,7 @@
 		}
 
 		footer {
-			color: darkgray;
+			color: rgb(74, 74, 74);
 			position: relative;
 			bottom: 0;
 		}
@@ -60,7 +60,7 @@
 			margin: auto !important;
 			z-index: 1000000000000000000000;
 			width: 100% !important;
-			background-color: rgb(236, 236, 236) !important;
+			background-color: whitesmoke !important;
 			padding: 5px !important;
 			left: 0px;
 			border-radius: 0px !important;
@@ -71,24 +71,26 @@
 	<div id="topbanner">
 		<!-- LinkedIn -->
 		<script src="//platform.linkedin.com/in.js" type="text/javascript">
-		lang: en_US
+		//lang: en_US
 		</script>
-		<script type="IN/Share" data-url="collab.center" data-counter="top"></script>
+		<script type="IN/Share" data-url="collab.center" data-counter="top">
+		</script>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 
 		<!-- Flattr -->
-		<script id="fbto2qc">(function(i){var f,s=document.getElementById(i);f=document.createElement("iframe");f.src="//api.flattr.com/button/view/?uid=poflynn&url="+encodeURIComponent(document.URL);f.title="Flattr";f.height=62;f.width=55;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})("fbto2qc");</script>
+		<script id="fbto2qc">(function(i){var f,s=document.getElementById(i);f=document.createElement("iframe");f.src="//api.flattr.com/button/view/?uid=poflynn&url="+encodeURIComponent(document.URL);f.title="Flattr";f.height=62;f.width=55;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})("fbto2qc");
+		</script>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 
 		<!-- Facebook -->
-		<iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Ffacebook.com%2Fcollabcentercoding&width=1&layout=box_count&action=like&show_faces=true&share=true&height=65&appId=330440663773880" style="border: 0; width:65px; height:65px;"></iframe>
+		<iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Ffacebook.com%2Fcollabcentercoding&amp;width=1&amp;layout=box_count&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=65&amp;appId=330440663773880" style="border: 0; width:65px; height:65px;"></iframe>
 
 		<!-- paypal -->
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display: inline; vertical-align: middle;">
 		<input type="hidden" name="cmd" value="_s-xclick">
 		<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
 		">
-		<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - Donate" style="margin-bottom: 1.5%">
+		<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - Donate" style="margin-bottom: 1.5%; border: 0;">
 		<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 		</form>
 		<hr>
@@ -291,7 +293,13 @@
 	</form>
 	<h3 style="display: none;">So far, Collab.Center has created <?php echo  file_get_contents('docCount.txt', true);?> docs for people like you!</h3>
 </div>
-<footer><p>Copyright (c) 2014, Liam O'Flynn. All rights reserved. <a href="./terms#terms">Privacy Policy &amp; Terms of Use</a>, Updated 7/12/2014</p></footer>
+<footer><p>Copyright (c) 2014, Liam O'Flynn. All rights reserved. <a href="./terms#terms">Privacy Policy &amp; Terms of Use</a>, *Updated 7/12/2014</p>
+<p>
+<a href="javascript:void(0);" onclick="$('#contact').css('display', 'block');">Contact us</a>
+</p>
+</footer>
+<iframe id="contact" src="./contact" style="border-radius: 1em; border: 0; display: none; margin: 0 auto; background-color: white;">Err: ./contact not found. try again later.</iframe>
+        
 <script>
 	$('#language').change(function () {
 		$('#submit').removeAttr('disabled');
@@ -312,7 +320,7 @@
 
 	if($("#google_ads_frame1").css('display')=="none")
 	{
-        //dialog('adblockD', 'noadblock.png', 'never');//.html("We noticed you have an active Ad Blocker. Example.com is ad funded, we promise our ads are of high quality and are unobtrusive. The best help you could provide to keep us running, is to whitelist us in your ad blocker. Thanks!");
+        //dialog('adblockD', 'noadblock.png', 'never');//.html("We noticed you have an active Ad Blocker. Collab.Center is ad funded, we promise our ads are of high quality and are unobtrusive. The best help you could provide to keep us running, is to whitelist us in your ad blocker. Thanks!");
     }
     else
     {
