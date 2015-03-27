@@ -6,9 +6,11 @@ The fish is missing...
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>0.5 -- CC Beta</title> 
+	<title>0.5 -- CC Beta</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 	<script src="docs/tools/Cookies.js"></script>
+	<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/css/select2.min.css" rel="stylesheet" />
+	<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/js/select2.min.js"></script>
 	<style>
 		@font-face {
 			font-family: 'Montserrat';
@@ -44,8 +46,12 @@ The fish is missing...
 			border-style: solid;
 		}
 
-		body {
-			background: url('http://www.printondemandguide.com/wp-content/galleries/bokeh-patterns-backgrounds/seamless-bokeh-pattern-6.jpg');
+		html {
+		  background: url(img/bg.jpg) no-repeat center center fixed;
+		  -webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-size: cover;
 		}
 
 		sup {
@@ -91,7 +97,7 @@ The fish is missing...
 		}
 
 		#toggle {
-			background-color: orange;
+			background-color: aquamarine;
 			padding: 2px 5px;
 			cursor: pointer;
 			position: fixed;
@@ -122,18 +128,28 @@ The fish is missing...
 		<hr/>
 		<p>Collab.center is an easy way to share collaborative coding docs or even plain text online! Just select a language and your ready to go!</p>
 		<hr/>
-		<select name="language" id="language"><option id="lSelected" disabled="" selected="">Select a Language</option>
-			<option>Plain Text</option><option>Rich Text</option><option>apl</option><option>asterisk</option><option>c</option><option>c++</option><option>c#</option><option>clojure</option><option>cobol</option><option>coffeescript</option><option>commonlisp</option><option>css</option><option>d</option><option>diff</option><option>dtd</option><option>ecl</option><option>eiffel</option><option>erlang</option><option>f#</option><option>fortran</option><option>gas</option><option>gfm</option><option>gherkin</option><option>go</option><option>groovy</option><option>haml</option><option>haskell</option><option>haxe</option><option>htmlembedded</option><option>htmlmixed</option><option>http</option><option>jade</option><option>java</option><option>javascript</option><option>jinja2</option><option>julia</option><option>livescript</option><option>lua</option><option>markdown</option><option>mirc</option><option>nginx</option><option>ntriples</option><option>ocaml</option><option>octave</option><option>pascal</option><option>pegjs</option><option>perl</option><option>php</option><option>pig</option><option>properties</option><option>puppet</option><option>python</option><option>q</option><option>r</option><option>rpm</option><option>rst</option><option>ruby</option><option>rust</option><option>sass</option><option>scheme</option><option>shell</option><option>sieve</option><option>smalltalk</option><option>smarty</option><option>smartymixed</option><option>solr</option><option>sparql</option><option>sql</option><option>stex</option><option>tcl</option><option>tiddlywiki</option><option>tikiwiki</option><option>toml</option><option>turtle</option><option>vb</option><option>vbscript</option><option>velocity</option><option>verilog</option><option>xml</option><option>xquery</option><option>yaml</option><option>z80</option></select><span class="select-arrow"></span>		
-			<p>Or</p>
-			<select name="template" id="template">
-				<option id="tSelected" disabled="" selected="">Select a Template</option>
-			</select><span class="select-arrow"></span>
-			<hr/>
-			<button id="create">Create Doc!</button>
-			<br><br>
-		</div>
+		<select name="language" id="language">
+			<optgroup label="Template Documents">
+				<option disabled>Documents based on code you've already written</option>
+				<option disabled>----------------------------------------------</option>
+				<option>Template Doc A</option>
+				<option>Template Doc B</option>
+			</optgroup>
+			<!--<option id="lSelected" disabled="" selected="">Select a Language</option>-->
+			<optgroup label="New Document">
+				<option disabled>Select a language</option>
+				<option>Plain Text</option><option>Rich Text</option><option>apl</option><option>asterisk</option><option>c</option><option>c++</option><option>c#</option><option>clojure</option><option>cobol</option><option>coffeescript</option><option>commonlisp</option><option>css</option><option>d</option><option>diff</option><option>dtd</option><option>ecl</option><option>eiffel</option><option>erlang</option><option>f#</option><option>fortran</option><option>gas</option><option>gfm</option><option>gherkin</option><option>go</option><option>groovy</option><option>haml</option><option>haskell</option><option>haxe</option><option>htmlembedded</option><option>htmlmixed</option><option>http</option><option>jade</option><option>java</option><option>javascript</option><option>jinja2</option><option>julia</option><option>livescript</option><option>lua</option><option>markdown</option><option>mirc</option><option>nginx</option><option>ntriples</option><option>ocaml</option><option>octave</option><option>pascal</option><option>pegjs</option><option>perl</option><option>php</option><option>pig</option><option>properties</option><option>puppet</option><option>python</option><option>q</option><option>r</option><option>rpm</option><option>rst</option><option>ruby</option><option>rust</option><option>sass</option><option>scheme</option><option>shell</option><option>sieve</option><option>smalltalk</option><option>smarty</option><option>smartymixed</option><option>solr</option><option>sparql</option><option>sql</option><option>stex</option><option>tcl</option><option>tiddlywiki</option><option>tikiwiki</option><option>toml</option><option>turtle</option><option>vb</option><option>vbscript</option><option>velocity</option><option>verilog</option><option>xml</option><option>xquery</option><option>yaml</option><option>z80</option></select><span class="select-arrow"></span>
+			</optgroup>
+		<p>Or</p>
+		<select name="template" id="template">
+			<option id="tSelected" disabled="" selected="">Select a Template</option>
+		</select><span class="select-arrow"></span>
+		<hr/>
+		<button id="create">Create Doc!</button>
+		<br><br>
+	</div>
 		<div id="sidebar" class="section">
-			<iframe style="border: 0; width: 100%; height: 100%;" src="./sidebar/">ERR: Your browser does not support <code>iframes</code></iframe>
+			<iframe style="border: 0; width: 100%; height: 100%;" src="./sidebar/?olddocs=false">ERR: Your browser does not support <code>iframes</code></iframe>
 		</div>
 		<div id="toggle">
 			&#9679;<br>
@@ -151,9 +167,31 @@ The fish is missing...
 				}
 			);
 
+			$("#language").select2();
+
 			$("#create").click(function () {
-				alert('Creating...');
+				var loc = "./create";
+				var selected = $(':selected', "#language");
+				if (selected.closest('optgroup').attr('label') == "New Document") {
+					loc = loc + "?doclang=" + selected.text();
+				} else {
+					loc = loc + "?templatename=" + selected.text();
+				}
+				window.location.href=loc;
 			});
+
+			$(document).on('load','.select2-search__field',function() {
+    			$(".select2-search__field").attr('value', 'Search');
+			});
+
+			//Child iFrame Function
+			function changeUrl(url) {
+				$('iframe').attr('src', url);
+			}
 		</script>
+
+		<footer>
+			<a href="http://collab.center">Collab.Center</a>, V1.0 Dev Preview. Copyright (c) 2015, Liam O'Flynn &amp; Eternity Incurakai. All Rights Reserved. 
+		</footer>
 	</body>
 </html>

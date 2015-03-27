@@ -1,9 +1,9 @@
-<!-- Damn, that fish... -->
+<!-- Hot damn, that fish... -->
 <!DOCTYPE html>
 <html>
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="http://ricostacruz.com/jquery.transit/jquery.transit.min.js"></script>
+	<script src="../cdn/jquery.transit.js"></script>
 	<style>
 		html {
 			width: 100%;
@@ -21,6 +21,7 @@
 			color: white;
 			text-align: center;
 			font-family: 'Montserrat', Arial;
+			background-color: rgb(47, 8, 1);
 		}
 
 		a {
@@ -39,7 +40,7 @@
 		}
 
 		a:hover {
-			background-color: rgb(61, 18, 107); 
+			background-color: rgb(24, 8, 1);
 		}
 
 		hr {
@@ -57,6 +58,7 @@
 		}
 
 		#docsarrow {
+			transform: rotate(180deg);
 			right: 30px; margin: 9px 25px; border-left: 13px solid transparent; border-right: 13px solid transparent; border-top: 13px solid white;
 		}
 	</style>
@@ -82,7 +84,7 @@
 			########################
 
 		function is_dir_empty($dir) {
-			if (!is_readable($dir)) return NULL; 
+			if (!is_readable($dir)) return NULL;
 			$handle = opendir($dir);
 			while (false !== ($entry = readdir($handle))) {
 				if ($entry != "." && $entry != "..") {
@@ -104,53 +106,105 @@
 		}
 
 		$file = '*';
-		$dir = '../' . $_COOKIE['email'] . '/';
+		$dir = '../docs/' . $_COOKIE['email'] . '/';
 
 		$sorted_array = array();
 
-		if (file_exists('../' . $_COOKIE['email']) && is_dir('../' . $_COOKIE['email']) && !is_dir_empty('../' . $_COOKIE['email'])) {
+		if (file_exists('../docs/' . $_COOKIE['email']) && is_dir('../docs/' . $_COOKIE['email']) && !is_dir_empty('../docs/' . $_COOKIE['email'])) {
 			$sorted_array = listdir_by_date($dir.$file);
 		}
 
 			######################
 			#  End Function Defs #
 			######################
+		if ($_GET['olddocs'] == 'true') {
+			if (file_exists('../docs/' . $_COOKIE['email']) && is_dir('../docs/' . $_COOKIE['email']) && !is_dir_empty('../docs/' . $_COOKIE['email'])) {
+				foreach (array_reverse($sorted_array) as $entry) {
+					if (file_exists('../docs/' . $_COOKIE["email"] . "/$entry/name.php")) {
+						INCLUDE '../docs/' . $_COOKIE["email"] . "/$entry/name.php";
 
-		if (file_exists('../' . $_COOKIE['email']) && is_dir('../' . $_COOKIE['email']) && !is_dir_empty('../' . $_COOKIE['email'])) {
-			foreach (array_reverse($sorted_array) as $entry) {
-				if (file_exists('../' . $_COOKIE["email"] . "/$entry/name.php")) {
-					INCLUDE '../' . $_COOKIE["email"] . "/$entry/name.php"; 
+						$newPadName = str_replace('˙', '.', $padName);
+						$entry2 = str_replace(".","-",$entry);
 
-					$newPadName = str_replace('˙', '.', $padName);
-					$entry2 = str_replace(".","-",$entry);
+						echo "<a href='../docs/" . $_COOKIE["email"] . "/$entry' class='$entry2'><span class='" . (!empty($template) && $template == true ? 'template' : 'doc') . "'></span>$newPadName <br/> " . date('F d Y H:i:s', filectime('../docs/' . $_COOKIE['email'] . "/$entry")) . "</a><hr/>";
+						$template = null;
 
-					echo "<a href='../" . $_COOKIE["email"] . "/$entry' class='$entry2'><span class='" . (!empty($template) && $template == true ? 'template' : 'doc') . "'></span>$newPadName &nbsp;&nbsp;&nbsp; " . date('F d Y H:i:s', filectime('../' . $_COOKIE['email'] . "/$entry")) . "<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'><img src='edit.png' onclick=\"return ren('$entry2')\" class='$entry2'><img src='gear.png' onclick=\" return edit('$entry')\" class='$entry2'></a>";
-					$template = null;
+						echo '<script>';
+						echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
+						echo '</script>';
+					} else {
+						$entry2 = str_replace(".","-",$entry);
+						echo '<a href="../docs/' . $_COOKIE["email"] . "/$entry\" class='$entry2'><span class='doc'></span>$entry<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'></a>";
+										//echo '<a href="javascript:void(0)" style="color: black; font-size: smaller;"><strong>NOTE:</strong> This document was created before 7/10/14 and document-specific settings are not supported (Rename, etc.)';
 
-					echo '<script>';
-					echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
-					echo '</script>';
-				} else {
-					$entry2 = str_replace(".","-",$entry);
-					echo '<a href="../' . $_COOKIE["email"] . "/$entry\" class='$entry2'><span class='doc'></span>$entry<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'></a>";
-									//echo '<a href="javascript:void(0)" style="color: black; font-size: smaller;"><strong>NOTE:</strong> This document was created before 7/10/14 and document-specific settings are not supported (Rename, etc.)';
-
-					echo "<script>";
-					echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
-					echo "</script>";
+						echo "<script>";
+						echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
+						echo "</script>";
+					}
 				}
+			} else {
+				echo "<a href='javascript:void(0);'>Hm, Looks like you don't have any documents. <u>Why not create one?</u></a><hr/>";
 			}
-		} else {
-			echo "<a href='javascript:void(0);'>Hm, Looks like you don't have any documents. <u>Why not create one?</u></a><hr/>";
-		}
 
-		if (empty($_COOKIE['email'])) {
-			echo "<script>$('#docs').html('<a href=\'../docs/signin/signin.php\'>Please <u>sign in</u> to view your documents</a><hr>')</script>";
+			if (empty($_COOKIE['email'])) {
+				echo "<script>$('#docs').html('<a href=\'../docs/signin/signin.php\'>Please <u>sign in</u> to view your documents</a><hr>')</script>";
+			}
 		}
 		?>
+
+		<a href="javascript:void(0);" id="odocs_btn" title="Hint: You can copy-paste text from old documents into new ones to keep them up-to-date!">err: no query specified</a>
+		<hr/>
 	</nav>
 	<script>
-		var degrees = 0;
+
+		// FUNCTION DEFS
+
+		function urlp(paramName)
+		{
+		    var sURL = window.document.URL.toString();
+		    if (sURL.indexOf("?") > 0)
+		    {
+		        var arrParams = sURL.split("?");
+		        var arrURLParams = arrParams[1].split("&");
+		        var arrParamNames = new Array(arrURLParams.length);
+		        var arrParamValues = new Array(arrURLParams.length);
+
+		        var i = 0;
+		        for (i = 0; i<arrURLParams.length; i++)
+		        {
+		            var sParam =  arrURLParams[i].split("=");
+		            arrParamNames[i] = sParam[0];
+		            if (sParam[1] != "")
+		                arrParamValues[i] = unescape(sParam[1]);
+		            else
+		                arrParamValues[i] = "No Value";
+		        }
+
+		        for (i=0; i<arrURLParams.length; i++)
+		        {
+		            if (arrParamNames[i] == paramName)
+		            {
+		                //alert("Parameter:" + arrParamValues[i]);
+		                return arrParamValues[i];
+		            }
+		        }
+		        return "No Parameters Found";
+		    }
+		}
+
+		//END FUNCTION DEFS
+
+		//Check URL Vars
+		if (urlp('olddocs') == 'true') {
+			document.getElementById('odocs_btn').innerHTML = "Show Up-To-Date Documents";
+			document.getElementById('odocs_btn').setAttribute('onclick', 'parent.changeUrl(document.URL.split("?")[0]+"?olddocs=false");');
+		} else if (urlp('olddocs') == 'false') {
+			document.getElementById('odocs_btn').innerHTML = "Show Outdated Documents";
+			document.getElementById('odocs_btn').setAttribute('onclick', 'parent.changeUrl(document.URL.split("?")[0]+"?olddocs=true");');
+		}
+
+		//Doc-Arrow Rotation-ness
+		var degrees = 180;
 		var show = false;
 		function showDocs() {
 			degrees = degrees + 180;
@@ -168,6 +222,8 @@
 		}
 
 		$("a").attr('target', '_parent');
+
+
 	</script>
 </body>
 </html>
