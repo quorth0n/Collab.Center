@@ -4,6 +4,7 @@
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="../cdn/jquery.transit.js"></script>
+	<script src="../docs/tools/Cookies.js"></script>
 	<style>
 		html {
 			width: 100%;
@@ -66,13 +67,20 @@
 <body>
 	<h1>Collab.Center</h1>
 	<hr/>
-	<a href="http://collab.center">HOME</a>
+	<a href="http://collab.center/">HOME</a>
 	<hr/>
-	<a href="http://collab.center/upgrade">UPGRADE</a>
+	<div id="user_signedout" style="display: none;">
+		<a href="../signin/" style="box-sizing:border-box;width: 50%; display: inline-block; border-right: 1px solid white;">SIGN IN</a><a href="../signup/" style="box-sizing:border-box;width: 50%; display: inline-block; border-left: 1px solid white;">SIGN UP</a>
+	</div>
+	<div id="user_signedin" style="display: none;">
+		<a href="javascript:void(0);" style="box-sizing:border-box;width: 40%; display: inline-block; border-right: 1px solid white; text-transform: uppercase;">john</a><a href="../signin/?mode=out" style="box-sizing:border-box;width: 60%; display: inline-block; border-left: 1px solid white;">SIGN OUT</a>
+	</div>
 	<hr/>
-	<a href="http://collab.center/updates">NEWS &amp; CRAP</a>
+	<a href="../upgrade/">UPGRADE</a>
 	<hr/>
-	<a href="http://collab.center/support">SUPPORT!</a>
+	<a href="../news/">NEWS &amp; CRAP</a>
+	<hr/>
+	<a href="../support/">SUPPORT!</a>
 	<hr/>
 	<a href="javascript:void(0);" id="mydocs" onclick="showDocs()">MY DOCS<span class="select-arrow" id="docsarrow"></a>
 	<hr/>
@@ -188,7 +196,7 @@
 		                return arrParamValues[i];
 		            }
 		        }
-		        return "No Parameters Found";
+		        return null;
 		    }
 		}
 
@@ -201,6 +209,12 @@
 		} else if (urlp('olddocs') == 'false') {
 			document.getElementById('odocs_btn').innerHTML = "Show Outdated Documents";
 			document.getElementById('odocs_btn').setAttribute('onclick', 'parent.changeUrl(document.URL.split("?")[0]+"?olddocs=true");');
+		}
+
+		if (Cookies.get('name') != null) {
+			$('#user_signedin').attr('style', 'display: inherit;');
+		} else {
+			$('#user_signedout').attr('style', 'display: inherit;');
 		}
 
 		//Doc-Arrow Rotation-ness

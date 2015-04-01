@@ -299,7 +299,7 @@
 </p>
 </footer>
 <iframe id="contact" src="./contact" style="border-radius: 1em; border: 0; display: none; margin: 0 auto; background-color: white;">Err: ./contact not found. try again later.</iframe>
-        
+
 <script>
 	$('#language').change(function () {
 		$('#submit').removeAttr('disabled');
