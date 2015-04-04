@@ -51,13 +51,21 @@
 	<script src="../../tools/videoChatTokBox.js" type="text/javascript"></script>
 
 	<script>
-	function getParameterByName(name) {
-		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-		results = regex.exec(location.search);
-		return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-	}
-	var padId = getParameterByName('padid');
+	var urlParams;
+	(window.onpopstate = function () {
+		var match,
+		pl     = /\+/g,  // Regex for replacing addition symbol with a space
+		search = /([^&=]+)=?([^&]*)/g,
+		decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+		query  = window.location.search.substring(1);
+
+		urlParams = {};
+		while (match = search.exec(query))
+			urlParams[decode(match[1])] = decode(match[2]);
+		})();
+
+	var padId = urlParams['padid'];
+
 	if (padId == undefined || padId== null) {
 		$("body").html("<h1>ERR: No ?padid query was specfied</h1>")
 	}
@@ -330,53 +338,74 @@ $("#tabs-2").attr('style', 'padding: 1em 0.5em; display: none;');
 
 
 //language firebase ref global var
-var langBaseRef = new Firebase("https://collab-coding-docs.firebaseio.com").child(padId);
+var langBaseRef = new Firebase("https://collab-coding-lang.firebaseio.com").child(padId);
 
 /**
 Onload for other
 */
 $(document).ready(function() {
 	//checking if doc name should be changed
-	if (getParameterByName("docname") != "") {
-		var dname = getParameterByName("docname");
+	if (urlParams["docname"] != undefined) {
+		var dname = urlParams["docname"];
 
-		if (dname != null) {
-			langBaseRef.set({name : dname});
+		if (dname != undefined) {
+			if (Cookies.get('uid') != undefined) {
+				new Firebase("https://collab-doc-props.firebaseio.com/").child(Cookies.get('uid')).child(padId).child('name').set(dname);
+			} else {
+				new Firebase("https://collab-doc-props.firebaseio.com/").child(padId).child('name').set(dname);
+			}
+
+			var uri = window.location.toString();
+			if (uri.indexOf("&") > 0) {
+				var clean_uri = uri.substring(0, uri.indexOf("&"));
+				window.history.replaceState({}, document.title, clean_uri);
+			}
+		}
+	}
+
+	//language stuff
+	if (urlParams["lang"] != undefined) {
+
+		$("#language").val(urlParams["lang"]);
+		var propbase;// = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
+		if (Cookies.get('uid') != undefined) {
+			propbase = new Firebase("https://collab-doc-props.firebaseio.com/").child(Cookies.get('uid')).child(padId);
+		} else {
+			propbase = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
+		}
+		propbase.child('lang').set($('#language').val());
+
+		var uri = window.location.toString();
+		if (uri.indexOf("&") > 0) {
+			var clean_uri = uri.substring(0, uri.indexOf("&"));
+			window.history.replaceState({}, document.title, clean_uri);
+			//window.location.replace("?changeext=" + $("#docname").val() + $("#fileext").text());
 		}
 
-		/*var uri = window.location.toString();
-		if (uri.indexOf("?") > 0) {
-			var clean_uri = uri.substring(0, uri.indexOf("?"));
-			window.history.replaceState({}, document.title, clean_uri);
-		}*/
-	}
-	//language stuff
-	if (getParameterByName("lang") != "") {
-
-		var language = getParameterByName("lang");
+		/*var language = urlParams["lang"];
 
 		if (language != null) {
 			langBaseRef.set({lang : language});
 
 		}
 
-		if (getParameterByName('template') == "") {
+		if (urlParams['template'] == undefined) {
 			var uri = window.location.toString();
 			if (uri.indexOf("?") > 0) {
 				var clean_uri = uri.substring(0, uri.indexOf("?"));
-				window.history.replaceState({}, document.title, clean_uri);
+				window.location.replace(clean_uri);
 				//window.location.replace("?changeext=" + $("#docname").val() + $("#fileext").text());
 			}
-		}
+		}*/
 
 	}
 
-	if (getParameterByName("rename") == "rename") {
+	if (urlParams["rename"] == "rename") {
 		$('#downloadDialog').dialog();
 		$('#docname').attr('autofocus', 'autofocus');
 	}
 
-	if (getParameterByName("edit") == "edit") {
+	if (urlParams["edit"] == "edit") {
 		$('#settingsDialog').dialog();
 	}
 
@@ -441,7 +470,7 @@ $(document).ready(function() {
 	});
 
 
-	if(getParameterByName("reload") == "reload") {
+	if(urlParams["reload"] == "reload") {
 		var uri = window.location.toString();
 		if (uri.indexOf("?") > 0) {
 			var clean_uri = uri.substring(0, uri.indexOf("?"));
@@ -469,8 +498,13 @@ $(document).ready(function() {
 	});
 
 	$('#language').change(function() {
-		var propbase = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
-		propbase.set({lang: $('#language').val()});
+		var propbase;// = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
+		if (Cookies.get('uid') != undefined) {
+			propbase = new Firebase("https://collab-doc-props.firebaseio.com/").child(Cookies.get('uid')).child(padId);
+		} else {
+			propbase = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
+		}
+		propbase.child('lang').set($('#language').val());
 		window.location.replace(document.URL);
 	});
 
@@ -584,12 +618,25 @@ $(function() {
 		//#change_docname functions
 		$('#change_docname').click(function () {
 			var new_name = prompt('Type a new name for the document:');
-			window.location.replace(document.URL + '?docname=' + new_name);
+			if (new_name != null) {
+				window.location.replace(document.URL + '&docname=' + new_name);
+			}
 		});
 
-		var fbprop = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
-		fbprop.child('name').once('value', function snapshot() {
-			$('#change_docname').html(snapshot.val());
+		var fbprop;// = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
+
+		if (Cookies.get('uid') != undefined) {
+			fbprop = new Firebase("https://collab-doc-props.firebaseio.com/").child(Cookies.get('uid')).child(padId);
+		} else {
+			fbprop = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
+		}
+
+		fbprop.child('name').on('value', function(snapshot) {
+			if (snapshot.val() != null) {
+				$('#change_docname').html(snapshot.val());
+			} else {
+				$('#change_docname').html('<i>Untitled Document</i>');
+			}
 		});
 	</script>
 	<div id="top" style="vertical-align: middle; top: 30px;">
@@ -630,8 +677,14 @@ $(function() {
 		</div>
 		<script>
 		var langBaseRef = new Firebase("https://collab-coding-lang.firebaseio.com").child(padId);
-		var docprop = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
+		var docprop;// = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
 		var langBaseVal = "";
+
+		if (Cookies.get('uid') != undefined) {
+			docprop = new Firebase("https://collab-doc-props.firebaseio.com/").child(Cookies.get('uid')).child(padId);
+		} else {
+			docprop = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
+		}
 
 		docprop.child("lang").once('value', function(snapshot) {
 			if (snapshot.val() != null) {
@@ -880,8 +933,15 @@ $(document).ready(function () {
 	firepad.on('ready', function() {
 		codeMirrorInst.on("change", function(cm, change) {
 			//$('#templateForm').attr('action', document.URL + '?tempTxt=' + firepadInst.getText());
-			var docTxt = new Firebase('https://collab-coding-docs.firebaseio.com/');
-			docTxt.child(padId).set(firepad.getText());
+			var docTxt;// = new Firebase('https://collab-doc-props.firebaseio.com/').child(padId);
+
+			if (Cookies.get('uid') != undefined) {
+				docTxt = new Firebase("https://collab-doc-props.firebaseio.com/").child(Cookies.get('uid')).child(padId);
+			} else {
+				docTxt = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
+			}
+
+			docTxt.child('document').set(firepad.getText());
 		});
 
 		//200-line code limit
@@ -895,8 +955,8 @@ $(document).ready(function () {
 			}
 		});
 
-		if (getParameterByName('template') != "") {
-			var template = new Firebase('https://collab-coding-docs.firebaseio.com/').child(getParameterByName('template'));
+		if (urlParams['template'] != undefined) {
+			var template = new Firebase('https://collab-coding-docs.firebaseio.com/').child(urlParams['template']);
 			template.once('value', function (snapshot) {
 				firepad.setText(snapshot.val());
 			});
@@ -1015,22 +1075,3 @@ $(document).ready(function () {
 						?>
 					</body>
 					</html>
-					<!--
-					Permission is hereby granted, free of charge, to any person obtaining a copy
-					of this software and associated documentation files (the “Software”), to deal
-					in the Software without restriction, including without limitation the rights
-					to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-					copies of the Software, and to permit persons to whom the Software is
-					furnished to do so, subject to the following conditions:
-
-					The above copyright notice and this permission notice shall be included in
-					all copies or substantial portions of the Software.
-
-					THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-					IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-					FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-					AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-					LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-					OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-					THE SOFTWARE.
-				-->

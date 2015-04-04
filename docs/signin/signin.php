@@ -19,7 +19,7 @@
     }
 
     blockquote {
-      border-bottom: 1px solid lightgray; 
+      border-bottom: 1px solid lightgray;
     }
 
     .button {
@@ -242,7 +242,7 @@
           alert('An error occurred while trying to log you in.' + error);
           console.log(error);
         }
-        
+
       } else if (user) {
         // user authenticated with Firebase
         //console.log('Name: ' + user.displayName + ', email: ' + user.thirdPartyUserData.email);
@@ -263,15 +263,17 @@
               Cookies.set('name', firstname + " " + lastname, {path : '/'});
             });
           });
-          
+
         }
-        
+
+        Cookies.set('uid', user.id, {path: '/'});
+
         if (user.provider != "facebook") {
           Cookies.set('email', user.email , {path: '/'});
         } else {
           Cookies.set('email', user.thirdPartyUserData.email , {path: '/'});
         }
-        
+
 
         console.log(user);
 
@@ -282,7 +284,7 @@
         // user is logged out
       }
 
-      
+
     });
 
     if (getParameterByName('mode') == "out") {
@@ -335,10 +337,10 @@
       //document.getElementById("upmode").setAttribute('href', '').setAttribute('onclick', '');
     }
 
-    /*function validateEmail(email) { 
+    /*function validateEmail(email) {
       var re = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
       return re.test(email);
-    } 
+    }
 
     function signup(form) {
       var email = form.email.value;
@@ -356,7 +358,7 @@
         document.getElementById('error').innerHTML = "<span style='color: red;'>Passwords Do Not Match!</span>";
         return false;
       } else {
-        
+
       }*/
   </script>
 </head>

@@ -6,7 +6,7 @@ The fish is missing...
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>0.5 -- CC Beta</title>
+	<title>Collab.Center</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 	<script src="docs/tools/Cookies.js"></script>
 	<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/css/select2.min.css" rel="stylesheet" />

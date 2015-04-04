@@ -6,7 +6,7 @@
 </head>
 <body>
   <?php
-    function generatePad($length = 10) {
+    function generatePad($length = 15) {
       $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
       $randomString = '';
       for ($i = 0; $i < $length; $i++) {
@@ -16,11 +16,12 @@
     }
 
     $gen = generatePad();
+    $dlang = $_GET['doclang'];
 
     if (isset($_GET['doclang']) && !empty($_GET['doclang'])) {
       echo "<script>";
-      echo "var gen = prompt('Type a Document Name: [No Spaces]', '$gen--" . $_GET['doclang'] . "');";
-      echo "window.location.replace('../docs/document/hash/?padid=' + gen)";
+      //echo "var gen = prompt('Type a Document Name: ', 'doc--" . $_GET['doclang'] . "');";
+      echo "window.location.replace('../docs/document/hash/?padid=$gen&lang=$dlang')";
       echo "</script>";
     } else if (isset($_GET['doclang']) && !empty($_GET['doclang'])) {
       echo "<script>";
