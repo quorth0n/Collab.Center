@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Collab.Center</title>
 
 	<link rel="icon" href="../../favicon.ico" type="image/x-icon" class="favicon">
@@ -17,8 +18,8 @@
 	<script src="https://cdn.firebase.com/js/client/2.2.3/firebase.js"></script>
 
 	<!-- CODEMIRROR -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.3.0/codemirror.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.3.0/codemirror.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.1.0/codemirror.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.1.0/codemirror.css" />
 	<link rel="stylesheet" href="../../tools/CodeMirror/theme/mdn-like.css" />
 
 	<!-- Firepad -->
@@ -973,6 +974,7 @@ $(document).ready(function () {
 		$("#firepad").show();
 		$("body").attr('style', '');
 
+
 		if (firepad.isHistoryEmpty()) {
 			firepad.setHtml("Hello, and Welcome to Collab.Center! This is how it works:<br> 1. Put some code here.<br> 2. Share the URL with your friends so you can collaborate (Hint: Use the Mail icon in the top-right!).<br> 3. Toggle some options above.<br> That's all there is to it!");
 		}
@@ -1026,7 +1028,10 @@ $(document).ready(function () {
 							//// Set firepadUserList names and textbox value
 
 							var firebaseUserName = new Firebase("https://collaborative-coding.firebaseio.com/" + padId + "/users/" + userId);
-							firebaseUserName.child('name').set(Cookies.get('name'));
+
+							if (Cookies.get('name') != undefined) {
+								firebaseUserName.child('name').set(Cookies.get('name'));
+							}
 
 							firebaseUserName.child('name').once('value', function (snapshot) {
 								$('#uname').text(snapshot.val());
@@ -1067,6 +1072,7 @@ $(document).ready(function () {
 							});
 
 						}, 15000);
+						//alert('run');
 						</script>
 						<?php
 						if (empty($_GET['padid'])) {
