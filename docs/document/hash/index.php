@@ -14,7 +14,7 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
 	<!-- Firebase -->
-	<script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
+	<script src="https://cdn.firebase.com/js/client/2.2.3/firebase.js"></script>
 
 	<!-- CODEMIRROR -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.3.0/codemirror.js"></script>
