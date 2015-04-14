@@ -21,7 +21,7 @@ The fish is missing...
 
 		#main {
 			margin: 5em;
-			paddding-top: 0px;
+			padding-top: 0px;
 		}
 
 		a {
@@ -48,7 +48,7 @@ The fish is missing...
 		}
 
 		html {
-		  background: url(img/bg.jpg) no-repeat center center fixed;
+		  background: url(cdn/bg.png) no-repeat center center fixed;
 		  -webkit-background-size: cover;
 		  -moz-background-size: cover;
 		  -o-background-size: cover;
