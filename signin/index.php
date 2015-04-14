@@ -6,8 +6,13 @@
 </head>
 <body>
   <!--Temporary Redirect Script-->
-  <script>
-    window.location.replace('../docs/signin/signin.php');
-  </script>
+  <?php
+  if ($_GET['mode'] != 'out') {
+    echo "<script>window.location.replace('../docs/signin/signin.php');</script>";
+  } else {
+    echo "<script>window.location.replace('../docs/signin/signin.php?mode=out');</script>";
+  }
+  ?>
+  <!--Remove that ^^^, later-->
 </body>
 </html>

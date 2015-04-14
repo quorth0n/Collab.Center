@@ -291,6 +291,7 @@
       auth.logout();
       Cookies.clear('email',{path   : '/'});
       Cookies.clear('name',{path   : '/'});
+      Cookies.clear('uid',{path : '/'});
       alert("You have been successfully signed out.");
       var uri = window.location.toString();
 
