@@ -17,10 +17,8 @@
 	<!-- Firebase -->
 	<script src="https://cdn.firebase.com/js/client/2.2.3/firebase.js"></script>
 
-	<!-- CODEMIRROR -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.3.0/codemirror.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.3.0/codemirror.css" />
-	<link rel="stylesheet" href="../../tools/CodeMirror/theme/mdn-like.css" />
+	<!-- Ace -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ace.js"></script>
 
 	<!-- Firepad -->
 	<link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.1.0/firepad.css" />
@@ -30,7 +28,7 @@
 	<script src="../../tools/firepad/firepad-userlist.js"></script>
 	<link rel="stylesheet" href="../../tools/firepad/firepad-userlist.css" />
 
-	<!--Addons-->
+	<!--Addons
 	<script src="../../tools/CodeMirror/addon/mode/loadmode.js"></script>
 	<script src="../../tools/CodeMirror/addon/edit/matchbrackets.js"></script>
 	<script src="../../tools/CodeMirror/addon/edit/closebrackets.js"></script>
@@ -38,7 +36,7 @@
 	<script src="../../tools/CodeMirror/addon/search/searchcursor.js"></script>
 	<script src="../../tools/CodeMirror/addon/dialog/dialog.js"></script>
 	<link rel="stylesheet" href="../../tools/CodeMirror/addon/dialog/dialog.css" />
-	<script src="../../tools/CodeMirror/keymap/sublime.js"></script>
+	<script src="../../tools/CodeMirror/keymap/sublime.js"></script>-->
 
 	<!-- Pusher -->
 	<script src="http://js.pusher.com/2.1/pusher.min.js"></script>
@@ -893,38 +891,23 @@ $(function() {
 
 		echo "<script>window.location.href = '".$filename."';</script>";
 	}
-
-	//Pdf file
-
-
-	/*if (isset($_POST['pdfSubmit'])) {
-	try {
-	require_once('../../tools/html2pdf.class.php');
-	$html2pdf = new HTML2PDF('P', 'A4', 'en');
-	$html2pdf->writeHTML('<p>This is your first PDF File</p>');
-	$html2pdf->Output('my_doc.pdf', 'D');
-} catch(HTML2PDF_exception $e) {
-echo $e;
-exit;
-}
-}*/
 ?>
 </div>
 <script>
-var codeMirrorInst;
+var aceInst;
 var firepadInst;
-/**
-onload for Firepad & Codemirror related stuff
-*/
 $(document).ready(function () {
-	CodeMirror.modeURL = "../../tools/CodeMirror/mode/%N/%N.js";
+	//CodeMirror.modeURL = "../../tools/CodeMirror/mode/%N/%N.js";
 	// Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
 	var userId = Math.floor(Math.random() * 9999999999).toString();
 
 	var firepadRef = new Firebase('https://collaborative-coding.firebaseio.com').child(padId);
-	var codeMirrorFirepad = CodeMirror(document.getElementById('firepad'), { lineWrapping: true, lineNumbers : true, theme : 'mdn-like', matchBrackets : true, autoCloseBrackets : true, keyMap : "sublime"});
-	codeMirrorInst = codeMirrorFirepad;
-	var firepad = Firepad.fromCodeMirror(firepadRef, codeMirrorFirepad, {userId: userId});
+	var editor = ace.edit('firepad');
+	editor.setTheme("https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/monokai");
+
+	editor.getSession().setMode("https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/javascript");
+	aceInst = editor;
+	var firepad = Firepad.fromACE(firepadRef, ace, {userId: userId});
 	firepadInst = firepad;
 
 	$("#loading").show();
@@ -1036,7 +1019,7 @@ $(document).ready(function () {
 							firebaseUserName.child('name').once('value', function (snapshot) {
 								if (snapshot.val() != null) {
 									$('#uname').text(snapshot.val());
-									$('.firepad-userlist-name-input').val(snapshot.val());									
+									$('.firepad-userlist-name-input').val(snapshot.val());
 								}
 							});
 

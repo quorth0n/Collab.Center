@@ -18,8 +18,8 @@
 	<script src="https://cdn.firebase.com/js/client/2.2.3/firebase.js"></script>
 
 	<!-- CODEMIRROR -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.3.0/codemirror.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.3.0/codemirror.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.1.0/codemirror.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.1.0/codemirror.css" />
 	<link rel="stylesheet" href="../../tools/CodeMirror/theme/mdn-like.css" />
 
 	<!-- Firepad -->
@@ -1034,10 +1034,8 @@ $(document).ready(function () {
 							}
 
 							firebaseUserName.child('name').once('value', function (snapshot) {
-								if (snapshot.val() != null) {
-									$('#uname').text(snapshot.val());
-									$('.firepad-userlist-name-input').val(snapshot.val());									
-								}
+								$('#uname').text(snapshot.val());
+								$('.firepad-userlist-name-input').val(snapshot.val());
 							});
 
 						});

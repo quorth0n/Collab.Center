@@ -11,125 +11,28 @@ The fish is missing...
 	<script src="docs/tools/Cookies.js"></script>
 	<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/css/select2.min.css" rel="stylesheet" />
 	<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/js/select2.min.js"></script>
+	<link href="./cdn/style.css" rel="stylesheet" />
 	<style>
-		@font-face {
-			font-family: 'Montserrat';
-			font-style: normal;
-			font-weight: 400;
-			src: local('Montserrat-Regular'), url(http://fonts.gstatic.com/s/montserrat/v5/a86E68pmIj0EJimMSgdgN_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
-		}
-
-		#main {
-			margin: 5em;
-			padding-top: 0px;
-		}
-
-		a {
-			color: white;
-		}
-
-		div.section {
-			background: transparent;
-			font-family: 'Montserrat', Arial;
-			color: white;
-			text-align: center;
-			font-weight: lighter;
-			font-size: 20px;
-			border: 5px solid white;
-			border-radius: 15px;
-		}
-
-		h1 {
-			font-size: 40px;
-		}
-
-		hr {
-			border-style: solid;
-		}
-
-		html {
-		  background: url(cdn/bg.png) no-repeat center center fixed;
-		  -webkit-background-size: cover;
-		  -moz-background-size: cover;
-		  -o-background-size: cover;
-		  background-size: cover;
-		}
-
-		sup {
-			color: blue;
-		}
-
-		select {
-			background-color: transparent;
-			border: 4px solid white;
-			color: white;
-			-webkit-appearance: button;
-			-moz-appearance: none;
-			appearance: button;
-			display: inline-block;
-			padding: 6px 30px 6px 15px;
-			font-family: 'Montserrat', Arial;
-			font-size: 15px;
-			cursor: pointer;
-		}
-
-		option {
-			background-color: rgb(80, 23, 140);
-		}
-
-		button, input[type=submit] {
-			display: inline-block;
-			padding: 6px 30px 6px;
-			font-family: 'Montserrat', Arial;
-			font-size: 15px;
-			cursor: pointer;
-			background-color: transparent;
-			border: 4px solid white;
-			color: white;
-		}
-
-		.select-arrow {
-			display: inline-block;
-			position: absolute;
-			margin: .9em 0 0 -1.55em;
-			border-left: 8px solid transparent;
-			border-right: 8px solid transparent;
-			border-top: 8px solid white;
-		}
-
-		#toggle {
-			background-color: aquamarine;
-			padding: 2px 5px;
-			cursor: pointer;
-			position: fixed;
-			top : 40%;
-			left: 0px;
-			color: white;
-			border-radius: 0px 10px 10px 0px;
-		}
-
-		#sidebar {
-			position: fixed;
-			left: -16.5em;
-			top: 0px;
-			width: 25%;
-			height: 99%;
-			border-radius: 0px;
-			background-color: rgb(80, 23, 140);
-		}
-
-		footer {
-			text-align: center;
-			font-size: 10px;
-			color: white;
-			position: relative;
-			top: -50px;
-		}
+	#ifie {
+		position: relative;
+		top: 0px;
+		color: white;
+		text-align: center;
+		background-color: red;
+		font-family: Arial;
+		padding: 5px;
+		cursor: pointer;
+	}
 	</style>
 </head>
 <body>
+	<!--[if IE]>
+	<div id="ifie" onclick="$(this).hide()">
+		Your browser is extremely out of date. Please use a more modern one to continue using Collab.Center, such as <a href="http://chrome.google.com/">Google Chrome</a>. It will not work without it. Thank you!
+	</div>
+	<![endif]-->
 	<div id="main" class="section">
-		<h1 style="margin-top: 0px;">C<img src="./cdn/1.0.gif" style="position:relative;top:23px;" title='Collab.Center "Holland": The Easter Update!'>llab.C<img src="./cdn/1.0.gif" style="position:relative;top:23px;" title='Collab.Center "Holland": The Easter Update!'>nter</h1>
+		<h1 style="/*margin-top: 0px;*/">C<img src="./cdn/1.1.gif" title='Collab.Center "Amsterdam"'>llab.C<img src="./cdn/1.1.gif" title='Collab.Center "Amsterdam"'>nter</h1>
 		<hr/>
 		<p>Collab.Center is an easy way to share collaborative coding docs or even plain text online! Just select a language and your ready to go!</p>
 		<hr/>
@@ -174,7 +77,18 @@ The fish is missing...
 				}
 			);
 
-			$("#language").select2();
+			function format(item) {
+				var originalOption = item.element;
+				var originalText = item.text;
+				return "<span style='font-family: Arial;'>" + originalText + "</span>";
+			}
+			$('#language').select2({
+				/*allowClear: true,*/
+				formatResult: format,
+				formatSelection: format,
+				escapeMarkup: function(m) { return m; }
+			});
+
 
 			$("#create").click(function () {
 				var loc = "./create";
@@ -187,10 +101,6 @@ The fish is missing...
 				window.location.href=loc;
 			});
 
-			$(document).on('ready', function() {
-    			$('.select2-search__field').attr('value', 'Search');
-					$('#select2-language-container').html('Create a Document, or a Template');
-			});
 
 			//Child iFrame Function
 			function changeUrl(url) {
@@ -199,7 +109,10 @@ The fish is missing...
 		</script>
 
 		<footer>
-			<a href="http://collab.center">Collab.Center</a>, V1.0 Dev Preview. Copyright (c) 2015, Liam O'Flynn &amp; Eternity Incurakai. All Rights Reserved.
+			<a href="http://collab.center">Collab.Center</a>, V1.1 Copyright (c) 2015, Liam O'Flynn &amp; Eternity Incurakai. All Rights Reserved.
+			<br/>
+			<a href="javascript:void(0)" onclick="$('#contact').html('<iframe class=\'contact\' src=\'./contact\' style=\'border-radius: 1em; border: 0px; display: block; margin: 0px auto; background-color: white;\'>Err: ./contact not found. try again later.</iframe>')">Contact us</a> &#124; <a href="./terms/" target="_blank">Privacy Policy &amp; Terms of Use</a>
+			<span id="contact"></span>
 		</footer>
 	</body>
 </html>

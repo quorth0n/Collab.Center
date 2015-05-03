@@ -2,68 +2,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="../cdn/jquery.transit.js"></script>
-<script src="../docs/tools/Cookies.js"></script>
-<script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
-<style>
-html {
-	width: 100%;
-	height: 100%;
-}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="../cdn/jquery.transit.js"></script>
+	<script src="../docs/tools/Cookies.js"></script>
+	<script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
+	<style>
+	html {
+		width: 100%;
+		height: 100%;
+	}
 
-@font-face {
-	font-family: 'Montserrat';
-	font-style: normal;
-	font-weight: 400;
-	src: local('Montserrat-Regular'), url(http://fonts.gstatic.com/s/montserrat/v5/a86E68pmIj0EJimMSgdgN_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
-}
+	@font-face {
+		font-family: 'Montserrat';
+		font-style: normal;
+		font-weight: 400;
+		src: local('Montserrat-Regular'), url(http://fonts.gstatic.com/s/montserrat/v5/a86E68pmIj0EJimMSgdgN_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+	}
 
-body {
-	color: white;
-	text-align: center;
-	font-family: 'Montserrat', Arial;
-	background-color: rgb(47, 8, 1);
-}
+	body {
+		color: white;
+		text-align: center;
+		font-family: 'Montserrat', Arial;
+		background-color: rgb(47, 8, 1);
+	}
 
-a {
-	text-decoration: none;
-	font-weight: bold;
-	font-size: 1.5em;
-	width: 100%;
-	padding-top: 4px;
-	padding-bottom: 4px;
-	display: block;
-	color: white;
-}
+	a {
+		text-decoration: none;
+		font-weight: bold;
+		font-size: 1.5em;
+		width: 100%;
+		padding-top: 4px;
+		padding-bottom: 4px;
+		display: block;
+		color: white;
+	}
 
-h1 {
-	font-size: 40px;
-}
+	h1 {
+		font-size: 40px;
+	}
 
-a:hover {
-	background-color: rgb(24, 8, 1);
-}
+	a:hover {
+		background-color: rgb(24, 8, 1);
+	}
 
-hr {
-	margin: 0;
-	border-style: solid;
-}
+	hr {
+		margin: 0;
+		border-style: solid;
+		color: white;
+	}
 
-.select-arrow {
-	display: inline-block;
-	position: absolute;
-	margin: .9em 0 0 -1.55em;
-	border-left: 8px solid transparent;
-	border-right: 8px solid transparent;
-	border-top: 8px solid white;
-}
+	.select-arrow {
+		display: inline-block;
+		position: absolute;
+		margin: .9em 0 0 -1.55em;
+		border-left: 8px solid transparent;
+		border-right: 8px solid transparent;
+		border-top: 8px solid white;
+	}
 
-#docsarrow {
-	transform: rotate(180deg);
-	right: 30px; margin: 9px 25px; border-left: 13px solid transparent; border-right: 13px solid transparent; border-top: 13px solid white;
-}
-</style>
+	#docsarrow {
+		transform: rotate(180deg);
+		right: 30px; margin: 9px 25px; border-left: 13px solid transparent; border-right: 13px solid transparent; border-top: 13px solid white;
+	}
+
+	#new {
+		font-size: 0.65em;
+		vertical-align: middle;
+		background-color: aquamarine;
+		padding-left: 6px;
+		padding-right: 6px;
+		border-radius: 0.1em;
+		right: -25px;
+		top: -2px;
+		position: relative;
+	}
+	</style>
 </head>
 <body>
 	<h1>Collab.Center</h1>
@@ -76,14 +89,14 @@ hr {
 	<div id="user_signedin" style="display: none;">
 		<a href="javascript:void(0);" style="box-sizing:border-box;width: 40%; display: inline-block; border-right: 1px solid white; text-transform: uppercase;">
 			<?php
-				echo strtok($_COOKIE['name'], " ");
+			echo strtok($_COOKIE['name'], " ");
 			?>
 		</a><a href="../signin/?mode=out" style="box-sizing:border-box;width: 60%; display: inline-block; border-left: 1px solid white;">SIGN OUT</a>
 	</div>
 	<hr/>
 	<a href="../upgrade/">UPGRADE</a>
 	<hr/>
-	<a href="../news/">NEWS &amp; CRAP</a>
+	<a href="../news/">NEWS &amp; UPDATES <span id="new" title="Unread Messages">1</span></a>
 	<hr/>
 	<a href="../support/">SUPPORT!</a>
 	<hr/>

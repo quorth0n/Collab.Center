@@ -1036,7 +1036,7 @@ $(document).ready(function () {
 							firebaseUserName.child('name').once('value', function (snapshot) {
 								if (snapshot.val() != null) {
 									$('#uname').text(snapshot.val());
-									$('.firepad-userlist-name-input').val(snapshot.val());									
+									$('.firepad-userlist-name-input').val(snapshot.val());
 								}
 							});
 
