@@ -6,6 +6,7 @@
 	<script src="../cdn/jquery.transit.js"></script>
 	<script src="../docs/tools/Cookies.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
+	<script src="../cdn/zero.js"></script>
 	<style>
 	html {
 		width: 100%;
@@ -75,6 +76,19 @@
 		right: -25px;
 		top: -2px;
 		position: relative;
+	}
+
+	.dotted {
+		height: 0.5px;
+		border-style: dashed;
+	}
+
+	.opt {
+		box-sizing: border-box;
+		width:50%;
+		display: inline-block;
+		border-right: 1px dashed #FFF;
+		border-left: 1px dashed #FFF;
 	}
 	</style>
 </head>
@@ -180,6 +194,8 @@
 			}
 			?>
 
+			<a href="http://collab.center">+ create</a>
+			<hr/>
 			<a href="javascript:void(0);" id="odocs_btn" title="Hint: You can copy-paste text from old documents into new ones to keep them up-to-date!">err: no query specified</a>
 			<hr/>
 		</nav>
@@ -220,6 +236,31 @@
 				}
 			}
 
+			//show/hide doc options
+			function showOpt(key) {
+				$('#' + key).show();
+			}
+
+			function hideOpt(key) {
+				$('#' + key).hide();
+			}
+
+			//confirm deletion of document
+			function del(key) {
+				var conf = confirm("You are about to delete a document, forev3r. Continue?");
+				if (conf==true) {
+					var doc = new Firebase('https://collab-doc-props.firebaseio.com/').child(Cookies.get('uid')).child(key);
+					doc.remove();
+					alert('Document Removed Succesfully');
+					console.log('removed doc with id ' + key);
+					window.location.replace(document.URL);
+				}
+			}
+
+			//show link options
+			function lnk(key) {
+				prompt('Share this link with your peers to have them collaborate on it!\n(press ctrl+c)', 'http://collab.center/docs/document/hash?padid=' + key);
+			}
 			//END FUNCTION DEFS
 
 			//New Document Code
@@ -228,7 +269,8 @@
 				docs.on('value', function(snap) {
 					snap.forEach(function(csnap) {
 						var nchild = csnap.child('name').val();
-						$('#docs').prepend('<a target="_blank" href="../docs/document/hash/?padid=' + csnap.key() + '">' + ((nchild!=null)? nchild : "<i>Untitled Document</i>") + '</a><hr/>');
+						$('#docs').prepend('<span class="frame" onmouseover="showOpt(\'' + csnap.key() + '\')" onmouseleave="hideOpt(\'' + csnap.key() + '\')"><a target="_blank" href="../docs/document/hash/?padid=' + csnap.key() + '">' + ((nchild!=null)? nchild : "<i>Untitled Document</i>") + '</a>' +
+							'<span id="' + csnap.key() + '" style="display:none;"><hr class="dotted"/><a href="javascript:void(0);" class="opt" onclick="del(\'' + csnap.key() + '\')">del()</a><a href="javascript:void(0);" class="opt" onclick="lnk(\'' + csnap.key() + '\')">lnk()</a></span>' + '<hr/></span>');
 					});
 				});
 			}
@@ -266,6 +308,7 @@
 				}
 			}
 
+			//sets all URLs to open in parent window
 			$("a").attr('target', '_parent');
 
 

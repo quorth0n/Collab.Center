@@ -11,7 +11,7 @@
 
 	<!--JQUERY-->
 	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/flick/jquery-ui.css" />
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
 	<!-- Firebase -->
@@ -72,6 +72,14 @@
 	}
 	</script>
 	<style>
+	/*html {
+		background: url(../../../cdn/bg.png) no-repeat center center fixed;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+	}*/
+
 	#change_docname {
 		position: absolute; top: 1px; z-index: 1000;
 		left: 0px;
@@ -96,10 +104,12 @@
 
 	.firepad-userlist {
 		position: absolute; left: 0; top: 45px; bottom: 0; height: auto;
+		background: transparent;
 	}
 
 	.firepad {
 		position: absolute; left: 175px; top: 56px; bottom: 0; right: 0; height: auto;
+		width: auto !important;
 	}
 
 	.powered-by-firepad {
@@ -118,14 +128,12 @@
 		vertical-align: middle !important;
 		text-align: center;
 
-		background: #ebebeb; /* Old browsers */
-		background: -moz-linear-gradient(bottom, #ebebeb 0%, #eaeaea 50%, #d9d9d9 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, bottom top, bottom top, color-stop(0%,#ebebeb), color-stop(50%,#eaeaea), color-stop(100%,#d9d9d9)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(bottom, #ebebeb 0%,#eaeaea 50%,#d9d9d9 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(bottom, #ebebeb 0%,#eaeaea 50%,#d9d9d9 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(bottom, #ebebeb 0%,#eaeaea 50%,#d9d9d9 100%); /* IE10+ */
-		background: linear-gradient(to bottom, #ebebeb 0%,#eaeaea 50%,#d9d9d9 100%); /* W3C */
+		background: transparent;
 		color: #404040;
+	}
+
+	.ui-widget-header {
+		background: transparent;
 	}
 
 	#shareDialog {
@@ -168,27 +176,13 @@
 
 	#tabs-2 {
 		/* Background */
-		background: #ebebeb; /* Old browsers */
-		background: -moz-linear-gradient(left, #ebebeb 0%, #eaeaea 93%, #d9d9d9 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ebebeb), color-stop(93%,#eaeaea), color-stop(100%,#d9d9d9)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* IE10+ */
-		background: linear-gradient(to right, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* W3C */
-		color: #404040;
+		background: transparent;
 	}
 
 	.pusher-chat-widget {
 		position: absolute; left: 0; top: 45px; bottom: 0; height: auto; width: 165px; border: 0; border-radius: 0; -webkitjavaborder-radius: 0;
 		/* Background */
-		background: #ebebeb; /* Old browsers */
-		background: -moz-linear-gradient(left, #ebebeb 0%, #eaeaea 93%, #d9d9d9 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ebebeb), color-stop(93%,#eaeaea), color-stop(100%,#d9d9d9)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(left, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* IE10+ */
-		background: linear-gradient(to right, #ebebeb 0%,#eaeaea 93%,#d9d9d9 100%); /* W3C */
-		color: #404040;
+		background: transparent;
 	}
 
 	body {
@@ -614,32 +608,36 @@ $(function() {
 
 	}
 	?>
-	<a href="javascript:void(0)" id="change_docname">Err: Docname Value == Undefined/Null</a>
-	<script>
-		//#change_docname functions
-		$('#change_docname').click(function () {
-			var new_name = prompt('Type a new name for the document:');
-			if (new_name != null) {
-				window.location.replace(document.URL + '&docname=' + new_name);
-			}
-		});
+	<div id="document">
+		<a href="javascript:void(0)" id="change_docname">Err: Docname Value == Undefined/Null</a>
+		<script>
+			//#change_docname functions
+			$('#change_docname').click(function () {
+				var new_name = prompt('Type a new name for the document:');
+				if (new_name != null) {
+					window.location.replace(document.URL + '&docname=' + new_name);
+				}
+			});
 
-		var fbprop;// = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
+			var fbprop;// = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
 
-		if (Cookies.get('uid') != undefined) {
-			fbprop = new Firebase("https://collab-doc-props.firebaseio.com/").child(Cookies.get('uid')).child(padId);
-		} else {
-			fbprop = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
-		}
-
-		fbprop.child('name').on('value', function(snapshot) {
-			if (snapshot.val() != null) {
-				$('#change_docname').html(snapshot.val());
+			if (Cookies.get('uid') != undefined) {
+				fbprop = new Firebase("https://collab-doc-props.firebaseio.com/").child(Cookies.get('uid')).child(padId);
 			} else {
-				$('#change_docname').html('<i>Untitled Document</i>');
+				fbprop = new Firebase("https://collab-doc-props.firebaseio.com/").child(padId);
 			}
-		});
-	</script>
+
+			fbprop.child('name').on('value', function(snapshot) {
+				if (snapshot.val() != null) {
+					$('#change_docname').html(snapshot.val());
+				} else {
+					$('#change_docname').html('<i>Untitled Document</i>');
+				}
+			});
+		</script>
+
+		<a href="javascript:void(0)" onclick="$('#settingsDialog').dialog();" style="position:absolute;right:2px;top:2px;" id="change_docsettings"><img src="../../../cdn/gear.svg"/ width="25" height="25"></a>
+	</div>
 	<div id="top" style="vertical-align: middle; top: 30px;">
 		<div id="topLeft" style="float: left;">
 			Welcome Back, <strong id="uname">Anonymous</strong><span id="logintext">, please <a href="../../signin/signin.php">Sign In</a></span>
@@ -723,7 +721,9 @@ $(function() {
 	</div>
 	<div id="firepad"></div>
 	<div id="loading" class="firepad">
-	<style>#fadingBarsG{position:relative;width:1000px;height:121px}.fadingBarsG{position:absolute;top:0;background-color:#000000;width:121px;height:121px;-moz-animation-name:bounce_fadingBarsG;-moz-animation-duration:1.1s;-moz-animation-iteration-count:infinite;-moz-animation-direction:linear;-moz-transform:scale(.3);-webkit-animation-name:bounce_fadingBarsG;-webkit-animation-duration:1.1s;-webkit-animation-iteration-count:infinite;-webkit-animation-direction:linear;-webkit-transform:scale(.3);-ms-animation-name:bounce_fadingBarsG;-ms-animation-duration:1.1s;-ms-animation-iteration-count:infinite;-ms-animation-direction:linear;-ms-transform:scale(.3);-o-animation-name:bounce_fadingBarsG;-o-animation-duration:1.1s;-o-animation-iteration-count:infinite;-o-animation-direction:linear;-o-transform:scale(.3);animation-name:bounce_fadingBarsG;animation-duration:1.1s;animation-iteration-count:infinite;animation-direction:linear;transform:scale(.3);}#fadingBarsG_1{left:0;-moz-animation-delay:0.44s;-webkit-animation-delay:0.44s;-ms-animation-delay:0.44s;-o-animation-delay:0.44s;animation-delay:0.44s;}#fadingBarsG_2{left:125px;-moz-animation-delay:0.55s;-webkit-animation-delay:0.55s;-ms-animation-delay:0.55s;-o-animation-delay:0.55s;animation-delay:0.55s;}#fadingBarsG_3{left:250px;-moz-animation-delay:0.66s;-webkit-animation-delay:0.66s;-ms-animation-delay:0.66s;-o-animation-delay:0.66s;animation-delay:0.66s;}#fadingBarsG_4{left:375px;-moz-animation-delay:0.77s;-webkit-animation-delay:0.77s;-ms-animation-delay:0.77s;-o-animation-delay:0.77s;animation-delay:0.77s;}#fadingBarsG_5{left:500px;-moz-animation-delay:0.88s;-webkit-animation-delay:0.88s;-ms-animation-delay:0.88s;-o-animation-delay:0.88s;animation-delay:0.88s;}#fadingBarsG_6{left:625px;-moz-animation-delay:0.99s;-webkit-animation-delay:0.99s;-ms-animation-delay:0.99s;-o-animation-delay:0.99s;animation-delay:0.99s;}#fadingBarsG_7{left:750px;-moz-animation-delay:1.1s;-webkit-animation-delay:1.1s;-ms-animation-delay:1.1s;-o-animation-delay:1.1s;animation-delay:1.1s;}#fadingBarsG_8{left:875px;-moz-animation-delay:1.21s;-webkit-animation-delay:1.21s;-ms-animation-delay:1.21s;-o-animation-delay:1.21s;animation-delay:1.21s;}@-moz-keyframes bounce_fadingBarsG{0%{-moz-transform:scale(1);background-color:#000000;}100%{-moz-transform:scale(.3);background-color:#FFFFFF;}}@-webkit-keyframes bounce_fadingBarsG{0%{-webkit-transform:scale(1);background-color:#000000;}100%{-webkit-transform:scale(.3);background-color:#FFFFFF;}}@-ms-keyframes bounce_fadingBarsG{0%{-ms-transform:scale(1);background-color:#000000;}100%{-ms-transform:scale(.3);background-color:#FFFFFF;}}@-o-keyframes bounce_fadingBarsG{0%{-o-transform:scale(1);background-color:#000000;}100%{-o-transform:scale(.3);background-color:#FFFFFF;}}@keyframes bounce_fadingBarsG{0%{transform:scale(1);background-color:#000000;}100%{transform:scale(.3);background-color:#FFFFFF;}}</style>
+	<style>#fadingBarsG{position:relative;width:1000px;height:121px}.fadingBarsG{position:absolute;top:0;background-color:#000000;width:121px;height:121px;-moz-animation-name:bounce_fadingBarsG;-moz-animation-duration:1.1s;-moz-animation-iteration-count:infinite;-moz-animation-direction:linear;-moz-transform:scale(.3);-webkit-animation-name:bounce_fadingBarsG;-webkit-animation-duration:1.1s;
+		-webkit-animation-iteration-count:infinite;-webkit-animation-direction:linear;-webkit-transform:scale(.3);-ms-animation-name:bounce_fadingBarsG;-ms-animation-duration:1.1s;-ms-animation-iteration-count:infinite;
+		-ms-animation-direction:linear;-ms-transform:scale(.3);-o-animation-name:bounce_fadingBarsG;-o-animation-duration:1.1s;-o-animation-iteration-count:infinite;-o-animation-direction:linear;-o-transform:scale(.3);animation-name:bounce_fadingBarsG;animation-duration:1.1s;animation-iteration-count:infinite;animation-direction:linear;transform:scale(.3);}#fadingBarsG_1{left:0;-moz-animation-delay:0.44s;-webkit-animation-delay:0.44s;-ms-animation-delay:0.44s;-o-animation-delay:0.44s;animation-delay:0.44s;}#fadingBarsG_2{left:125px;-moz-animation-delay:0.55s;-webkit-animation-delay:0.55s;-ms-animation-delay:0.55s;-o-animation-delay:0.55s;animation-delay:0.55s;}#fadingBarsG_3{left:250px;-moz-animation-delay:0.66s;-webkit-animation-delay:0.66s;-ms-animation-delay:0.66s;-o-animation-delay:0.66s;animation-delay:0.66s;}#fadingBarsG_4{left:375px;-moz-animation-delay:0.77s;-webkit-animation-delay:0.77s;-ms-animation-delay:0.77s;-o-animation-delay:0.77s;animation-delay:0.77s;}#fadingBarsG_5{left:500px;-moz-animation-delay:0.88s;-webkit-animation-delay:0.88s;-ms-animation-delay:0.88s;-o-animation-delay:0.88s;animation-delay:0.88s;}#fadingBarsG_6{left:625px;-moz-animation-delay:0.99s;-webkit-animation-delay:0.99s;-ms-animation-delay:0.99s;-o-animation-delay:0.99s;animation-delay:0.99s;}#fadingBarsG_7{left:750px;-moz-animation-delay:1.1s;-webkit-animation-delay:1.1s;-ms-animation-delay:1.1s;-o-animation-delay:1.1s;animation-delay:1.1s;}#fadingBarsG_8{left:875px;-moz-animation-delay:1.21s;-webkit-animation-delay:1.21s;-ms-animation-delay:1.21s;-o-animation-delay:1.21s;animation-delay:1.21s;}@-moz-keyframes bounce_fadingBarsG{0%{-moz-transform:scale(1);background-color:#000000;}100%{-moz-transform:scale(.3);background-color:#FFFFFF;}}@-webkit-keyframes bounce_fadingBarsG{0%{-webkit-transform:scale(1);background-color:#000000;}100%{-webkit-transform:scale(.3);background-color:#FFFFFF;}}@-ms-keyframes bounce_fadingBarsG{0%{-ms-transform:scale(1);background-color:#000000;}100%{-ms-transform:scale(.3);background-color:#FFFFFF;}}@-o-keyframes bounce_fadingBarsG{0%{-o-transform:scale(1);background-color:#000000;}100%{-o-transform:scale(.3);background-color:#FFFFFF;}}@keyframes bounce_fadingBarsG{0%{transform:scale(1);background-color:#000000;}100%{transform:scale(.3);background-color:#FFFFFF;}}</style>
 	<div id="fadingBarsG" style="margin: auto;">
 		<div id="fadingBarsG_1" class="fadingBarsG">
 		</div>
@@ -749,126 +749,19 @@ $(function() {
 	<input type="text" id="url" style="width: 100%; cursor: pointer;" onclick="$(this).select();" readonly><br>
 	Alternatively, you can <a id="email" target="_blank">send them the link via email</a>
 </div>
-<div id="settingsDialog" style="display: none;" title="Document Settings">
+<div id="settingsDialog" style="display: none;" title="Doc Settings">
 	<div id="status"></div>
 	<form name="privacy" method="post">
 		<fieldset>
-			<legend>Privacy</legend>
-			<label for="private"><input type="checkbox" name="private[]" id="private" style="margin-bottom: 7px;">&nbsp;Private</label>
-			<hr>
-			<div id="invite">
-				<h3>Invite People</h3>
-				Enter their email here: <input type="text" width="400" id="pEmail" name="pEmail" disabled> <br><strong>Note: They must be registered with this email address to view your document!</strong><br>
-				<label for="sendEmail"><input type="checkbox" id="sendEmail" name="sendEmail" disabled>&nbsp;Send an email invitation</label>
-			</div>
-			<input type="submit" value="Update" id="sInvite" name="sInvite">
-			<?php
-			if (isset($_POST["sInvite"])) {
-				if (isset($_POST["private"])) {
-					echo "<script>$('#status').text('Document is Now Private!');</script>";
-					$email = "";
-
-					if (isset($_POST["pEmail"])) {
-						$email = $_POST["pEmail"];
-					}
-
-					echo "<script>var myBase = new Firebase('https://collab-coding-privacy.firebaseio.com').child(padId); myBase.child('private').set(true); myBase.child('owner').set(Cookies.get('email')); myBase.child('privateEmail').set('". $email ."');</script>";
-
-					if (isset($_POST["sendEmail"])) {
-						echo "<script>window.location.href = 'mailto:". $email ."?Subject=I%20have%20shared%20a%20Collab.Center%20document%20with%20you&Body=I%20have%20created%20a%20private%20collab.center%20document%20and%20I%20have%20invited%20you%20to%20use%20it%20with%20me.%20The%20link%20is%20below%3A%20' + document.URL;</script>";
-					}
-				} else {
-					echo "<script>$('#status').text('Document is No Longer Private!');</script>";
-					echo "<script>var myBase = new Firebase('https://collab-coding-privacy.firebaseio.com').child(padId); myBase.child('private').set(false); myBase.child('owner').remove(); myBase.child('privateEmail').remove();</script>";
-				}
-
-			}
-			?>
-		</fieldset>
-	</form>
-	<script>
-	$(document).ready(function () {
-		//$("[name=privacy]").attr('action', document.URL + '?reload=reload');
-	});
-
-	(function($) {
-		$.fn.toggleDisabled = function(){
-			return this.each(function(){
-				this.disabled = !this.disabled;
-			});
-		};
-	})(jQuery);
-
-	//Settings script
-	$('#private').click(function() {
-		$("#pEmail").toggleDisabled(this.checked);
-		$("#sendEmail").toggleDisabled(this.checked);
-		//$("#sInvite").toggleDisabled(this.checked);
-	});
-	</script><br>
-	<div id="docsettings">
-		<fieldset>
-			<legend>Document-Specific</legend>
-			Name: <br>
-			<input type="text" value="UntitledDoc" id="docname" maxlength="30" style="width: 50%;"><span id="fileext">Loading...</span>
-			<button id="updateDocname">Update</button>
-			<hr>
-			<form name="templateForm" id="templateForm" method="post">
-				<label for="template"><input type="checkbox" name="templateCheck" id="template">Template Document</label>
-				<input type="hidden" name="padId[0]" id="padId">
-				<input type="submit" value="Update" name="sTemplate" style="display: none;" id="sTemplate">
+			<legend>Sharing</legend>
+			Link to share: <input type="text" id="lnktoshare" readonly>
 				<script>
-				$('#template').change(function () {
-					$('#sTemplate').trigger('click');
+				$("#lnktoshare").val(document.URL);
+				$("#lnktoshare").click(function () {
+
 				});
-
-				$('#padId').attr('value', padId);
-				</script>
-			</form>
-			<?php
-			if (isset($_POST['sTemplate'])) {
-				if (isset($_POST['templateCheck'])) {
-					file_put_contents('name.php', '<?php $template = true; $id = "' . $_POST['padId'][0] . '";?>', FILE_APPEND);
-					echo '<script>$("#template").attr("checked", "checked");</script>';
-				} else {
-					file_put_contents('name.php', '<?php $template = false; $id = "' . $_POST['padId'][0] . '";?>', FILE_APPEND);
-					echo '<script>$("#template").attr("checked", false);</script>';
-				}
-			}
-			?>
-			<script>
-			var langBase = new Firebase("https://collab-coding-lang.firebaseio.com").child(padId);
-			var langBaseValue = "";
-
-			langBase.child("lang").once('value', function(snapshot) {
-				if (snapshot.val() != undefined) {
-					//alert(snapshot.val());
-					langBaseValue = snapshot.val();
-					var fileext = {"Plain Text" : "txt", "apl" : "apl", "asterisk" : "conf", "c" : "c", "c++" : "cc", "c#" : "cs", "clojure" : "clj", "cobol" : "cob", "coffeescript" : "coffee", "commonlisp" : "lisp", "css" : "css", "d" : "d", "diff" : "diff", "dtd" : "dtd", "ecl" : "ecl", "eiffel" : "e", "erlang" : "erl", "fortran" : "f", "gas" : "s", "gfm" : "gfm", "gherkin" : "feature", "go" : "go", "groovy" : "groovy", "haml" : "haml", "haskell" : "hs", "haxe" : "hx", "htmlembedded" : "html", "htmlmixed" : "html", "http" : "none", "jade" : "jade", "java" : "java", "javascript" : "js", "jinja2" : "py", "julia" : "jl", "livescript" : "ls", "lua" : "lua", "markdown" : "md", "mirc" : "mrc", "f#" : "fs", "ocaml" : "ml", "nginx" : "conf", "ntriples" : "nt", "octave" : "m", "pascal" : "pas", "pegjs" : "pegjs", "perl" : "pl", "php" : "php", "pig" : "pig", "properties" : "properties", "puppet" : "pp", "python" : "py", "q" : "q", "r" : "r", "rpm" : "rpm", "rst" : "rst", "ruby" : "rb", "rust" : "rs", "sass" : "scss", "scheme" : "scm", "shell" : "none", "sieve" : "none", "smalltalk" : "st", "smarty" : "tpl", "smartymixed" : "tpl", "solr" : "none", "sparql" : "sparql", "sql" : "sql", "stex" : "tex", "tcl" : "tcl", "tiddlywiki" : "none", "tikiwiki" : "none", "toml" : "toml", "turtle" : "ttl", "vb" : "vb", "vbscript" : "vbs", "velocity" : "vm", "verilog" : "v", "xml" : "xml", "xquery" : "xq", "yaml" : "yaml", "z80" : "z80"};
-
-					$("#fileext").text('.' + fileext[snapshot.val()]);
-				}
-			});
-
-			$("#status").click(function () {
-				$(this).hide();
-			});
-
-			//var docnameBase = new Firebase('https://collab-coding-lang.firebaseio.com').child(padId);
-			$("#updateDocname").click(function () {
-				langBase.child('name').set($("#docname").val() + $("#fileext").text());
-				//$("#status").text("Renamed Document!");*/
-				window.location.replace("?renameto=" + $("#docname").val() + $("#fileext").text());
-			});
-
-			langBase.child('name').once('value', function(snapshot) {
-				if (snapshot.val() != undefined) {
-					$("#docname").val(snapshot.val().split(".")[0]);
-				}
-			});
 			</script>
 		</fieldset>
-	</div>
 </div>
 <div id="downloadDialog" style="display: none;" title="Download as">
 	<form name="codeFile" method="post">
@@ -1036,7 +929,7 @@ $(document).ready(function () {
 							firebaseUserName.child('name').once('value', function (snapshot) {
 								if (snapshot.val() != null) {
 									$('#uname').text(snapshot.val());
-									$('.firepad-userlist-name-input').val(snapshot.val());									
+									$('.firepad-userlist-name-input').val(snapshot.val());
 								}
 							});
 

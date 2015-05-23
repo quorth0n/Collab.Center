@@ -5,6 +5,7 @@ The fish is missing...
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="wot-verification" content="44189cca578dc5549480"/> 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Collab.Center</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>

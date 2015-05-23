@@ -36,9 +36,6 @@
     border-style: solid;
     color: white;
   }
-  body {
-    background: url('http://pixabay.com/get/09e607e33e44e62b6295/1409621470/background-64258.jpg?direct');
-  }
   </style>
 </head>
 <body>
