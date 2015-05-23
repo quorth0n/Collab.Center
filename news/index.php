@@ -42,7 +42,7 @@
   <div id="main">
     <h1>Nothing to see here... yet</h1>
     <hr/>
-    <h2>As we activley develop Collab.Center, we have bigger and better features to add, but don't fret, this will be coming right up soon!<br/> Check back often!</h2>
+    <h2>As we actively develop Collab.Center, we have bigger and better features to add, but don't fret, this will be coming right up soon!<br/> Check back often!</h2>
   </div>
   <div id="sidebar" class="section">
     <iframe style="border: 0; width: 100%; height: 100%;" src="../sidebar/?olddocs=false">ERR: Your browser does not support <code>iframes</code></iframe>
