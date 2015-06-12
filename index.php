@@ -5,13 +5,13 @@ The fish is missing...
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="wot-verification" content="44189cca578dc5549480"/> 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Collab.Center</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 	<script src="docs/tools/Cookies.js"></script>
 	<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/css/select2.min.css" rel="stylesheet" />
 	<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/js/select2.min.js"></script>
+	<script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
 	<link href="./cdn/style.css" rel="stylesheet" />
 	<style>
 	#ifie {
@@ -27,6 +27,12 @@ The fish is missing...
 	</style>
 </head>
 <body>
+	<script>
+	String.prototype.replaceAll = function(str1, str2, ignore)
+		{
+			return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
+		}
+	</script>
 	<!--[if IE]>
 	<div id="ifie" onclick="$(this).hide()">
 		Your browser is extremely out of date. Please use a more modern one to continue using Collab.Center, such as <a href="http://chrome.google.com/">Google Chrome</a>. It will not work without it. Thank you!
@@ -39,10 +45,27 @@ The fish is missing...
 		<hr/>
 		<br/>
 		<select name="language" id="language">
-			<optgroup label="Template Documents">
+			<optgroup label="Template Documents" id="templates">
 				<option disabled>Documents based on code you've already written:</option>
-				<option>Template Doc A</option>
-				<option>Template Doc B</option>
+				<script>
+				//List all the templates
+				if (Cookies.get('email') != undefined) {
+					var docs = new Firebase('https://collab-doc-props.firebaseio.com/').child(Cookies.get('uid'));
+					docs.on('value', function(snap) {
+						snap.forEach(function(csnap) {
+							var nchild = csnap.child('name').val();
+							var temp = csnap.child('template').val();
+							//$('#templates').append('<span class="frame" onmouseover="showOpt(\'' + csnap.key() + '\')" onmouseleave="hideOpt(\'' + csnap.key() + '\')"><a target="_blank" href="../docs/document/hash/?padid=' + csnap.key() + '">' + ((nchild!=null)? nchild : "<i>Untitled Document</i>") + '</a></span>');
+							if (temp == true) {
+								$('#templates').append('<option>' + nchild + '</option>');
+								$('#main').append('<input type="hidden" id="' + nchild.replaceAll(' ', '_') + '" value="' + csnap.key() + '"/>');
+							}
+						});
+					});
+				} else {
+					$('#templates').append('<option disabled>Please sign in to use this feature!</option>');
+				}
+				</script>
 			</optgroup>
 			<optgroup label="New Document">
 				<option disabled>Select a language for your document:</option>
@@ -97,7 +120,8 @@ The fish is missing...
 				if (selected.closest('optgroup').attr('label') == "New Document") {
 					loc = loc + "?doclang=" + selected.text();
 				} else {
-					loc = loc + "?templatename=" + selected.text();
+					splt = $('#' + selected.text().replaceAll(' ', '_')).val();
+					loc = loc + "?templatename=" + splt;
 				}
 				window.location.href=loc;
 			});
@@ -115,5 +139,22 @@ The fish is missing...
 			<a href="javascript:void(0)" onclick="$('#contact').html('<iframe class=\'contact\' src=\'./contact\' style=\'border-radius: 1em; border: 0px; display: block; margin: 0px auto; background-color: white;\'>Err: ./contact not found. try again later.</iframe>')">Contact us</a> &#124; <a href="./terms/" target="_blank">Privacy Policy &amp; Terms of Use</a>
 			<span id="contact"></span>
 		</footer>
+
+		<!-- Start of StatCounter Code for Default Guide -->
+		<script type="text/javascript">
+		var sc_project=9847367;
+		var sc_invisible=1;
+		var sc_security="8d165f65";
+		var scJsHost = (("https:" == document.location.protocol) ?
+		"https://secure." : "http://www.");
+		document.write("<sc"+"ript type='text/javascript' src='" +
+		scJsHost+
+		"statcounter.com/counter/counter.js'></"+"script>");
+		</script>
+		<noscript><div class="statcounter">
+			<a title="shopify traffic stats" href="http://statcounter.com/shopify/" target="_blank">
+			<img class="statcounter" src="http://c.statcounter.com/9847367/0/8d165f65/1/" alt="shopify traffic stats"></a>
+		</div></noscript>
+		<!-- End of StatCounter Code for Default Guide -->
 	</body>
 </html>

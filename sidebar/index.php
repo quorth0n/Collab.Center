@@ -184,7 +184,7 @@
 							}
 						}
 					} else {
-						echo "<a href='javascript:void(0);'>Hm, Looks like you don't have any documents. <u>Why not create one?</u></a><hr/>";
+						echo "<a href='javascript:void(0);'>No Docs Here...</a><hr/>";
 					}
 
 					if (empty($_COOKIE['email'])) {
@@ -270,7 +270,7 @@
 					snap.forEach(function(csnap) {
 						var nchild = csnap.child('name').val();
 						$('#docs').prepend('<span class="frame" onmouseover="showOpt(\'' + csnap.key() + '\')" onmouseleave="hideOpt(\'' + csnap.key() + '\')"><a target="_blank" href="../docs/document/hash/?padid=' + csnap.key() + '">' + ((nchild!=null)? nchild : "<i>Untitled Document</i>") + '</a>' +
-							'<span id="' + csnap.key() + '" style="display:none;"><hr class="dotted"/><a href="javascript:void(0);" class="opt" onclick="del(\'' + csnap.key() + '\')">del()</a><a href="javascript:void(0);" class="opt" onclick="lnk(\'' + csnap.key() + '\')">lnk()</a></span>' + '<hr/></span>');
+							'<span id="' + csnap.key() + '" style="display:none;"><hr class="dotted"/><a href="javascript:void(0);" class="opt" onclick="del(\'' + csnap.key() + '\')">del()</a><a href="javascript:void(0);" class="opt" onclick="lnk(\'' + csnap.key() + '\')">etc()</a></span>' + '<hr/></span>');
 					});
 				});
 			}

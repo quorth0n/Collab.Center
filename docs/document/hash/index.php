@@ -72,13 +72,13 @@
 	}
 	</script>
 	<style>
-	/*html {
-		background: url(../../../cdn/bg.png) no-repeat center center fixed;
+	html {
+		background: whitesmoke no-repeat center center fixed;
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
 		background-size: cover;
-	}*/
+	}
 
 	#change_docname {
 		position: absolute; top: 1px; z-index: 1000;
@@ -95,6 +95,13 @@
 	#change_docname:hover {
 		background-color: lightgray;
 		text-decoration: underline;
+	}
+
+	#template_check {
+		background: blue;
+		position: absolute; top: 1px; z-index: 1000;
+		position: relative;
+		left: 480px;
 	}
 
 	@font-face {
@@ -460,6 +467,9 @@ $(document).ready(function() {
 		}
 	});
 
+	/*var propbase = new Firebase("https://collab-doc-props.firebaseio.com/").child(Cookies.get('uid')).child(padId);
+	propbase*/
+
 	langBaseRef.on('child_changed', function(childSnapshot, prevChildName) {
 		window.location.href = document.URL;
 	});
@@ -601,7 +611,7 @@ $(function() {
 			if ($template == true) {
 				echo '<script>';
 				echo '$(".favicon").attr("href", "../../template.ico");';
-				echo '$("#template").ready(function() {$("#template").attr("checked", "checked");});';
+				//echo '$("#template").ready(function() {$("#template").attr("checked", "checked");});';
 				echo '</script>';
 			}
 		}
@@ -635,7 +645,6 @@ $(function() {
 				}
 			});
 		</script>
-
 		<a href="javascript:void(0)" onclick="$('#settingsDialog').dialog();" style="position:absolute;right:2px;top:2px;" id="change_docsettings"><img src="../../../cdn/gear.svg"/ width="25" height="25"></a>
 	</div>
 	<div id="top" style="vertical-align: middle; top: 30px;">
@@ -751,17 +760,57 @@ $(function() {
 </div>
 <div id="settingsDialog" style="display: none;" title="Doc Settings">
 	<div id="status"></div>
-	<form name="privacy" method="post">
 		<fieldset>
 			<legend>Sharing</legend>
-			Link to share: <input type="text" id="lnktoshare" readonly>
-				<script>
+			Link to share: <input type="text" id="lnktoshare" style="cursor:pointer;" readonly>
+			<script>
 				$("#lnktoshare").val(document.URL);
 				$("#lnktoshare").click(function () {
+					$(this.select());
+				});
+			</script>
+			<h3>Sharing Mode:</h3>
+			<form id="privacyform">
+			<script>
+				//TEMPORARY!!!
+				$("#privacyform :input").attr("disabled", true);
+			</script>
+				<input type="radio" class="privacychk" id="public" name="privacychk" checked><label for="public">Public, everyone can access</label><br/>
+				<input type="radio" class="privacychk" id="signin" name="privacychk"><label for="signin">Collab.Center account required</label><br/>
+				<input type="radio" class="privacychk" id="private" name="privacychk"><label for="private">Specific people can access</label><br/>
+			</form>
+			<script>
+				$('#privacyform').on('change', '.privacychk', function(event) {
+					var document = new Firebase('https://collab-doc-props.firebaseio.com/').child(Cookies.get('uid')).child(padId);
+					var pvalue = $(".privacychk:checked").attr('id');
+					document.set({ privacy: pvalue });
+				});
+			</script>
+			<h3>Kick all other users</h3>
+			<button disabled>Do it.</button>
+		</fieldset>
+		<fieldset>
+			<legend>Template</legend>
+			<input type="checkbox" id="template"/><label for="template">&nbsp;Template?</label>
+			<script>
+				var doc = new Firebase('https://collab-doc-props.firebaseio.com/').child(Cookies.get('uid')).child(padId);
+				$('#template').change(function () {
+					doc.child('template').set($(this).is(':checked'));
+				});
 
+
+				doc.child('template').once('value', function (snapshot) {
+					$('#template').attr('checked', snapshot.val());
 				});
 			</script>
 		</fieldset>
+
+		<script>
+		if (Cookies.get('uid') == undefined) {
+			$("#settingsDialog").html("<h1>Please Sign In</h1>");
+			$("#sharing").html('');
+		}
+		</script>
 </div>
 <div id="downloadDialog" style="display: none;" title="Download as">
 	<form name="codeFile" method="post">
@@ -849,18 +898,18 @@ $(document).ready(function () {
 			}
 		});
 
-		if (urlParams['template'] != undefined) {
-			var template = new Firebase('https://collab-coding-docs.firebaseio.com/').child(urlParams['template']);
+		if (urlParams['temp'] != undefined) {
+			var template = new Firebase('https://collab-doc-props.firebaseio.com/').child(Cookies.get('uid')).child(urlParams['temp']).child('document');
 			template.once('value', function (snapshot) {
 				firepad.setText(snapshot.val());
 			});
 
 			var uri = window.location.toString();
-			if (uri.indexOf("?") > 0) {
-				var clean_uri = uri.substring(0, uri.indexOf("?"));
+			if (uri.indexOf("&") > 0) {
+				var clean_uri = uri.substring(0, uri.indexOf("&"));
 				window.history.replaceState({}, document.title, clean_uri);
-				//window.location.replace("?changeext=" + $("#docname").val() + $("#fileext").text());
-			}
+					//window.location.replace("?changeext=" + $("#docname").val() + $("#fileext").text());
+				}
 		}
 
 		$("#loading").hide();
@@ -869,7 +918,7 @@ $(document).ready(function () {
 
 
 		if (firepad.isHistoryEmpty()) {
-			firepad.setHtml("Hello, and Welcome to Collab.Center! This is how it works:<br> 1. Put some code here.<br> 2. Share the URL with your friends so you can collaborate (Hint: Use the Mail icon in the top-right!).<br> 3. Toggle some options above.<br> That's all there is to it!");
+			firepad.setHtml("/*Hello, and Welcome to Collab.Center! This is how it works:<br> 1. Put some code here.<br> 2. Share the URL with your friends so you can collaborate (Hint: Use the Mail icon in the top-right!).<br> 3. Toggle some options above.<br> That's all there is to it!*/");
 		}
 
 		if (langBaseVal != "c" && langBaseVal != "c++" && langBaseVal != "c#" && langBaseVal != "java" && langBaseVal != "f#" && langBaseVal != "ocaml") {

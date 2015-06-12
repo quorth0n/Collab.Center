@@ -13,6 +13,10 @@ a {
   color: white;
 }
 
+fieldset {
+  border: 1px solid white;
+}
+
 div.section {
   background: transparent;
   font-family: 'Montserrat', Arial;

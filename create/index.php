@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Creating Document...</title>
+  <script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
 </head>
 <body>
   <?php
@@ -15,17 +16,28 @@
       return $randomString;
     }
 
+    $dlang = "";
+
     $gen = generatePad();
-    $dlang = $_GET['doclang'];
+
+    //New Doc Code
+    if ($_GET['doclang'] == "Plain Text") {
+      $dlang = "Plain Text";
+      //example
+    } else if ($_GET['doclang'] == "Rich Text") {
+      $dlang = "rich";
+    } else {
+      $dlang = $_GET['doclang'];
+    }
 
     if (isset($_GET['doclang']) && !empty($_GET['doclang'])) {
       echo "<script>";
-      //echo "var gen = prompt('Type a Document Name: ', 'doc--" . $_GET['doclang'] . "');";
       echo "window.location.replace('../docs/document/hash/?padid=$gen&lang=$dlang')";
       echo "</script>";
-    } else if (isset($_GET['doclang']) && !empty($_GET['doclang'])) {
+    } else if (isset($_GET['templatename']) && !empty($_GET['templatename'])) {
+      $temp = $_GET['templatename'];
       echo "<script>";
-      echo "";
+      echo "window.location.replace('../docs/document/hash/?padid=$gen&temp=$temp')";
       echo "</script>";
     }
   ?>
