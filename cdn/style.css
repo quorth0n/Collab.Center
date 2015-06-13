@@ -49,6 +49,10 @@ sup {
   color: blue;
 }
 
+p {
+  font-weight: bold;
+}
+
 select {
   background-color: transparent;
   border: 4px solid white;

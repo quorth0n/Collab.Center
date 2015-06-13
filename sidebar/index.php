@@ -32,8 +32,8 @@
 		font-weight: bold;
 		font-size: 1.5em;
 		width: 100%;
-		padding-top: 4px;
-		padding-bottom: 4px;
+		padding-top: 7px;
+		padding-bottom: 6px;
 		display: block;
 		color: white;
 	}
@@ -89,6 +89,34 @@
 		display: inline-block;
 		border-right: 1px dashed #FFF;
 		border-left: 1px dashed #FFF;
+		height: 100%;
+	}
+
+	.optselect {
+		box-sizing: border-box;
+		width:50%;
+		display: inline-block;
+		border-right: 1px dashed #FFF;
+		border-left: 1px dashed #FFF;
+		border-top: none;
+		border-bottom: none;
+		height: 100%;
+		background-color: transparent;
+		color: white;
+		-webkit-appearance: button;
+		-moz-appearance: none;
+		appearance: button;
+		display: inline-block;
+		padding: 6px 15px 6px 15px;
+		font-family: 'Montserrat', Arial;
+		font-size: 1.5em;
+		font-weight: bold;
+		cursor: pointer;
+		text-align: center;
+	}
+
+	.optselect:hover {
+		background-color: rgb(24, 8, 1);
 	}
 	</style>
 </head>
@@ -259,7 +287,18 @@
 
 			//show link options
 			function lnk(key) {
-				prompt('Share this link with your peers to have them collaborate on it!\n(press ctrl+c)', 'http://collab.center/docs/document/hash?padid=' + key);
+				var func = $('#' + key + 'select').val();
+				if (func == "get link") {
+					prompt('Share this link with your peers to have them collaborate on it!\n(press ctrl+c)', 'http://collab.center/docs/document/hash?padid=' + key);
+				} else if (func == "rename") {
+					var newname = prompt('Enter a new name for the document', 'Untitled Document');
+					if (newname != null) {
+						var doc = new Firebase('https://collab-doc-props.firebaseio.com/').child(Cookies.get('uid')).child(key);
+						doc.child('name').set(newname);
+						window.location.replace(document.URL);
+					}
+				}
+				$('#' + key + 'select').val('etc');
 			}
 			//END FUNCTION DEFS
 
@@ -270,7 +309,8 @@
 					snap.forEach(function(csnap) {
 						var nchild = csnap.child('name').val();
 						$('#docs').prepend('<span class="frame" onmouseover="showOpt(\'' + csnap.key() + '\')" onmouseleave="hideOpt(\'' + csnap.key() + '\')"><a target="_blank" href="../docs/document/hash/?padid=' + csnap.key() + '">' + ((nchild!=null)? nchild : "<i>Untitled Document</i>") + '</a>' +
-							'<span id="' + csnap.key() + '" style="display:none;"><hr class="dotted"/><a href="javascript:void(0);" class="opt" onclick="del(\'' + csnap.key() + '\')">del()</a><a href="javascript:void(0);" class="opt" onclick="lnk(\'' + csnap.key() + '\')">etc()</a></span>' + '<hr/></span>');
+							'<span id="' + csnap.key() + '" style="display:none;"><hr class="dotted"/><a href="javascript:void(0);" class="opt" onclick="del(\'' + csnap.key() + '\')">delete</a><select class="optselect" id="' + csnap.key() + 'select" onchange="lnk(\'' + csnap.key() + '\')"><option selected disabled>etc</option><option>rename</option><option>get link</option></select></span>' + '<hr/></span>');
+							//return true;
 					});
 				});
 			}
