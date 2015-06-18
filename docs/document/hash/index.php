@@ -885,6 +885,8 @@ $(document).ready(function () {
 			}
 
 			docTxt.child('document').set(firepad.getText());
+
+			docTxt.child('lmdate').set("" + new Date());
 		});
 
 		//200-line code limit

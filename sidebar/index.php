@@ -204,7 +204,7 @@
 							} else {
 								$entry2 = str_replace(".","-",$entry);
 								echo '<a href="../docs/' . $_COOKIE["email"] . "/$entry\" class='$entry2'><span class='doc'></span>$entry<img src='delete.png' onclick=\"return del('$entry')\" class='$entry2'></a>";
-								//echo '<a href="javascript:void(0)" style="color: black; font-size: smaller;"><strong>NOTE:</strong> This document was created before 7/10/14 and document-specific settings are not supported (Rename, etc.)';
+								//echo '<a href="javascript:void(0)" style="color: black; font-size: smaller;"><strong>NOTE:</strong> This document was created before 7/10/14 and document-specific settings are not supported (Rename, [ ... ].)';
 
 								echo "<script>";
 								echo '$("a.' . $entry2 . '").hover(function () {$("img.' . $entry2 .'").attr("style", "display: inline;")}, function () {$("img.' . $entry2 .'").hide()});';
@@ -285,6 +285,22 @@
 				}
 			}
 
+			function fx(str) {
+				if (str == null || str == undefined) {
+					return "Unclear... (Maybe you haven't modified/opened it yet?)";
+				} else {
+					return str;
+				}
+			}
+
+			function fxn(str) {
+				if (str == null || str == undefined) {
+					return "Untitled Document";
+				} else {
+					return str;
+				}
+			}
+
 			//show link options
 			function lnk(key) {
 				var func = $('#' + key + 'select').val();
@@ -297,8 +313,24 @@
 						doc.child('name').set(newname);
 						window.location.replace(document.URL);
 					}
+				} else if (func == "view details") {
+					var doc = new Firebase('https://collab-doc-props.firebaseio.com/').child(Cookies.get('uid')).child(key);
+					var str = "";
+					doc.child('name').once('value', function (snap) {
+						str = str + "Document Name: " + fxn(snap.val()) + "\n";
+						doc.child('lang').once('value', function (snaps) {
+							str = str + "Language: " + fx(snaps.val()) + "\n";
+							doc.child('creationdate').once('value', function (snapsh) {
+								str = str + "Creation Date: " + fx(snapsh.val()) + "\n";
+								doc.child('lmdate').once('value', function (snapsho) {
+									str = str + "Last Modified Date: " + fx(snapsho.val()) + "\n";
+									alert(str);
+								});
+							});
+						});
+					});
 				}
-				$('#' + key + 'select').val('etc');
+				$('#' + key + 'select').val('[ ... ]');
 			}
 			//END FUNCTION DEFS
 
@@ -309,7 +341,7 @@
 					snap.forEach(function(csnap) {
 						var nchild = csnap.child('name').val();
 						$('#docs').prepend('<span class="frame" onmouseover="showOpt(\'' + csnap.key() + '\')" onmouseleave="hideOpt(\'' + csnap.key() + '\')"><a target="_blank" href="../docs/document/hash/?padid=' + csnap.key() + '">' + ((nchild!=null)? nchild : "<i>Untitled Document</i>") + '</a>' +
-							'<span id="' + csnap.key() + '" style="display:none;"><hr class="dotted"/><a href="javascript:void(0);" class="opt" onclick="del(\'' + csnap.key() + '\')">delete</a><select class="optselect" id="' + csnap.key() + 'select" onchange="lnk(\'' + csnap.key() + '\')"><option selected disabled>etc</option><option>rename</option><option>get link</option></select></span>' + '<hr/></span>');
+							'<span id="' + csnap.key() + '" style="display:none;"><hr class="dotted"/><a href="javascript:void(0);" class="opt" onclick="del(\'' + csnap.key() + '\')">delete</a><select class="optselect" id="' + csnap.key() + 'select" onchange="lnk(\'' + csnap.key() + '\')"><option selected disabled>[ ... ]</option><option>rename</option><option>get link</option><option>view details</option></select></span>' + '<hr/></span>');
 							//return true;
 					});
 				});
