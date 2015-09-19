@@ -243,6 +243,10 @@
 		width: 100%;
 		cursor: pointer;
 	}
+
+	.bluebg {
+		background: rgb(135, 199, 255) center center fixed !important;
+	}
 	</style>
 	<script>
 	var language;
@@ -612,6 +616,7 @@ $(function() {
 				echo '<script>';
 				echo '$(".favicon").attr("href", "../../template.ico");';
 				//echo '$("#template").ready(function() {$("#template").attr("checked", "checked");});';
+				echo '$("html").css("background", "lightblue center center fixed");';
 				echo '</script>';
 			}
 		}
@@ -801,6 +806,11 @@ $(function() {
 
 				doc.child('template').once('value', function (snapshot) {
 					$('#template').attr('checked', snapshot.val());
+
+					if (snapshot.val() == true) {
+						//make the topbar blue!
+						$("html").addClass("bluebg");
+					}
 				});
 			</script>
 		</fieldset>

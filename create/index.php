@@ -53,6 +53,7 @@
     if (Cookies.get('uid') != undefined) {
       var onComplete = function() {
         //To prevent the page from redirecting before firebase is finished.
+
         if (window.temp != undefined) {
           window.location.replace('../docs/document/hash/?padid=' + window.gen + '&temp=' + window.temp);
         } else {
