@@ -7,9 +7,6 @@
   <script src="../docs/tools/Cookies.js"></script>
 </head>
 <body bgcolor="whitesmoke">
-  <script>
-  function sleep(milliseconds) {var start = new Date().getTime();for (var i = 0; i < 1e7; i++) {if ((new Date().getTime() - start) > milliseconds){break;}}}
-  </script>
   <?php
     function generatePad($length = 15) {
       $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -62,6 +59,18 @@
       }
       var date = "" + new Date();
       var doc = new Firebase('https://collab-doc-props.firebaseio.com/').child(Cookies.get('uid')).child(window.gen).child('creationdate').set(date, onComplete);
+    } else {
+      var onComplete = function() {
+        //To prevent the page from redirecting before firebase is finished.
+
+        if (window.temp != undefined) {
+          window.location.replace('../docs/document/hash/?padid=' + window.gen + '&temp=' + window.temp);
+        } else {
+          window.location.replace('../docs/document/hash/?padid=' + window.gen + '&lang=' + window.lang);
+        }
+      }
+      var date = "" + new Date();
+      var doc = new Firebase('https://collab-doc-props.firebaseio.com/').child(window.gen).child('creationdate').set(date, onComplete);
     }
   </script>
 </body>

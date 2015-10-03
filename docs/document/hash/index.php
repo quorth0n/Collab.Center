@@ -247,6 +247,8 @@
 	.bluebg {
 		background: rgb(135, 199, 255) center center fixed !important;
 	}
+
+	.embedcode { cursor:pointer; } .embedlink { cursor:pointer; }
 	</style>
 	<script>
 	var language;
@@ -834,7 +836,7 @@ $(function() {
 		<input type="hidden" name="pdfcontents[0]" id="pdfcontents">
 		<input type="submit" id="pdfFileSubmit" name="pdfSubmit" value="PDF File (*.pdf)" disabled>
 	</form>
-	<?php
+<?php
 	//Code file
 	$fileext = array("Plain Text" => "txt", "apl" => "apl", "asterisk" => "conf", "c" => "c", "c++" => "cc", "c#" => "cs", "clojure" => "clj", "cobol" => "cob", "coffeescript" => "coffee", "commonlisp" => "lisp", "css" => "css", "d" => "d", "diff" => "diff", "dtd" => "dtd", "ecl" => "ecl", "eiffel" => "e", "erlang" => "erl", "fortran" => "f", "gas" => "s", "gfm" => "gfm", "gherkin" => "feature", "go" => "go", "groovy" => "groovy", "haml" => "haml", "haskell" => "hs", "haxe" => "hx", "htmlembedded" => "html", "htmlmixed" => "html", "http" => "none", "jade" => "jade", "java" => "java", "javascript" => "js", "jinja2" => "py", "julia" => "jl", "livescript" => "ls", "lua" => "lua", "markdown" => "md", "mirc" => "mrc", "f#" => "fs", "ocaml" => "ml", "nginx" => "conf", "ntriples" => "nt", "octave" => "m", "pascal" => "pas", "pegjs" => "pegjs", "perl" => "pl", "php" => "php", "pig" => "pig", "properties" => "properties", "puppet" => "pp", "python" => "py", "q" => "q", "r" => "r", "rpm" => "rpm", "rst" => "rst", "ruby" => "rb", "rust" => "rs", "sass" => "scss", "scheme" => "scm", "shell" => "none", "sieve" => "none", "smalltalk" => "st", "smarty" => "tpl", "smartymixed" => "tpl", "solr" => "none", "sparql" => "sparql", "sql" => "sql", "stex" => "tex", "tcl" => "tcl", "tiddlywiki" => "none", "tikiwiki" => "none", "toml" => "toml", "turtle" => "ttl", "vb" => "vb", "vbscript" => "vbs", "velocity" => "vm", "verilog" => "v", "xml" => "xml", "xquery" => "xq", "yaml" => "yaml", "z80" => "z80");
 
@@ -848,29 +850,32 @@ $(function() {
 
 	//Pdf file
 
-
-	/*if (isset($_POST['pdfSubmit'])) {
-	try {
-	require_once('../../tools/html2pdf.class.php');
-	$html2pdf = new HTML2PDF('P', 'A4', 'en');
-	$html2pdf->writeHTML('<p>This is your first PDF File</p>');
-	$html2pdf->Output('my_doc.pdf', 'D');
-} catch(HTML2PDF_exception $e) {
-echo $e;
-exit;
-}
-}*/
+	//workin' on it.....
 ?>
+<hr/>
+You can also embed the document in an iFrame to use with HTML. Just use this code:
+<textarea class="embedcode" rows="5" readonly>
+	//to be replaced//
+</textarea>
+Alternativley, you can link to the embed view with this address:
+<input type="text" class="embedlink" width="100%" readonly/>
+<script>
+	$('.embedcode').text('<iframe width="100%" height="100%" src="' +
+	(document.URL).replace('/hash', '/embed') + '&lang=' + langBaseVal + '">Collab.Center frame</iframe>');
+	$('.embedcode').click(function(){$(this).select()});
+	$('.embedlink').attr('value', (document.URL).replace('/hash', '/embed') + '&lang=' + langBaseVal);
+	$('.embedlink').click(function(){$(this).select()});
+</script>
 </div>
 <script>
 var codeMirrorInst;
-var firepadInst;
+var Inst;
 /**
 onload for Firepad & Codemirror related stuff
 */
 $(document).ready(function () {
 	CodeMirror.modeURL = "../../tools/CodeMirror/mode/%N/%N.js";
-	// Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
+	// Create a random ID for our user ID (we must give this to firepad and FirepadUserList).
 	var userId = Math.floor(Math.random() * 9999999999).toString();
 
 	var firepadRef = new Firebase('https://collaborative-coding.firebaseio.com').child(padId);
@@ -1028,7 +1033,6 @@ $(document).ready(function () {
 							});
 
 						}, 15000);
-						//alert('run');
 						</script>
 						<?php
 						if (empty($_GET['padid'])) {
