@@ -123,7 +123,7 @@
 <body>
 	<h1>Collab.Center</h1>
 	<hr/>
-	<a href="http://collab.center/">HOME</a>
+	<a href="javascript:void(0)" onclick="setHomeBaseUrl()">HOME</a>
 	<hr/>
 	<div id="user_signedout" style="display: none;">
 		<a href="../signin/" style="box-sizing:border-box;width: 50%; display: inline-block; border-right: 1px solid white;">SIGN IN</a><a href="../signup/" style="box-sizing:border-box;width: 50%; display: inline-block; border-left: 1px solid white;">SIGN UP</a>
@@ -261,6 +261,22 @@
 						}
 					}
 					return null;
+				}
+			}
+
+			//redirect user to appropriate C.C base URL
+			function setHomeBaseUrl() {
+				//dev purposes only
+				if ((document.URL + '').indexOf('localhost') > -1) {
+					//feel free to change URL to fit your enviornment accordingly
+					//c.c development url
+					window.open("http://localhost/repos/Collab.Center/", "_parent");
+				} else if ((document.URL + '').indexOf('dev.collab.center') > -1) {
+					//c.c beta url
+					window.open("https://dev.collab.center", "_parent");
+				} else {
+					//c.c stable url
+					window.open("https://collab.center", "_parent");
 				}
 			}
 
