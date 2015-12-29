@@ -134,7 +134,7 @@ The fish is missing...
 		</script>
 
 		<footer>
-			<a href="http://collab.center">Collab.Center</a>, V1.1 Copyright (c) 2015, Liam O'Flynn &amp; Eternity Incurakai. All Rights Reserved.
+			<a href="http://collab.center">Collab.Center</a>, V1.1 © YingaTech, 2015. All rights reserved.
 			<br/>
 			<a href="javascript:void(0)" onclick="$('#contact').html('<iframe class=\'contact\' src=\'./contact\' style=\'border-radius: 1em; border: 0px; display: block; margin: 0px auto; background-color: white;\'>Err: ./contact not found. try again later.</iframe>')">Contact us</a> &#124; <a href="./terms/" target="_blank">Privacy Policy &amp; Terms of Use</a>
 			<span id="contact"></span>
