@@ -41,7 +41,7 @@ The fish is missing...
 	<div id="main" class="section">
 		<h1 style="/*margin-top: 0px;*/">C<img src="./cdn/2.0.gif" title='Collab.Center v2.0: "Francia!"' style="border-radius: 15px;" height="3%" width="3%">llab.C<img src="./cdn/2.0.gif" title='Collab.Center v2.0: "Francia!"' style="border-radius: 15px;" height="3%" width="3%">nter</h1>
 		<hr/>
-		<p>Collab.Center is an easy way to share collaborative coding docs or even plain text online! Just select a language and your ready to go!</p>
+		<p>Collab.Center is an easy way to share collaborative coding docs or even plain text online! Just select a language and you're ready to go!</p>
 		<hr/>
 		<br/>
 		<select name="language" id="language">
