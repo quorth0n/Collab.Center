@@ -1,5 +1,7 @@
-Collab.Center
+Collab.Center [old]
 =============
+
+#### *Now [whirish/CollabCenter2](https://github.com/whirish/CollabCenter2)*
 
 Real-time collaborative code editor!
 
